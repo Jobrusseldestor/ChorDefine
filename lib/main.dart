@@ -1,5 +1,5 @@
 import 'package:camera/camera.dart';
-import 'package:chordefine/screens/audio.dart';
+import 'package:chordefine/screens/hands.dart';
 import 'package:chordefine/screens/base_screen.dart';
 import 'package:chordefine/screens/course_screen2.dart';
 import 'package:flutter/material.dart';

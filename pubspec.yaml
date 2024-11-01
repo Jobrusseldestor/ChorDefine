@@ -96,7 +96,7 @@ flutter:
     - assets/images/mute.png
     - assets/labels.txt
     - assets/mudel.tflite
-    - assets/model_unquant.tflite
+    - assets/model_u.tflite
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

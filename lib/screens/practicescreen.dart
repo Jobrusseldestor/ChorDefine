@@ -224,13 +224,14 @@ class _CameraScreenState extends State<CameraScreen> {
   String output = 'Detecting...';
   int correctChordCounter = 0;
   int wrongChordCounter = 0;
+  int selectedCameraIndex = 0;
 
   @override
   void initState() {
     super.initState();
     loadCamera();
     loadModel();
-    startWrongChordTimer();
+    // startWrongChordTimer();
   }
 
   void loadCamera() {
@@ -247,10 +248,22 @@ class _CameraScreenState extends State<CameraScreen> {
 
   Future<void> loadModel() async {
     await Tflite.loadModel(
-      model: "assets/model_unquant.tflite",
+      model: "assets/model_u.tflite",
       labels: "assets/labels.txt",
     );
   }
+  void toggleCamera() async {
+    selectedCameraIndex = selectedCameraIndex == 0 ? 1 : 0;
+    await cameraController?.stopImageStream();
+    await cameraController?.dispose();
+
+    setState(() {
+      cameraController = null;
+    });
+
+    loadCamera();
+  }
+
 
   Future<void> runModel(CameraImage image) async {
     var predictions = await Tflite.runModelOnFrame(
@@ -267,18 +280,15 @@ class _CameraScreenState extends State<CameraScreen> {
       setState(() {
         if (detectedChord == widget.expectedChord) {
           output = widget.expectedChord;
-          correctChordCounter++;
-          wrongChordCounter = 0; // reset the wrong chord counter
+          showCorrectChordDialog(); 
         } else {
           output = 'Wrong Chord';
-          correctChordCounter = 0; // reset correct chord counter
-          wrongChordCounter++;
         }
       });
 
-      if (correctChordCounter >= 4) { // detected for 2 seconds
-        showCorrectChordDialog();
-      }
+      // if (correctChordCounter >= 2) { // detected for 2 seconds
+      //   showCorrectChordDialog();
+      // }
     }
   }
 
@@ -287,7 +297,7 @@ class _CameraScreenState extends State<CameraScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Correct Chord"),
+          title: const Text("Correct Chord!"),
           content: const Text("Proceed to audio detection?"),
           actions: [
             TextButton(
@@ -307,41 +317,41 @@ class _CameraScreenState extends State<CameraScreen> {
     );
   }
 
-  void startWrongChordTimer() {
-    Future.delayed(const Duration(seconds: 10), () {
-      if (wrongChordCounter >= 20) { // no correct chord detected for 10 seconds
-        showTipsCarousel();
-      }
-    });
-  }
+  // void startWrongChordTimer() {
+  //   Future.delayed(const Duration(seconds: 10), () {
+  //     if (wrongChordCounter >= 10) { // no correct chord detected for 10 seconds
+  //       showTipsCarousel();
+  //     }
+  //   });
+  // }
 
-  void showTipsCarousel() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Chord Tips"),
-          content: CarouselSlider(
-            items: [
-              Image.asset('assets/pics/Aimage.png', fit: BoxFit.cover),
-              Image.asset('assets/pics/Ahand.jpg', fit: BoxFit.cover),
-            ],
-            options: CarouselOptions(
-              height: 300.0,
-              enableInfiniteScroll: false,
-              enlargeCenterPage: true,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("Close"),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void showTipsCarousel() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return AlertDialog(
+  //         title: const Text("Chord Tips"),
+  //         content: CarouselSlider(
+  //           items: [
+  //             Image.asset('assets/pics/Aimage.png', fit: BoxFit.cover),
+  //             Image.asset('assets/pics/Ahand.jpg', fit: BoxFit.cover),
+  //           ],
+  //           options: CarouselOptions(
+  //             height: 300.0,
+  //             enableInfiniteScroll: false,
+  //             enlargeCenterPage: true,
+  //           ),
+  //         ),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () => Navigator.pop(context),
+  //             child: const Text("Close"),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {

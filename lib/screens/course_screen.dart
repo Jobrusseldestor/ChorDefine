@@ -146,16 +146,7 @@ class CourseContainer extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(
-                    "Author: ${course.author}",
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 14), // Adjust author font size
-                  ),
                   const SizedBox(height: 5),
-                  LinearProgressIndicator(
-                    value: course.completedPercentage,
-                    backgroundColor: Colors.black12,
-                    color: kPrimaryColor,
-                  ),
                 ],
               ),
             ),

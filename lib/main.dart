@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:chordefine/screens/hands.dart';
 import 'package:chordefine/screens/base_screen.dart';
-import 'package:chordefine/screens/course_screen2.dart';
+import 'package:chordefine/screens/audiodetect.dart';
 import 'package:flutter/material.dart';
 
 List<CameraDescription>? cameras;

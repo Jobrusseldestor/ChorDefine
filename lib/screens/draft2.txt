@@ -255,8 +255,10 @@ class CameraScreen extends StatefulWidget {
 
 class _CameraScreenState extends State<CameraScreen> {
   CameraController? cameraController;
+  bool showProceedButton = false;
   String output = 'Detecting...';
-  bool showProceedButton = false; // Control visibility of Proceed button
+  int correctChordCounter = 0;
+  int wrongChordCounter = 0;
   int selectedCameraIndex = 0;
 
   @override
@@ -264,6 +266,19 @@ class _CameraScreenState extends State<CameraScreen> {
     super.initState();
     loadCamera();
     loadModel();
+    // startWrongChordTimer();
+  }
+  void showCorrectChordNotification() {
+    setState(() {
+      showProceedButton = true; // Show Proceed button
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Correct Chord detected!'),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 
   void loadCamera() {
@@ -284,6 +299,18 @@ class _CameraScreenState extends State<CameraScreen> {
       labels: "assets/labels.txt",
     );
   }
+  void toggleCamera() async {
+    selectedCameraIndex = selectedCameraIndex == 0 ? 1 : 0;
+    await cameraController?.stopImageStream();
+    await cameraController?.dispose();
+
+    setState(() {
+      cameraController = null;
+    });
+
+    loadCamera();
+  }
+
 
   Future<void> runModel(CameraImage image) async {
     var predictions = await Tflite.runModelOnFrame(
@@ -308,18 +335,76 @@ class _CameraScreenState extends State<CameraScreen> {
     }
   }
 
-  void showCorrectChordNotification() {
-    setState(() {
-      showProceedButton = true; // Show Proceed button
-    });
+  // if (correctChordCounter >= 2) { // detected for 2 seconds
+      //   showCorrectChordDialog();
+      // }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Correct Chord detected!'),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
+  void showCorrectChordDialog() {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text("Correct Chord!"),
+        content: const Text("Proceed to audio detection?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AudioDetectionScreen(expectedChord: widget.expectedChord),
+                ),
+              );
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+
+  // void startWrongChordTimer() {
+  //   Future.delayed(const Duration(seconds: 10), () {
+  //     if (wrongChordCounter >= 10) { // no correct chord detected for 10 seconds
+  //       showTipsCarousel();
+  //     }
+  //   });
+  // }
+
+  // void showTipsCarousel() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return AlertDialog(
+  //         title: const Text("Chord Tips"),
+  //         content: CarouselSlider(
+  //           items: [
+  //             Image.asset('assets/pics/Aimage.png', fit: BoxFit.cover),
+  //             Image.asset('assets/pics/Ahand.jpg', fit: BoxFit.cover),
+  //           ],
+  //           options: CarouselOptions(
+  //             height: 300.0,
+  //             enableInfiniteScroll: false,
+  //             enlargeCenterPage: true,
+  //           ),
+  //         ),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () => Navigator.pop(context),
+  //             child: const Text("Close"),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -379,8 +464,7 @@ class NoteChordController extends GetxController {
   var currentPitch = 0.0.obs;
   var recognizedNote = ''.obs;
   var recognizedChord = ''.obs;
-  var output = 'Listening...'.obs; // For displaying correct or wrong chord
-  var showDoneButton = false.obs; // Observable for Done button visibility
+  var showDoneButton = false.obs;
 
   final List<double> recentFrequencies = [];
   static const int frequencyBufferSize = 12;
@@ -389,6 +473,62 @@ class NoteChordController extends GetxController {
   String expectedChord = '';
 
   NoteChordController(this.expectedChord);
+
+  void showCorrectChordNotification() {
+    showDoneButton.value = true;
+
+    Get.showSnackbar(
+      GetSnackBar(
+        message: "Correct Audio Chord detected!",
+        duration: const Duration(seconds: 2),
+        snackPosition: SnackPosition.TOP,
+      ),
+    );
+  }
+
+  void showCorrectChordDialog() {
+    if (recognizedChord.value == expectedChord) {
+      Get.dialog(
+        AlertDialog(
+          title: const Text("Correct Chord!"),
+          content: const Text("Audio chord matched."),
+          actions: [
+            TextButton(
+              onPressed: () => Get.back(),
+              child: const Text("OK"),
+            ),
+          ],
+        ),
+      );
+      updateCheckboxStatus(); // Call the checkbox update in PracticeScreen
+    }
+  }
+
+  void recognizeChord() {
+    List<String> currentNotes = recentFrequencies
+        .map((freq) => findClosestNote(freq))
+        .where((note) => note.isNotEmpty)
+        .toSet()
+        .toList();
+
+    if (currentNotes.length >= 3) {
+      recognizedChord.value = identifyChord(currentNotes);
+
+      if (recognizedChord.value == expectedChord) {
+        showCorrectChordNotification(); // Show Snackbar
+      }
+    } else {
+      recognizedChord.value = 'Not enough notes for chord';
+    }
+  }
+  void markChordAsCompleted() {
+    Get.find<PracticeScreenController>().markChordAsCompleted(expectedChord);
+    Get.back(); // Navigate back to the chord selection screen
+  }
+
+  void updateCheckboxStatus() {
+    Get.find<PracticeScreenController>().markChordAsCompleted(expectedChord);
+  }
 
   @override
   void onInit() {
@@ -446,26 +586,19 @@ class NoteChordController extends GetxController {
     return minDifference < 2.0 ? closestNote : '';
   }
 
-  void recognizeChord() {
-    List<String> currentNotes = recentFrequencies
-        .map((freq) => findClosestNote(freq))
-        .where((note) => note.isNotEmpty)
-        .toSet()
-        .toList();
+  // void recognizeChord() {
+  //   List<String> currentNotes = recentFrequencies
+  //       .map((freq) => findClosestNote(freq))
+  //       .where((note) => note.isNotEmpty)
+  //       .toSet()
+  //       .toList();
 
-    if (currentNotes.length >= 3) {
-      recognizedChord.value = identifyChord(currentNotes);
-
-      if (recognizedChord.value == expectedChord) {
-        showCorrectChordNotification(); // Show Snackbar
-        output.value = expectedChord;
-      } else {
-        output.value = 'Wrong Chord';
-      }
-    } else {
-      recognizedChord.value = 'Not enough notes for chord';
-    }
-  }
+  //   if (currentNotes.length >= 3) {
+  //     recognizedChord.value = identifyChord(currentNotes);
+  //   } else {
+  //     recognizedChord.value = 'Not enough notes for chord';
+  //   }
+  // }
 
   String identifyChord(List<String> notes) {
     Set<String> noteSet = notes.toSet();
@@ -489,25 +622,8 @@ class NoteChordController extends GetxController {
     }
   }
 
-  void showCorrectChordNotification() {
-    showDoneButton.value = true;
-
-    Get.showSnackbar(
-      const GetSnackBar(
-        message: "Correct Audio Chord detected!",
-        duration: Duration(seconds: 2),
-        snackPosition: SnackPosition.TOP,
-      ),
-    );
-  }
-
   void error(Object e) {
     print('Error in audio capture: $e');
-  }
-
-  void markChordAsCompleted() {
-    Get.find<PracticeScreenController>().markChordAsCompleted(expectedChord);
-    Get.back(); // Navigate back to the chord selection screen
   }
 
   @override
@@ -517,10 +633,6 @@ class NoteChordController extends GetxController {
     super.onClose();
   }
 }
-
-
-
-
 class PracticeScreenController extends GetxController {
   final completedChords = <String>{}.obs; // Store completed chords
 
@@ -532,7 +644,6 @@ class PracticeScreenController extends GetxController {
 
 class AudioDetectionScreen extends StatelessWidget {
   final String expectedChord;
-
   const AudioDetectionScreen({Key? key, required this.expectedChord}) : super(key: key);
 
   @override
@@ -550,27 +661,13 @@ class AudioDetectionScreen extends StatelessWidget {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  controller.output.value, // Display "Correct Chord" or "Wrong Chord"
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                ),
+                Text("Recognized Note: ${controller.recognizedNote.value}"),
+                Text("Recognized Chord: ${controller.recognizedChord.value}"),
               ],
             );
           }),
         ),
       ),
-      floatingActionButton: Obx(() {
-        // Return FloatingActionButton or SizedBox.shrink() to avoid null
-        return controller.showDoneButton.value
-            ? FloatingActionButton(
-                onPressed: () {
-                  controller.markChordAsCompleted(); // Mark chord as completed
-                },
-                child: const Text('Done'),
-              )
-            : SizedBox.shrink();
-      }),
     );
   }
 }
-

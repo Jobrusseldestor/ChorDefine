@@ -99,7 +99,8 @@ class CategoryCard extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => category.destinationScreen,  // Use the destination screen
+          builder: (context) =>
+              category.destinationScreen, // Use the destination screen
         ),
       ),
       child: Container(
@@ -128,25 +129,24 @@ class CategoryCard extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Text(category.name),
             Text(
-              "${category.noOfCourses.toString()} courses",
-              style: Theme.of(context).textTheme.bodySmall,
+              category.name,
+              style: const TextStyle(
+                fontSize: 24, // Adjust size as needed
+                fontWeight: FontWeight.bold, // Optional: makes text bold
+              ),
+              textAlign: TextAlign.center,
             ),
+            // Text(
+            //   "${category.noOfCourses.toString()} courses",
+            //   style: Theme.of(context).textTheme.bodySmall,
+            // ),
           ],
         ),
       ),
     );
   }
 }
-
-
-
-
-
-
-
-
 
 class AppBar extends StatelessWidget {
   const AppBar({

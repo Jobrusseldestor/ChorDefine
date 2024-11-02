@@ -15,7 +15,7 @@ class _ChordLibraryScreenState extends State<ChordLibraryScreen> {
   // Categories with chords A to G and their variations
   final Map<String, List<Map<String, String>>> chordCategories = {
     'A': [
-      {'frets': '0 2 2 2 0 0', 'fingers': '0 1 2 3 0 0', 'chordName': 'A Major'},
+      {'frets': '0 0 2 2 2 0', 'fingers': '0 0 1 2 3 0', 'chordName': 'A Major'},
       {'frets': '0 0 2 2 1 0', 'fingers': '0 0 1 2 1 0', 'chordName': 'A Minor'},
       {'frets': '0 0 2 0 2 0', 'fingers': '0 0 1 0 2 0', 'chordName': 'A7'},
       {'frets': '0 0 2 1 2 0', 'fingers': '0 0 2 1 3 0', 'chordName': 'A7 Sus4'},

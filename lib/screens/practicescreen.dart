@@ -126,13 +126,13 @@ class _PracticeScreenState extends State<PracticeScreen> {
       Get.put(PracticeScreenController());
 
   final Map<String, List<String>> songImages = {
-    'A Major': ['assets/pics/Aimage.png', 'assets/pics/Ahand.jpg'],
-    'B Major': ['assets/pics/Cimage.png', 'assets/pics/Chand.jpg'],
-    'C Major': ['assets/pics/Dimage.png', 'assets/pics/Dhand.jpeg'],
-    'D Major': ['assets/pics/Eimage.png', 'assets/pics/Ehand.jpg'],
-    'E Major': ['assets/pics/Aimage.png', 'assets/pics/Ahand.jpg'],
-    'F Major': ['assets/pics/Bimage.jpg', 'assets/pics/Bhand.jpeg'],
-    'G Major': ['assets/pics/Cimage.png', 'assets/pics/Chand.jpg'],
+    'A Major': ['assets/picture/8.png', 'assets/picture/1.png', 'assets/picture/a.jpg'],
+    'B Major': ['assets/picture/9.png', 'assets/picture/2.png', 'assets/picture/b.png'],
+    'C Major': ['assets/picture/10.png', 'assets/picture/3.png', 'assets/picture/c.jpg'],
+    'D Major': ['assets/picture/11.png', 'assets/picture/4.png', 'assets/picture/d.jpg'],
+    'E Major': ['assets/picture/12.png', 'assets/picture/5.png', 'assets/picture/e.jpg'],
+    'F Major': ['assets/picture/13.jpg', 'assets/picture/6.png', 'assets/picture/f.png'],
+    'G Major': ['assets/picture/14.png', 'assets/picture/7.png', 'assets/picture/g.jpg'],
   };
 
   @override
@@ -140,6 +140,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Explore Songs'),
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications),
@@ -203,12 +204,12 @@ class _PracticeScreenState extends State<PracticeScreen> {
                             Obx(() {
                               return Icon(
                                 controller.completedChords.contains(songTitle)
-                                    ? Icons.check_box
-                                    : Icons.check_box_outline_blank,
+                                    ? Icons.music_note
+                                    : Icons.music_note_outlined,
                                 color: controller.completedChords
                                         .contains(songTitle)
                                     ? Colors.green
-                                    : Colors.grey,
+                                    : Colors.orange,
                               );
                             }),
                             const SizedBox(width: 10),
@@ -230,7 +231,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
                             ),
                             IconButton(
                               icon: const Icon(Icons.arrow_forward,
-                                  color: Colors.blue),
+                                  color: Color.fromARGB(247, 194, 89, 4)),
                               onPressed: () {
                                 Navigator.push(
                                   context,
@@ -313,6 +314,7 @@ class SongDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         children: [
@@ -435,7 +437,7 @@ class _CameraScreenState extends State<CameraScreen> {
     final controller = Get.find<PracticeScreenController>();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Chord Detection')),
+      appBar: AppBar(title: const Text('Chord Detection'),automaticallyImplyLeading: false,),
       body: Column(
         children: [
           Padding(
@@ -642,7 +644,7 @@ class AudioDetectionScreen extends StatelessWidget {
     final controller = Get.put(NoteChordController(expectedChord));
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Note and Chord Recognizer')),
+      appBar: AppBar(title: const Text('Chord Recognizer'),automaticallyImplyLeading: false,),
       body: SafeArea(
         child: Center(
           child: Obx(() {
@@ -716,6 +718,7 @@ class MyProgress extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Progress'),
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             icon: const Icon(Icons.clear_all),

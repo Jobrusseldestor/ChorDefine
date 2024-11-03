@@ -94,11 +94,11 @@ flutter:
     - assets/icons/
     - assets/pics/
     - assets/audio/
+    - assets/images/
+    - assets/picture/
     - assets/images/marker.png
     - assets/images/guitar.png
     - assets/images/mute.png
-    - assets/labelasds.txt
-    - assets/model_u.tflite
     - assets/model_unquant.tflite
     - assets/labels.txt
 

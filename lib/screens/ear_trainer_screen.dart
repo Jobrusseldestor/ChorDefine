@@ -56,7 +56,7 @@ class _EarTrainerScreenState extends State<EarTrainerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ear Trainer'),
+        title: const Text('Ear Trainer'),automaticallyImplyLeading: false,
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       ),
       body: GridView.builder(

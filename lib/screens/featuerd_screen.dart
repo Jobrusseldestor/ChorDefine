@@ -1,7 +1,7 @@
 import 'package:chordefine/constants/color.dart';
 import 'package:chordefine/constants/size.dart';
 import 'package:chordefine/models/category.dart';
-import 'package:chordefine/screens/course_screen.dart';
+import 'package:chordefine/screens/learnscreen.dart';
 import 'package:chordefine/screens/details_screen.dart';
 import 'package:chordefine/widgets/circle_button.dart';
 import 'package:flutter/material.dart';
@@ -169,8 +169,8 @@ class AppBar extends StatelessWidget {
           end: Alignment.bottomRight,
           stops: [0.1, 0.5],
           colors: [
-            Color(0xff886ff2),
-            Color(0xff6849ef),
+              Color.fromARGB(247, 194, 89, 4),
+              Color.fromARGB(236, 200, 74, 6),
           ],
         ),
       ),

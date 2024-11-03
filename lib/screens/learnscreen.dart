@@ -1,6 +1,5 @@
 import 'package:chordefine/constants/color.dart';
 import 'package:chordefine/models/course.dart';
-import 'package:chordefine/screens/chord_diagram_screen.dart';
 import 'package:chordefine/screens/chord_library_screen.dart';
 import 'package:chordefine/screens/details_screen.dart';
 import 'package:chordefine/screens/ear_trainer_screen.dart';
@@ -37,15 +36,6 @@ class _CourseScreenState extends State<CourseScreen> {
                           style: Theme.of(context).textTheme.displayMedium,
                         ),
                       ),
-                      Positioned(
-                        left: 0,
-                        child: CustomIconButton(
-                          child: const Icon(Icons.arrow_back),
-                          height: 35,
-                          width: 35,
-                          onTap: () => Navigator.pop(context),
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -74,6 +64,7 @@ class _CourseScreenState extends State<CourseScreen> {
   }
 }
 
+
 class CourseContainer extends StatelessWidget {
   final Course course;
   const CourseContainer({
@@ -85,12 +76,12 @@ class CourseContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Check the course name to navigate to the correct screen
+        // Navigate based on the course name
         if (course.name == 'Learn Basic Chords') {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const GuitarChordsScreen(title: 'course.name'),
+              builder: (context) => const GuitarChordsScreen(title: 'Learn Basic Chords'),
             ),
           );
         } else if (course.name == 'Chord Library') {
@@ -107,23 +98,22 @@ class CourseContainer extends StatelessWidget {
               builder: (context) => const EarTrainerScreen(),
             ),
           );
-        } else if (course.name == 'Chord Diagram') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const ChordDiagramScreen(),
-            ),
-          );
-        }
+        } 
       },
       child: Container(
-        // Adjust the height for better fit
-        height: 170, // Increase height for larger touch area
+        height: 170,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(12),
           color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 6,
+              offset: Offset(0, 3),
+            ),
+          ],
         ),
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -131,22 +121,34 @@ class CourseContainer extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               child: Image.asset(
                 course.thumbnail,
-                height: 60,
+                height: 70,
+                width: 70,
+                fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     course.name,
                     style: const TextStyle(
-                      fontSize: 25, // Adjust font size here
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 4),
+                  Text(
+                    course.description, // Assuming each course has a description
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.grey[700],
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ),
             ),
@@ -156,3 +158,4 @@ class CourseContainer extends StatelessWidget {
     );
   }
 }
+

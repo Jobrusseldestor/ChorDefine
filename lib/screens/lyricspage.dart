@@ -11,7 +11,7 @@ class _CourseScreen3State extends State<CourseScreen3> {
   final List<String> exploreItems = [
     'Thinking Out Loud',
     'Huling El Bimbo',
-    'Song 3',
+    'The Light Behind Your Eyes',
     'Song 4',
     'Song 5',
   ];
@@ -273,6 +273,7 @@ La la la la
     return Scaffold(
       appBar: AppBar(
         title: const Text('Explore Songs'),
+        automaticallyImplyLeading: false,
       ),
       body: SafeArea(
         child: Padding(
@@ -327,7 +328,7 @@ La la la la
                               child: const Icon(
                                 Icons.music_note,
                                 size: 60,
-                                color: Colors.blue,
+                                color: Color.fromARGB(247, 194, 89, 4),
                               ),
                             ),
                             const SizedBox(width: 10),

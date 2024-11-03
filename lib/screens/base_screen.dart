@@ -19,10 +19,8 @@ class _BaseScreenState extends State<BaseScreen> {
   Widget _getSelectedPage() {
     switch (_selectedIndex) {
       case 0:
-        return FeaturedScreen();  // Featured page
+        return FeaturedScreen();  // Featured page // My Learning page placeholder
       case 1:
-        return Center(child: Text("My Learning", style: TextStyle(fontSize: 24)));  // My Learning page placeholder
-      case 2:
         return SettingsPage(
           isDarkMode: _isDarkMode, 
           onDarkModeChanged: (bool value) {
@@ -58,17 +56,6 @@ class _BaseScreenState extends State<BaseScreen> {
                 height: kBottomNavigationBarItemSize,
               ),
               label: "Featured",
-            ),
-            BottomNavigationBarItem(
-              activeIcon: Image.asset(
-                'assets/icons/play.png',
-                height: kBottomNavigationBarItemSize,
-              ),
-              icon: Image.asset(
-                'assets/icons/play_outlined.png',
-                height: kBottomNavigationBarItemSize,
-              ),
-              label: "My Learning",
             ),
             BottomNavigationBarItem(
               activeIcon: Image.asset(

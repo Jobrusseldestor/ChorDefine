@@ -8,17 +8,17 @@ import 'package:wakelock/wakelock.dart';
 import 'package:flutter/services.dart';
 
 // Colors
-const midGreyColor = Color.fromARGB(255, 235, 231, 231);
-const blackGreyColor = Color.fromARGB(255, 228, 221, 221);
+const midGreyColor = Color.fromARGB(255, 255, 255, 255);
+const blackGreyColor = Color.fromARGB(255, 255, 255, 255);
 
 // Text Styles
 const styleGreenSmall = TextStyle(color: Colors.green, fontSize: 13);
 const styleBlackSmall = TextStyle(color: Colors.black, fontSize: 13);
 const styleBlackMedium = TextStyle(color: Colors.black, fontSize: 16);
-const styleWhiteSmall = TextStyle(color: Colors.white, fontSize: 13);
-const styleWhiteMedium = TextStyle(color: Colors.white, fontSize: 16);
+const styleWhiteSmall = TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 13);
+const styleWhiteMedium = TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 16);
 const styleWhiteBig =
-    TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold);
+    TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 32, fontWeight: FontWeight.bold);
 
 // Tuner Controller
 class TunerController extends GetxController {
@@ -108,7 +108,7 @@ class VerticalLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
-      ..color = const Color.fromARGB(55, 100, 100, 100)
+      ..color = Color.fromARGB(55, 0, 0, 0)
       ..strokeWidth = 2;
 
     final double centerX = size.width / 2;
@@ -153,7 +153,7 @@ class TunerMarker extends StatelessWidget {
                     Icons.location_on,
                     color: tunerController.isTuned.value
                         ? Colors.green
-                        : Colors.grey,
+                        : Colors.black,
                     size: 48.0,
                     semanticLabel: 'Guitar Tuner',
                   ),
@@ -196,7 +196,7 @@ class GuitarButton extends StatelessWidget {
             ),
             backgroundColor: tunerController.selectedTune.value == chordText
                 ? MaterialStateProperty.all<Color>(Colors.white)
-                : MaterialStateProperty.all<Color>(midGreyColor),
+                : MaterialStateProperty.all<Color>(Colors.black),
           ),
           onPressed: () => tunerController.selectChord(chordIndex, chordText),
           child: Text(
@@ -229,13 +229,7 @@ class TunerScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Back Button
-                Positioned(
-                  left: 0,
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () => Navigator.pop(context), // Navigate back
-                  ),
-                ),
+                
                 const SizedBox(height: 15),
                 Expanded(
                   child: Center(
@@ -321,15 +315,15 @@ class TunerScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               GuitarButton(
-                                  chordColor: Colors.yellow,
+                                  chordColor: Colors.black,
                                   chordIndex: 3,
                                   chordText: "D3"),
                               GuitarButton(
-                                  chordColor: Colors.yellow,
+                                  chordColor: Colors.black,
                                   chordIndex: 4,
                                   chordText: "A2"),
                               GuitarButton(
-                                  chordColor: Colors.yellow,
+                                  chordColor: Colors.black,
                                   chordIndex: 5,
                                   chordText: "E2"),
                             ],
@@ -353,15 +347,15 @@ class TunerScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               GuitarButton(
-                                  chordColor: Colors.white,
+                                  chordColor: Colors.black,
                                   chordIndex: 2,
                                   chordText: "G3"),
                               GuitarButton(
-                                  chordColor: Colors.white,
+                                  chordColor: Colors.black,
                                   chordIndex: 1,
                                   chordText: "B3"),
                               GuitarButton(
-                                  chordColor: Colors.white,
+                                  chordColor: Colors.black,
                                   chordIndex: 0,
                                   chordText: "E4"),
                             ],

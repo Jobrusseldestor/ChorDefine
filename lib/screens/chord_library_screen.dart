@@ -9,48 +9,38 @@ class ChordLibraryScreen extends StatefulWidget {
 }
 
 class _ChordLibraryScreenState extends State<ChordLibraryScreen> {
-  String selectedInstrument = 'Guitar'; // Dropdown instrument selection
-  bool isFlatNote = false; // Toggle switch state
+// Dropdown instrument selection
+  // Toggle switch state
 
   // Categories with chords A to G and their variations
   final Map<String, List<Map<String, String>>> chordCategories = {
     'A': [
-      {'frets': '0 0 2 2 2 0', 'fingers': '0 0 1 2 3 0', 'chordName': 'A Major'},
-      {'frets': '0 0 2 2 1 0', 'fingers': '0 0 1 2 1 0', 'chordName': 'A Minor'},
-      {'frets': '0 0 2 0 2 0', 'fingers': '0 0 1 0 2 0', 'chordName': 'A7'},
-      {'frets': '0 0 2 1 2 0', 'fingers': '0 0 2 1 3 0', 'chordName': 'A7 Sus4'},
-      {'frets': '0 0 2 2 0 0', 'fingers': '0 1 3 2 0 0', 'chordName': 'A Major 7'},
-      {'frets': '0 0 2 0 0 0', 'fingers': '0 1 0 0 0 0', 'chordName': 'A Minor 7'},
+      {'frets': '0 0 2 2 2 0', 'fingers': 'x 0 1 2 3 0', 'chordName': 'A Major'},
+      {'frets': '0 0 2 2 1 0', 'fingers': 'X 0 2 3 1 0', 'chordName': 'A Minor'},
+      {'frets': '0 0 2 0 2 0', 'fingers': 'X 0 2 0 3 0', 'chordName': 'A7'},
+      {'frets': '0 0 2 1 2 0', 'fingers': 'X 0 2 1 3 0', 'chordName': 'A Major 7'},
+      {'frets': '0 0 2 0 1 0', 'fingers': 'x 0 2 0 1 0', 'chordName': 'A Minor 7'},
     ],
     'B': [
-      {'frets': '0 2 4 4 4 0', 'fingers': '0 1 3 3 3 0', 'chordName': 'B Major'},
-      {'frets': '0 2 4 4 3 2', 'fingers': '0 1 3 4 2 1', 'chordName': 'B Minor'},
-      {'frets': '0 2 1 2 0 2', 'fingers': '-1 2 1 3 0 4', 'chordName': 'B7'},
-      {'frets': '0 2 4 4 2 2', 'fingers': '-1 1 3 4 2 2', 'chordName': 'B7 Sus4'},
-      {'frets': '0 2 1 3 0 2', 'fingers': '-1 2 1 4 0 3', 'chordName': 'B Minor 7'},
-      {'frets': '0 2 4 3 3 2', 'fingers': '-1 1 4 2 3 1', 'chordName': 'B Major 7'},
+      {'frets': '0 2 4 4 4 2', 'fingers': 'x 1 2 3 4 1', 'chordName': 'B Major'},
+      {'frets': '0 2 4 4 3 2', 'fingers': 'x 1 3 4 2 1', 'chordName': 'B Minor'},
+      {'frets': '0 2 1 2 0 0', 'fingers': 'x 2 1 3 0 0', 'chordName': 'B7'},
+      {'frets': '0 2 0 2 0 2', 'fingers': 'x 2 0 3 0 4', 'chordName': 'B Minor 7'},
     ],
     'C': [
-      {'frets': '0 3 2 0 1 0', 'fingers': '0 3 2 0 1 0', 'chordName': 'C Major'},
-      {'frets': '0 3 5 5 4 3', 'fingers': 'X 1 3 4 2 1', 'chordName': 'C Minor'},
+      {'frets': '0 3 2 0 1 0', 'fingers': 'x 3 2 0 1 0', 'chordName': 'C Major'},
       {'frets': '0 3 2 3 1 0', 'fingers': 'X 3 2 4 1 0', 'chordName': 'C7'},
-      {'frets': '0 3 3 0 1 1', 'fingers': 'X 2 3 0 1 1', 'chordName': 'C7 Sus4'},
       {'frets': '0 3 2 0 0 0', 'fingers': 'X 3 2 0 0 0', 'chordName': 'C Major 7'},
-      {'frets': '0 3 5 3 4 3', 'fingers': 'X 1 3 1 2 1', 'chordName': 'C Minor 7'},
     ],
     'D': [
-      {'frets': '0 0 0 2 3 2', 'fingers': '0 0 0 1 3 2', 'chordName': 'D Major'},
-      {'frets': '0 0 0 2 3 1', 'fingers': 'X 0 0 2 3 1', 'chordName': 'D Minor'},
-      {'frets': '0 0 0 2 1 2', 'fingers': 'X 0 0 2 1 3', 'chordName': 'D7'},
-      {'frets': '0 0 0 0 1 3', 'fingers': 'X 0 0 0 1 3', 'chordName': 'D7 Sus4'},
-      {'frets': '0 5 4 2 3 2', 'fingers': 'X 4 3 1 2 1', 'chordName': 'D Minor 7'},
-      {'frets': '0 5 4 2 3 2', 'fingers': 'X 4 3 1 2 1', 'chordName': 'D Major 7'},
+      {'frets': '0 0 0 2 3 2', 'fingers': 'x x 0 1 3 2', 'chordName': 'D Major'},
+      {'frets': '0 0 0 2 3 1', 'fingers': 'X x 0 2 3 1', 'chordName': 'D Minor'},
+      {'frets': '0 0 0 2 1 2', 'fingers': 'X x 0 2 1 3', 'chordName': 'D7'},
     ],
     'E': [
       {'frets': '0 2 2 1 0 0', 'fingers': '0 2 3 1 0 0', 'chordName': 'E Major'},
       {'frets': '0 2 2 0 0 0', 'fingers': '0 1 2 0 0 0', 'chordName': 'E Minor'},
       {'frets': '0 2 0 1 0 0', 'fingers': '0 2 0 1 0 0', 'chordName': 'E7'},
-      {'frets': '0 2 0 2 3 0', 'fingers': '0 2 0 3 4 0', 'chordName': 'E7 Sus4'},
       {'frets': '0 2 1 1 0 0', 'fingers': '0 3 2 1 0 0', 'chordName': 'E Major 7'},
       {'frets': '0 2 0 0 0 0', 'fingers': '0 1 0 0 0 0', 'chordName': 'E Minor 7'},
     ],
@@ -58,7 +48,6 @@ class _ChordLibraryScreenState extends State<ChordLibraryScreen> {
       {'frets': '1 3 3 2 1 1', 'fingers': '1 3 4 2 1 1', 'chordName': 'F Major'},
       {'frets': '1 3 3 1 1 1', 'fingers': '1 3 4 1 1 1', 'chordName': 'F Minor'},
       {'frets': '1 3 1 2 1 1', 'fingers': '1 3 1 2 1 1', 'chordName': 'F7'},
-      {'frets': '0 3 3 3 1 1', 'fingers': 'X 3 3 3 1 1', 'chordName': 'F7 Sus4'},
       {'frets': '0 3 2 0 0 0', 'fingers': 'X 3 2 0 0 0', 'chordName': 'F Major 7'},
       {'frets': '0 3 5 3 4 3', 'fingers': 'X 1 3 1 2 1', 'chordName': 'F Minor 7'},
     ],
@@ -66,7 +55,6 @@ class _ChordLibraryScreenState extends State<ChordLibraryScreen> {
       {'frets': '3 2 0 0 0 3', 'fingers': '3 2 0 0 0 4', 'chordName': 'G Major'},
       {'frets': '3 1 0 0 0 3', 'fingers': '3 1 0 0 0 4', 'chordName': 'G Minor'},
       {'frets': '3 2 0 0 0 1', 'fingers': '3 2 0 0 0 1', 'chordName': 'G7'},
-      {'frets': '3 2 0 0 1 3', 'fingers': '3 2 0 0 1 4', 'chordName': 'G7 Sus4'},
       {'frets': '3 2 0 0 0 2', 'fingers': '3 2 0 0 0 2', 'chordName': 'G Major 7'},
       {'frets': '3 1 0 0 0 1', 'fingers': '3 1 0 0 0 1', 'chordName': 'G Minor 7'},
     ],
@@ -81,7 +69,7 @@ class _ChordLibraryScreenState extends State<ChordLibraryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Chord Library'),
+        title: const Text('Chord Library'),automaticallyImplyLeading: false,
       ),
       body: Column(
         children: [
@@ -91,33 +79,8 @@ class _ChordLibraryScreenState extends State<ChordLibraryScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                DropdownButton<String>(
-                  value: selectedInstrument,
-                  items: ['Guitar', 'Ukulele'].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedInstrument = newValue!;
-                    });
-                  },
-                ),
-                Row(
-                  children: [
-                    const Text("Flat Note"),
-                    Switch(
-                      value: isFlatNote,
-                      onChanged: (bool value) {
-                        setState(() {
-                          isFlatNote = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
+                
+               
               ],
             ),
           ),

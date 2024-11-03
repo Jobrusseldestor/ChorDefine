@@ -38,6 +38,7 @@ dependencies:
   video_player: ^2.9.1
   audioplayers: ^6.1.0
   flutter_guitar_chord: ^0.0.2
+  shared_preferences: ^2.0.15
   
 
   permission_handler: 10.2.0

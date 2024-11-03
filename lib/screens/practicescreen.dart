@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:camera/camera.dart';
 import 'package:tflite/tflite.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:typed_data';
 import 'package:get/get.dart';
 import 'package:flutter_audio_capture/flutter_audio_capture.dart';
@@ -262,8 +262,37 @@ class _PracticeScreenState extends State<PracticeScreen> {
 class PracticeScreenController extends GetxController {
   final completedChords = <String>{}.obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    loadNotifications();
+  }
+
+  // Save notifications to shared preferences
+  Future<void> saveNotifications() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('completedChords', completedChords.toList());
+  }
+
+  // Load notifications from shared preferences
+  Future<void> loadNotifications() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedChords = prefs.getStringList('completedChords');
+    if (savedChords != null) {
+      completedChords.addAll(savedChords);
+    }
+  }
+
+  // Mark a chord as completed and save notifications
   void markChordAsCompleted(String chord) {
     completedChords.add(chord);
+    saveNotifications(); // Save the updated notifications list
+  }
+
+  // Clear notifications and update shared preferences
+  void clearNotifications() {
+    completedChords.clear();
+    saveNotifications(); // Save the cleared notifications list
   }
 }
 
@@ -691,8 +720,8 @@ class MyProgress extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.clear_all),
             onPressed: () {
-              // Clear all completed chords
-              controller.completedChords.clear();
+              // Clear all completed chords from both UI and storage
+              controller.clearNotifications();
             },
           ),
         ],

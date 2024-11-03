@@ -40,15 +40,15 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+        const Padding(
+          padding: EdgeInsets.only(top: 10, left: 20, right: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Explore Categories",
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
+              // Text(
+              //   "Explore Categories",
+              //   style: Theme.of(context).textTheme.bodyLarge,
+              // ),
               // TextButton(
               //   onPressed: () {},
               //   child: Text(

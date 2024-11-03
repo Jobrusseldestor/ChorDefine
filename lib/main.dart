@@ -4,13 +4,14 @@ import 'package:chordefine/screens/base_screen.dart';
 import 'package:chordefine/screens/audiodetect.dart';
 import 'package:flutter/material.dart';
 
-List<CameraDescription>? cameras;
+// List<CameraDescription>? cameras;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   cameras = await availableCameras();
   runApp(const MyApp());
 }
 
+late List<CameraDescription> cameras; // Store available cameras
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 

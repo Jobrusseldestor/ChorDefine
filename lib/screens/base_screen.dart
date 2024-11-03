@@ -54,7 +54,7 @@ class _BaseScreenState extends State<BaseScreen> {
                 height: kBottomNavigationBarItemSize,
               ),
               icon: Image.asset(
-                'assets/icons/play_outlined.png',
+                'assets/icons/star_outlined.png',
                 height: kBottomNavigationBarItemSize,
               ),
               label: "Featured",

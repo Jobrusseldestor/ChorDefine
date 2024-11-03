@@ -57,16 +57,18 @@ dependencies:
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/logo.jpg"
+  image_path: "assets/icons/logo.png"
   min_sdk_android: 21
 
 flutter_native_splash:
   color: "#141517"
-  image: assets/images/logo.jpg
+  image: assets/icons/logo.png
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+ 
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -94,9 +96,10 @@ flutter:
     - assets/images/marker.png
     - assets/images/guitar.png
     - assets/images/mute.png
-    - assets/labels.txt
-    - assets/mudel.tflite
+    - assets/labelasds.txt
     - assets/model_u.tflite
+    - assets/model_unquant.tflite
+    - assets/labels.txt
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

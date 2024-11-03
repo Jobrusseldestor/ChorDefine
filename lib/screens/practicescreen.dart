@@ -11,26 +11,84 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:pitch_detector_dart/pitch_detector.dart';
 import 'dart:async';
 
-
 void main() {
   runApp(const MyApp());
 }
+
 var noteFrequencies = {
-  32.7: 'C1', 34.65: '#C1', 36.71: 'D1', 38.89: '#D1', 41.2: 'E1',
-  43.65: 'F1', 46.25: '#F1', 49.0: 'G1', 51.91: '#G1', 55.0: 'A1',
-  58.27: '#A1', 61.74: 'B1', 65.41: 'C2', 69.3: '#C2', 73.42: 'D2',
-  77.78: '#D2', 82.41: 'E2', 87.31: 'F2', 92.5: '#F2', 98.0: 'G2',
-  103.83: '#G2', 110.0: 'A2', 116.54: '#A2', 123.47: 'B2', 130.81: 'C3',
-  138.59: '#C3', 146.83: 'D3', 155.56: '#D3', 164.81: 'E3', 174.61: 'F3',
-  185.0: '#F3', 196.0: 'G3', 207.65: '#G3', 220.0: 'A3', 233.08: '#A3',
-  246.94: 'B3', 261.63: 'C4', 277.18: '#C4', 293.66: 'D4', 311.13: '#D4',
-  329.63: 'E4', 349.23: 'F4', 369.99: '#F4', 392.0: 'G4', 415.3: '#G4',
-  440.0: 'A4', 466.16: '#A4', 493.88: 'B4', 523.25: 'C5', 554.37: '#C5',
-  587.33: 'D5', 622.25: '#D5', 659.25: 'E5', 698.46: 'F5', 739.99: '#F5',
-  783.99: 'G5', 830.61: '#G5', 880.0: 'A5', 932.33: '#A5', 987.77: 'B5',
-  1046.5: 'C6', 1108.73: '#C6', 1174.66: 'D6', 1244.51: '#D6', 1318.51: 'E6',
-  1396.91: 'F6', 1479.98: '#F6', 1567.98: 'G6', 1661.22: '#G6', 1760.0: 'A6',
-  1864.66: '#A6', 1975.53: 'B6', 2093.0: 'C7',
+  32.7: 'C1',
+  34.65: '#C1',
+  36.71: 'D1',
+  38.89: '#D1',
+  41.2: 'E1',
+  43.65: 'F1',
+  46.25: '#F1',
+  49.0: 'G1',
+  51.91: '#G1',
+  55.0: 'A1',
+  58.27: '#A1',
+  61.74: 'B1',
+  65.41: 'C2',
+  69.3: '#C2',
+  73.42: 'D2',
+  77.78: '#D2',
+  82.41: 'E2',
+  87.31: 'F2',
+  92.5: '#F2',
+  98.0: 'G2',
+  103.83: '#G2',
+  110.0: 'A2',
+  116.54: '#A2',
+  123.47: 'B2',
+  130.81: 'C3',
+  138.59: '#C3',
+  146.83: 'D3',
+  155.56: '#D3',
+  164.81: 'E3',
+  174.61: 'F3',
+  185.0: '#F3',
+  196.0: 'G3',
+  207.65: '#G3',
+  220.0: 'A3',
+  233.08: '#A3',
+  246.94: 'B3',
+  261.63: 'C4',
+  277.18: '#C4',
+  293.66: 'D4',
+  311.13: '#D4',
+  329.63: 'E4',
+  349.23: 'F4',
+  369.99: '#F4',
+  392.0: 'G4',
+  415.3: '#G4',
+  440.0: 'A4',
+  466.16: '#A4',
+  493.88: 'B4',
+  523.25: 'C5',
+  554.37: '#C5',
+  587.33: 'D5',
+  622.25: '#D5',
+  659.25: 'E5',
+  698.46: 'F5',
+  739.99: '#F5',
+  783.99: 'G5',
+  830.61: '#G5',
+  880.0: 'A5',
+  932.33: '#A5',
+  987.77: 'B5',
+  1046.5: 'C6',
+  1108.73: '#C6',
+  1174.66: 'D6',
+  1244.51: '#D6',
+  1318.51: 'E6',
+  1396.91: 'F6',
+  1479.98: '#F6',
+  1567.98: 'G6',
+  1661.22: '#G6',
+  1760.0: 'A6',
+  1864.66: '#A6',
+  1975.53: 'B6',
+  2093.0: 'C7',
 };
 
 class MyApp extends StatelessWidget {
@@ -64,7 +122,8 @@ class _PracticeScreenState extends State<PracticeScreen> {
     'G Major',
   ];
 
-  final PracticeScreenController controller = Get.put(PracticeScreenController());
+  final PracticeScreenController controller =
+      Get.put(PracticeScreenController());
 
   final Map<String, List<String>> songImages = {
     'A Major': ['assets/pics/Aimage.png', 'assets/pics/Ahand.jpg'],
@@ -81,6 +140,17 @@ class _PracticeScreenState extends State<PracticeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Explore Songs'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MyProgress()),
+              );
+            },
+          ),
+        ],
       ),
       body: SafeArea(
         child: Padding(
@@ -89,7 +159,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Basic Guitar Songs',
+                'Basic Chords',
                 style: Theme.of(context).textTheme.headline6,
               ),
               const SizedBox(height: 15),
@@ -108,7 +178,8 @@ class _PracticeScreenState extends State<PracticeScreen> {
                             builder: (context) => SongDetailsScreen(
                               title: songTitle,
                               images: songImages[songTitle]!,
-                              expectedChord: songTitle.split(" ")[0], // Extracts "A" from "A Major"
+                              expectedChord: songTitle
+                                  .split(" ")[0], // Extracts "A" from "A Major"
                             ),
                           ),
                         );
@@ -117,11 +188,11 @@ class _PracticeScreenState extends State<PracticeScreen> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white,
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
                               color: Colors.black12,
                               blurRadius: 10,
-                              offset: const Offset(0, 5),
+                              offset: Offset(0, 5),
                             ),
                           ],
                         ),
@@ -134,7 +205,8 @@ class _PracticeScreenState extends State<PracticeScreen> {
                                 controller.completedChords.contains(songTitle)
                                     ? Icons.check_box
                                     : Icons.check_box_outline_blank,
-                                color: controller.completedChords.contains(songTitle)
+                                color: controller.completedChords
+                                        .contains(songTitle)
                                     ? Colors.green
                                     : Colors.grey,
                               );
@@ -157,7 +229,8 @@ class _PracticeScreenState extends State<PracticeScreen> {
                               ),
                             ),
                             IconButton(
-                              icon: const Icon(Icons.arrow_forward, color: Colors.blue),
+                              icon: const Icon(Icons.arrow_forward,
+                                  color: Colors.blue),
                               onPressed: () {
                                 Navigator.push(
                                   context,
@@ -186,13 +259,25 @@ class _PracticeScreenState extends State<PracticeScreen> {
   }
 }
 
+class PracticeScreenController extends GetxController {
+  final completedChords = <String>{}.obs;
+
+  void markChordAsCompleted(String chord) {
+    completedChords.add(chord);
+  }
+}
 
 class SongDetailsScreen extends StatelessWidget {
   final String title;
   final List<String> images;
   final String expectedChord;
 
-  const SongDetailsScreen({Key? key, required this.title, required this.images, required this.expectedChord}) : super(key: key);
+  const SongDetailsScreen(
+      {Key? key,
+      required this.title,
+      required this.images,
+      required this.expectedChord})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -229,7 +314,8 @@ class SongDetailsScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CameraScreen(expectedChord: expectedChord),
+                        builder: (context) =>
+                            CameraScreen(expectedChord: expectedChord),
                       ),
                     );
                   },
@@ -256,8 +342,9 @@ class CameraScreen extends StatefulWidget {
 class _CameraScreenState extends State<CameraScreen> {
   CameraController? cameraController;
   String output = 'Detecting...';
-  bool showProceedButton = false; // Control visibility of Proceed button
-  int selectedCameraIndex = 0;
+  bool showProceedButton = false;
+  int correctChordCounter = 0;
+  bool detectionComplete = false;
 
   @override
   void initState() {
@@ -272,7 +359,9 @@ class _CameraScreenState extends State<CameraScreen> {
       if (!mounted) return;
       setState(() {
         cameraController!.startImageStream((image) {
-          runModel(image);
+          if (!detectionComplete) {
+            runModel(image);
+          }
         });
       });
     });
@@ -280,7 +369,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
   Future<void> loadModel() async {
     await Tflite.loadModel(
-      model: "assets/model_u.tflite",
+      model: "assets/model_unquant.tflite",
       labels: "assets/labels.txt",
     );
   }
@@ -299,8 +388,12 @@ class _CameraScreenState extends State<CameraScreen> {
 
       setState(() {
         if (detectedChord == widget.expectedChord) {
-          output = widget.expectedChord;
-          showCorrectChordNotification(); // Show SnackBar and button
+          correctChordCounter++;
+          if (correctChordCounter >= 20) {
+            output = 'Correct Chord';
+            detectionComplete = true;
+            showProceedButton = true;
+          }
         } else {
           output = 'Wrong Chord';
         }
@@ -308,21 +401,10 @@ class _CameraScreenState extends State<CameraScreen> {
     }
   }
 
-  void showCorrectChordNotification() {
-    setState(() {
-      showProceedButton = true; // Show Proceed button
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Correct Chord detected!'),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<PracticeScreenController>();
+
     return Scaffold(
       appBar: AppBar(title: const Text('Chord Detection')),
       body: Column(
@@ -349,6 +431,12 @@ class _CameraScreenState extends State<CameraScreen> {
       floatingActionButton: showProceedButton
           ? FloatingActionButton(
               onPressed: () {
+                // Ensure a fresh state in AudioDetectionScreen
+                if (Get.isRegistered<NoteChordController>()) {
+                  Get.delete<NoteChordController>();
+                }
+
+                // Navigate to AudioDetectionScreen for chord detection
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -371,6 +459,8 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 }
 
+
+
 class NoteChordController extends GetxController {
   final _audioRecorder = FlutterAudioCapture();
   final pitchDetectorDart = PitchDetector(44100, 2000);
@@ -379,8 +469,9 @@ class NoteChordController extends GetxController {
   var currentPitch = 0.0.obs;
   var recognizedNote = ''.obs;
   var recognizedChord = ''.obs;
-  var output = 'Listening...'.obs; // For displaying correct or wrong chord
-  var showDoneButton = false.obs; // Observable for Done button visibility
+  var output = 'Listening...'.obs;
+  var showDoneButton = false.obs;
+  bool detectionComplete = false;
 
   final List<double> recentFrequencies = [];
   static const int frequencyBufferSize = 12;
@@ -406,7 +497,9 @@ class NoteChordController extends GetxController {
   Future<void> startCapture() async {
     await _audioRecorder.start(listener, error, sampleRate: 44100, bufferSize: 1400);
     chordDetectionTimer = Timer.periodic(const Duration(milliseconds: 200), (_) {
-      recognizeChord();
+      if (!detectionComplete) {
+        recognizeChord();
+      }
     });
   }
 
@@ -457,10 +550,11 @@ class NoteChordController extends GetxController {
       recognizedChord.value = identifyChord(currentNotes);
 
       if (recognizedChord.value == expectedChord) {
-        showCorrectChordNotification(); // Show Snackbar
-        output.value = expectedChord;
-      } else {
-        output.value = 'Wrong Chord';
+        output.value = "Correct Chord";
+        detectionComplete = true;
+        showDoneButton.value = true;
+      } else if (!detectionComplete) {
+        output.value = "Wrong Chord";
       }
     } else {
       recognizedChord.value = 'Not enough notes for chord';
@@ -471,34 +565,22 @@ class NoteChordController extends GetxController {
     Set<String> noteSet = notes.toSet();
 
     if (noteSet.contains('A1') && noteSet.contains('A2')) {
-      return 'A major';
+      return 'A';
     } else if (noteSet.contains('B1')) {
-      return 'B major';
+      return 'B';
     } else if (noteSet.contains('C2') || noteSet.contains('C3')) {
-      return 'C major';
+      return 'C';
     } else if (noteSet.contains('D3') || noteSet.contains('D1')) {
-      return 'D major';
+      return 'D';
     } else if (noteSet.contains('#G3') || noteSet.contains('E1') || noteSet.contains('E2')) {
-      return 'E major';
+      return 'E';
     } else if (noteSet.contains('F1') || noteSet.contains('F2')) {
-      return 'F major';
+      return 'F';
     } else if (noteSet.contains('G1') || noteSet.contains('G2')) {
-      return 'G major';
+      return 'G';
     } else {
       return 'Unknown chord';
     }
-  }
-
-  void showCorrectChordNotification() {
-    showDoneButton.value = true;
-
-    Get.showSnackbar(
-      const GetSnackBar(
-        message: "Correct Audio Chord detected!",
-        duration: Duration(seconds: 2),
-        snackPosition: SnackPosition.TOP,
-      ),
-    );
   }
 
   void error(Object e) {
@@ -507,7 +589,6 @@ class NoteChordController extends GetxController {
 
   void markChordAsCompleted() {
     Get.find<PracticeScreenController>().markChordAsCompleted(expectedChord);
-    Get.back(); // Navigate back to the chord selection screen
   }
 
   @override
@@ -518,18 +599,6 @@ class NoteChordController extends GetxController {
   }
 }
 
-
-
-
-class PracticeScreenController extends GetxController {
-  final completedChords = <String>{}.obs; // Store completed chords
-
-  void markChordAsCompleted(String chord) {
-    completedChords.add(chord);
-  }
-}
-
-
 class AudioDetectionScreen extends StatelessWidget {
   final String expectedChord;
 
@@ -537,10 +606,30 @@ class AudioDetectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Remove any existing NoteChordController instances to ensure fresh state
+    if (Get.isRegistered<NoteChordController>()) {
+      Get.delete<NoteChordController>();
+    }
+    // Initialize a new controller with the expected chord
     final controller = Get.put(NoteChordController(expectedChord));
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Note and Chord Recognizer')),
+      appBar: AppBar(
+        title: const Text('Note and Chord Recognizer'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Reset controller and navigate back to PracticeScreen
+            controller.dispose(); // Dispose audio processing
+            Get.delete<NoteChordController>(); // Remove instance
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const PracticeScreen()),
+              (Route<dynamic> route) => false,
+            );
+          },
+        ),
+      ),
       body: SafeArea(
         child: Center(
           child: Obx(() {
@@ -551,8 +640,22 @@ class AudioDetectionScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  controller.output.value, // Display "Correct Chord" or "Wrong Chord"
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  "Recognized Note: ${controller.recognizedNote.value}",
+                  style: const TextStyle(fontSize: 20),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "Recognized Chord: ${controller.recognizedChord.value}",
+                  style: const TextStyle(fontSize: 20),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  controller.output.value,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: controller.output.value == "Correct Chord" ? Colors.green : Colors.red,
+                  ),
                 ),
               ],
             );
@@ -560,17 +663,75 @@ class AudioDetectionScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: Obx(() {
-        // Return FloatingActionButton or SizedBox.shrink() to avoid null
         return controller.showDoneButton.value
             ? FloatingActionButton(
                 onPressed: () {
-                  controller.markChordAsCompleted(); // Mark chord as completed
+                  // Mark chord as completed and navigate to MyProgress screen
+                  controller.markChordAsCompleted();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MyProgress()),
+                  );
                 },
                 child: const Text('Done'),
               )
-            : SizedBox.shrink();
+            : const SizedBox.shrink();
       }),
     );
   }
 }
 
+
+
+
+
+// New MyProgress Screen
+// In MyProgress screen
+class MyProgress extends StatelessWidget {
+  const MyProgress({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final PracticeScreenController controller = Get.find();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('My Progress'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.clear_all),
+            onPressed: () {
+              // Clear all completed chords
+              controller.completedChords.clear();
+            },
+          ),
+        ],
+      ),
+      body: Obx(() {
+        return controller.completedChords.isEmpty
+            ? const Center(child: Text("No completed chords yet."))
+            : ListView.builder(
+                itemCount: controller.completedChords.length,
+                itemBuilder: (context, index) {
+                  final chord = controller.completedChords.elementAt(index);
+                  return ListTile(
+                    leading: const Icon(Icons.check_circle, color: Colors.green),
+                    title: Text("Congratulations! You've completed $chord Major."),
+                  );
+                },
+              );
+      }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Ensure back button goes to PracticeScreen by clearing the navigation stack
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const PracticeScreen()),
+            (Route<dynamic> route) => false,
+          );
+        },
+        child: const Icon(Icons.arrow_back),
+      ),
+    );
+  }
+}

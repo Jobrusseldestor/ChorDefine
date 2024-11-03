@@ -429,19 +429,25 @@ class _CameraScreenState extends State<CameraScreen> {
         ],
       ),
       floatingActionButton: showProceedButton
-    ? FloatingActionButton(
-        onPressed: () {
-          // Navigate to AudioDetectionScreen for chord detection
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AudioDetectionScreen(expectedChord: widget.expectedChord),
-            ),
-          );
-        },
-        child: const Text('Proceed'),
-      )
-    : null,
+          ? FloatingActionButton(
+              onPressed: () {
+                // Ensure a fresh state in AudioDetectionScreen
+                if (Get.isRegistered<NoteChordController>()) {
+                  Get.delete<NoteChordController>();
+                }
+
+                // Navigate to AudioDetectionScreen for chord detection
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        AudioDetectionScreen(expectedChord: widget.expectedChord),
+                  ),
+                );
+              },
+              child: const Text('Proceed'),
+            )
+          : null,
     );
   }
 
@@ -452,6 +458,7 @@ class _CameraScreenState extends State<CameraScreen> {
     super.dispose();
   }
 }
+
 
 
 class NoteChordController extends GetxController {
@@ -599,10 +606,30 @@ class AudioDetectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Remove any existing NoteChordController instances to ensure fresh state
+    if (Get.isRegistered<NoteChordController>()) {
+      Get.delete<NoteChordController>();
+    }
+    // Initialize a new controller with the expected chord
     final controller = Get.put(NoteChordController(expectedChord));
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Note and Chord Recognizer')),
+      appBar: AppBar(
+        title: const Text('Note and Chord Recognizer'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Reset controller and navigate back to PracticeScreen
+            controller.dispose(); // Dispose audio processing
+            Get.delete<NoteChordController>(); // Remove instance
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const PracticeScreen()),
+              (Route<dynamic> route) => false,
+            );
+          },
+        ),
+      ),
       body: SafeArea(
         child: Center(
           child: Obx(() {
@@ -635,24 +662,28 @@ class AudioDetectionScreen extends StatelessWidget {
           }),
         ),
       ),
-     floatingActionButton: Obx(() {
-  return controller.showDoneButton.value
-      ? FloatingActionButton(
-          onPressed: () {
-            // Mark chord as completed and navigate to MyProgress screen
-            controller.markChordAsCompleted();
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const MyProgress()),
-            );
-          },
-          child: const Text('Done'),
-        )
-      : SizedBox.shrink();
-}),
+      floatingActionButton: Obx(() {
+        return controller.showDoneButton.value
+            ? FloatingActionButton(
+                onPressed: () {
+                  // Mark chord as completed and navigate to MyProgress screen
+                  controller.markChordAsCompleted();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MyProgress()),
+                  );
+                },
+                child: const Text('Done'),
+              )
+            : const SizedBox.shrink();
+      }),
     );
   }
 }
+
+
+
+
 
 // New MyProgress Screen
 // In MyProgress screen

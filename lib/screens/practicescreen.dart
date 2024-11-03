@@ -606,30 +606,14 @@ class AudioDetectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Remove any existing NoteChordController instances to ensure fresh state
+    // Initialize NoteChordController for the expected chord
     if (Get.isRegistered<NoteChordController>()) {
       Get.delete<NoteChordController>();
     }
-    // Initialize a new controller with the expected chord
     final controller = Get.put(NoteChordController(expectedChord));
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Note and Chord Recognizer'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            // Reset controller and navigate back to PracticeScreen
-            controller.dispose(); // Dispose audio processing
-            Get.delete<NoteChordController>(); // Remove instance
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const PracticeScreen()),
-              (Route<dynamic> route) => false,
-            );
-          },
-        ),
-      ),
+      appBar: AppBar(title: const Text('Note and Chord Recognizer')),
       body: SafeArea(
         child: Center(
           child: Obx(() {
@@ -639,9 +623,13 @@ class AudioDetectionScreen extends StatelessWidget {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "Recognized Note: ${controller.recognizedNote.value}",
-                  style: const TextStyle(fontSize: 20),
+                // This section hides the Recognized Note text but keeps it in the widget tree
+                Visibility(
+                  visible: false, // Set visibility to false to hide the widget
+                  child: Text(
+                    "Recognized Note: ${controller.recognizedNote.value}",
+                    style: const TextStyle(fontSize: 20),
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Text(
@@ -654,7 +642,9 @@ class AudioDetectionScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: controller.output.value == "Correct Chord" ? Colors.green : Colors.red,
+                    color: controller.output.value == "Correct Chord"
+                        ? Colors.green
+                        : Colors.red,
                   ),
                 ),
               ],
@@ -666,7 +656,6 @@ class AudioDetectionScreen extends StatelessWidget {
         return controller.showDoneButton.value
             ? FloatingActionButton(
                 onPressed: () {
-                  // Mark chord as completed and navigate to MyProgress screen
                   controller.markChordAsCompleted();
                   Navigator.push(
                     context,
@@ -680,6 +669,7 @@ class AudioDetectionScreen extends StatelessWidget {
     );
   }
 }
+
 
 
 

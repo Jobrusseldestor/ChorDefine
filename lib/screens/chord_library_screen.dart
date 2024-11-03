@@ -68,9 +68,12 @@ class _ChordLibraryScreenState extends State<ChordLibraryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Chord Library'),automaticallyImplyLeading: false,
+    appBar: AppBar(
+      title: const Center(
+        child: Text('Chord Library'),
       ),
+      automaticallyImplyLeading: false,
+    ),
       body: Column(
         children: [
           // Dropdown for instrument selection

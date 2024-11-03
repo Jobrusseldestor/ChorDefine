@@ -129,9 +129,9 @@ class _PracticeScreenState extends State<PracticeScreen> {
     'A Major': ['assets/picture/8.png', 'assets/picture/1.png', 'assets/picture/a.jpg'],
     'B Major': ['assets/picture/9.png', 'assets/picture/2.png', 'assets/picture/b.png'],
     'C Major': ['assets/picture/10.png', 'assets/picture/3.png', 'assets/picture/c.jpg'],
-    'D Major': ['assets/picture/11.png', 'assets/picture/4.png', 'assets/picture/d.jpg'],
+    'D Major': ['assets/picture/11.png', 'assets/picture/4.png', 'assets/picture/d.jpeg'],
     'E Major': ['assets/picture/12.png', 'assets/picture/5.png', 'assets/picture/e.jpg'],
-    'F Major': ['assets/picture/13.jpg', 'assets/picture/6.png', 'assets/picture/f.png'],
+    'F Major': ['assets/picture/13.png', 'assets/picture/6.png', 'assets/picture/f.png'],
     'G Major': ['assets/picture/14.png', 'assets/picture/7.png', 'assets/picture/g.jpg'],
   };
 

@@ -11,9 +11,17 @@ class _CourseScreen3State extends State<CourseScreen3> {
   final List<String> exploreItems = [
     'Thinking Out Loud',
     'Huling El Bimbo',
+    'Zombies',
     'The Light Behind Your Eyes',
-    'Song 4',
-    'Song 5',
+    'Bakit Ba' ,
+  ];
+
+  final List<String> songArtist = [
+    'Ed Sheeran',
+    'Eraserheads',
+    'The Cranberries',
+    'My Chemical Romance',
+    'Siakol',
   ];
 
   final List<String> songLyrics = [
@@ -263,9 +271,303 @@ La la
          G
 La la la la
 ''',
-    'Song 3 lyrics with chords...',
-    'Song 4 lyrics with chords...',
-    'Song 5 lyrics with chords...',
+   '''
+
+    [Intro]
+Em C G D/F#  x4
+ 
+[Verse 1]
+Em       C                G                D/F#
+Another head hangs lowly, child is slowly taken
+Em               C                    G               D/F#
+And the violence caused such silence, who are we mistaken 
+        Em                        C
+But you see it's not me, it's not my family
+        G                               D/F#
+In your head, in your head, they are fighting 
+           Em                              C
+With their tanks and their bombs and their bombs and their guns 
+         G                             D/F#
+in your head, in your head, they are crying
+ 
+[Chorus 1]
+        Em            C            G             D/F#
+In your head, in your head, zombie, zombie, zombie 
+               Em            C            G             D/F#
+What's in your head, in your head, zombie, zombie, zombie 
+ 
+[Instrumental]
+Em C G D/F# x2
+ 
+[Verse 2]
+Em        C                  G              D/F#
+Another mother's breaking heart is taking over
+Em                C               G            D/F#
+When the violence causes silence, we must be mistaken
+         Em                   C
+It's the same old theme since 1916
+        G                                  D/F#
+In your head, in your head, they're still fighting
+           Em                              C
+With their tanks and their bombs and their bombs and their guns
+        G                            D/F#
+In your head, in your head, they're dying
+ 
+[Chorus 2]
+        Em            C            G             D/F#
+In your head, in your head, zombie, zombie, zombie 
+               Em            C            G             D/F#
+What's in your head, in your head, zombie, zombie, zombie 
+ 
+[Instrumental]
+Em C G D/F# x2
+Em C Em C x2
+ 
+[Solo]
+Em C G D/F# x3
+ 
+[Outro]
+Em C Em C
+Em C Em
+   ''',
+      '''
+      
+   
+
+    [Intro]
+ 
+Em   G   C   D
+ 
+ 
+[Verse]
+ 
+Em      G       C         D
+    So long to all my friends,
+      Em       G        C     D
+Every one of them met tragic ends,
+Em       G     C       D
+   With every passing day,
+        Em    G    C      D
+I'd be lying if I didn’t say,
+        C               D  Dsus4  D  Dsus4  D  Dsus4  D  Dsus4
+That I miss them all tonight
+             C             D  Dsus4  D  Dsus4  D  Dsus4  D  Dsus4
+And if they only knew what I would say
+ 
+ 
+[Chorus]
+ 
+   Em       G       C     D
+If I could be with you tonight
+         Em           G
+I would sing you to sleep,
+       C                 D
+Never let them take the light behind your eyes
+Em       G         C         D
+    One day, I'll lose this fight
+       Em          G            C
+As we fade in the dark, just remember
+         D                Em          Em
+you will always burn as bright
+ 
+ 
+[Verse]
+ 
+Em          G         C       D
+     Be strong, and hold my hand.
+          Em       G          C      D
+Time, it comes for us, you'll understand.
+Em          G       C     D
+     We'll say goodbye today,
+         Em    G      C         D
+And I'm sorry how it ends this way
+         C             D  Dsus4  D  Dsus4  D  Dsus4  D  Dsus4
+If you promise not to cry
+           C                 D  Dsus4  D  Dsus4  D  Dsus4  D  Dsus4
+Then I'll tell you just what I would say
+ 
+ 
+[Chorus]
+ 
+   Em       G       C     D
+If I could be with you tonight
+         Em           G
+I would sing you to sleep,
+       C                 D
+Never let them take the light behind your eyes
+Em        G        C         D
+    I'll fail and lose this fight
+       Em          G            C
+Never fade in the dark, just remember
+         D
+you will always burn as bright
+C     D
+           The light behind your eyes...
+C     D
+           The light behind your...
+ 
+ 
+[Bridge]
+ 
+Em                 D
+     Sometimes we must grow stronger and
+Am                    C
+     You can't be stronger when I'm gone.
+Em                   D       C                     Am
+     When I'm here,      no longer, you must be stronger, and
+ 
+ 
+[Chorus]
+ 
+   Em      G        C     D
+If I could be with you tonight,
+         Em           G
+I would sing you to sleep,
+       C                 D
+Never let them take the light behind your eyes.
+Em          G         C         D
+     I've failed and lost this fight,
+       Em          G
+Never fade in the dark,
+        C              D
+Just remember you will always burn as bright.
+ 
+ 
+[Outro]
+ 
+C     D
+           the light behind your eyes
+C     D
+           the light behind your eyes
+C     D
+           the light behind your eyes
+C     D
+           the light behind your eyes
+C     D
+           the light behind your eyes
+C     D
+           the light behind your eyes
+C     D
+           the light behind your eyes
+C     D
+           the light behind your...
+ 
+ 
+ 
+NOTE: these are basic chords which can also be played as Em/G - G - C/G - D during the choruses.
+ 
+ Em/G:        C/G:
+ 
+ e|-3-       e|-3-
+ B|-3-       B|-3-
+ G|-0-       G|-0-
+ D|-2-       D|-2-
+ A|-2-       A|-3-
+ E|-0-       E|-0-
+    ''',
+        '''
+
+
+    ' 
+[Intro]
+ 
+G Em C D x2
+ 
+ 
+[Verse 1]
+ 
+    G                Bm
+Nag-aaliw sa usok at beer lang ang kasama
+    Em                       Am         D
+mas okey pang laging ganto nalilimutan ka
+    G                        Bm
+hindi ko malaman sayo kung ano ang drama mo
+   Em                        Am           D
+bakit lagi mo na lang sinasaktan ang puso ko
+    G                        Bm
+tandang tanda ko pa noong tayo'y namamasyal
+ 
+   Em                           Am            D
+napasulyap lang sa iba bigla mo na kong sinampal
+    G                      Bm
+at sa kaseselos mo nga'y lalong minahal kita
+  Em                     Am      D
+subalit nasaan ka na sumama sa iba
+ 
+ 
+[Chorus]
+ 
+G     Em           C             D
+Bakit bakit ba iniwan mong nag iisa
+ G    Em           C             D
+bakit bakit ba sa akin bay nag sawa na
+ C          D           C         D
+sinusunod naman kita kahit ano kinakaya
+  C               D
+wala pa ring kwenta bakit ba
+ 
+G Em C D
+G Em C D
+ 
+ 
+[Verse 2]
+ 
+ G                         Bm
+Ano ba ang nakita mo at pinag palit mo ko
+  Em                    Am         D
+naka sisiguro ka ba ngayon sa bago mo
+   G                      Bm
+sana ay mahalin ka nya at wag kang sasaktan
+  Em                        Am            D
+kahit di na tayo'y problema mo'y sabihin lang
+   G                        Bm
+pilit ka mang limutan ay naghihintay parin
+   Em                 Am           D
+nagbabaka sakali na muli kang dumating
+   G                      Bm
+bakit ba kay hirap ng kalagayan ko ngayon
+  Em                      Am           D
+kaya't saking sarili ay laging nagtatanong
+ 
+ 
+[Chorus]
+ 
+G     Em           C             D
+Bakit bakit ba iniwan mong nag iisa
+ G    Em           C             D
+bakit bakit ba sa akin bay nag sawa na
+ C          D           C         D
+sinusunod naman kita kahit ano kinakaya
+  C               D
+wala pa ring kwenta bakit ba
+ 
+ 
+[Instrumental]
+ 
+G - Em - C - D
+G - Em - C - D
+C - D
+C - D
+C - D - E
+ 
+ 
+[Chorus]
+ 
+A     F#m          D            E
+Bakit bakit ba iniwan mong nag iisa
+ A    F#m          D            E
+bakit bakit ba sa akin bay nag sawa na
+  D          E          D        E
+sinusunod naman kita kahit ano kinakaya
+  D               E       A (outro)
+wala pa ring kwenta bakit ba
+ 
+ 
+[Outro]
+ 
+A - F#m - D - E (x2)
+A'''
+
   ];
 
   @override
@@ -292,17 +594,17 @@ La la la la
                   separatorBuilder: (_, __) {
                     return const SizedBox(height: 10);
                   },
-                  itemCount: exploreItems.length, // 5 explore items
+                  itemCount: exploreItems.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        // Navigate to LyricsScreen when tapped
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => LyricsScreen(
                               title: exploreItems[index],
                               lyrics: songLyrics[index],
+                              artist: songArtist[index],
                             ),
                           ),
                         );
@@ -315,7 +617,7 @@ La la la la
                             BoxShadow(
                               color: Colors.black12,
                               blurRadius: 10,
-                              offset: const Offset(0, 5), // Shadow position
+                              offset: const Offset(0, 5),
                             ),
                           ],
                         ),
@@ -343,6 +645,15 @@ La la la la
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    songArtist[index],
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey,
+                                      fontStyle: FontStyle.normal,
+                                    ),
+                                  ),
                                   const SizedBox(height: 5),
                                   const Text('Tap to view lyrics and chords'),
                                 ],
@@ -363,22 +674,36 @@ La la la la
   }
 }
 
-// Screen that shows the lyrics and chords of a song
 class LyricsScreen extends StatelessWidget {
   final String title;
   final String lyrics;
+  final String artist;
 
   const LyricsScreen({
     Key? key,
     required this.title,
     required this.lyrics,
+    required this.artist,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title),
+            Text(
+              artist,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+              ),
+            ),
+          ],
+        ),
+        toolbarHeight: 70, // Increased height to accommodate both lines
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -391,7 +716,7 @@ class LyricsScreen extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 13,
                     fontFamily: 'Courier',
-                    height: 1.3, // Increased height for better readability
+                    height: 1.3,
                   ),
                 ),
               ),

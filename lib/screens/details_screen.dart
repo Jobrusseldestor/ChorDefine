@@ -69,7 +69,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   height: 15,
                 ),
                 const Text(
-                  "Could be us my nigga",
+                  "Could be us my g",
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 18,

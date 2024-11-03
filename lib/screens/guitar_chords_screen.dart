@@ -6,9 +6,12 @@ class GuitarChordsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Basic Guitar Chords'),automaticallyImplyLeading: false,
+    appBar: AppBar(
+      title: const Center(
+        child: Text('Basic Guitar Chords'),
       ),
+      automaticallyImplyLeading: false,
+    ),
       body: const SingleChildScrollView( // Wrap the body in SingleChildScrollView to prevent overflow
         child: Padding(
           padding: EdgeInsets.all(16.0),

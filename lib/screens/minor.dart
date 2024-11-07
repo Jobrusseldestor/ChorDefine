@@ -1,4 +1,5 @@
 import 'package:chordefine/main.dart';
+import 'package:chordefine/screens/progress.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:camera/camera.dart';
@@ -11,147 +12,57 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:pitch_detector_dart/pitch_detector.dart';
 import 'dart:async';
 
-void main() {
-  runApp(const MyApp());
-}
-
-var noteFrequencies = {
-  32.7: 'C1',
-  34.65: '#C1',
-  36.71: 'D1',
-  38.89: '#D1',
-  41.2: 'E1',
-  43.65: 'F1',
-  46.25: '#F1',
-  49.0: 'G1',
-  51.91: '#G1',
-  55.0: 'A1',
-  58.27: '#A1',
-  61.74: 'B1',
-  65.41: 'C2',
-  69.3: '#C2',
-  73.42: 'D2',
-  77.78: '#D2',
-  82.41: 'E2',
-  87.31: 'F2',
-  92.5: '#F2',
-  98.0: 'G2',
-  103.83: '#G2',
-  110.0: 'A2',
-  116.54: '#A2',
-  123.47: 'B2',
-  130.81: 'C3',
-  138.59: '#C3',
-  146.83: 'D3',
-  155.56: '#D3',
-  164.81: 'E3',
-  174.61: 'F3',
-  185.0: '#F3',
-  196.0: 'G3',
-  207.65: '#G3',
-  220.0: 'A3',
-  233.08: '#A3',
-  246.94: 'B3',
-  261.63: 'C4',
-  277.18: '#C4',
-  293.66: 'D4',
-  311.13: '#D4',
-  329.63: 'E4',
-  349.23: 'F4',
-  369.99: '#F4',
-  392.0: 'G4',
-  415.3: '#G4',
-  440.0: 'A4',
-  466.16: '#A4',
-  493.88: 'B4',
-  523.25: 'C5',
-  554.37: '#C5',
-  587.33: 'D5',
-  622.25: '#D5',
-  659.25: 'E5',
-  698.46: 'F5',
-  739.99: '#F5',
-  783.99: 'G5',
-  830.61: '#G5',
-  880.0: 'A5',
-  932.33: '#A5',
-  987.77: 'B5',
-  1046.5: 'C6',
-  1108.73: '#C6',
-  1174.66: 'D6',
-  1244.51: '#D6',
-  1318.51: 'E6',
-  1396.91: 'F6',
-  1479.98: '#F6',
-  1567.98: 'G6',
-  1661.22: '#G6',
-  1760.0: 'A6',
-  1864.66: '#A6',
-  1975.53: 'B6',
-  2093.0: 'C7',
-};
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Chord Practice',
+      title: 'Minor Chords',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const PracticeScreen(),
+      home: const PracticeScreenMinor(title: 'Minor Chords',),
     );
   }
 }
 
-class PracticeScreen extends StatefulWidget {
-  const PracticeScreen({Key? key}) : super(key: key);
+class PracticeScreenMinor extends StatefulWidget {
+  const PracticeScreenMinor({Key? key, required String title}) : super(key: key);
+
 
   @override
-  _PracticeScreenState createState() => _PracticeScreenState();
+  _PracticeScreenMinorState createState() => _PracticeScreenMinorState();
 }
 
-class _PracticeScreenState extends State<PracticeScreen> {
+class _PracticeScreenMinorState extends State<PracticeScreenMinor> {
   final List<String> exploreItems = [
-    'A Major',
-    'B Major',
-    'C Major',
-    'D Major',
-    'E Major',
-    'F Major',
-    'G Major',
+    'A Minor',
+    'B Minor',
+    'C Minor',
+    'D Minor',
+    'E Minor',
+    'F Minor',
+    'G Minor',
   ];
 
-  final PracticeScreenController controller =
-      Get.put(PracticeScreenController());
+  final PracticeScreenMinorController controller =
+      Get.put(PracticeScreenMinorController());
 
   final Map<String, List<String>> songImages = {
-    'A Major': ['assets/picture/8.png', 'assets/picture/1.png', 'assets/picture/a.jpg'],
-    'B Major': ['assets/picture/9.png', 'assets/picture/2.png', 'assets/picture/b.png'],
-    'C Major': ['assets/picture/10.png', 'assets/picture/3.png', 'assets/picture/c.jpg'],
-    'D Major': ['assets/picture/11.png', 'assets/picture/4.png', 'assets/picture/d.jpeg'],
-    'E Major': ['assets/picture/12.png', 'assets/picture/5.png', 'assets/picture/e.jpg'],
-    'F Major': ['assets/picture/13.png', 'assets/picture/6.png', 'assets/picture/f.png'],
-    'G Major': ['assets/picture/14.png', 'assets/picture/7.png', 'assets/picture/g.jpg'],
+    'A Minor': ['assets/picture/8.png', 'assets/picture/1.png', 'assets/picture/a.jpg'],
+    'B Minor': ['assets/picture/9.png', 'assets/picture/2.png', 'assets/picture/b.png'],
+    'C Minor': ['assets/picture/10.png', 'assets/picture/3.png', 'assets/picture/c.jpg'],
+    'D Minor': ['assets/picture/11.png', 'assets/picture/4.png', 'assets/picture/d.jpeg'],
+    'E Minor': ['assets/picture/12.png', 'assets/picture/5.png', 'assets/picture/e.jpg'],
+    'F Minor': ['assets/picture/13.png', 'assets/picture/6.png', 'assets/picture/f.png'],
+    'G Minor': ['assets/picture/14.png', 'assets/picture/7.png', 'assets/picture/g.jpg'],
   };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Explore Songs'),
+        title: const Text('Basic Minor Chords'),
         automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MyProgress()),
-              );
-            },
-          ),
-        ],
       ),
       body: SafeArea(
         child: Padding(
@@ -159,10 +70,6 @@ class _PracticeScreenState extends State<PracticeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Basic Chords',
-                style: Theme.of(context).textTheme.headline6,
-              ),
               const SizedBox(height: 15),
               Expanded(
                 child: ListView.separated(
@@ -176,7 +83,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SongDetailsScreen(
+                            builder: (context) => ChordDetailsMinor(
                               title: songTitle,
                               images: songImages[songTitle]!,
                               expectedChord: songTitle
@@ -236,7 +143,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => SongDetailsScreen(
+                                    builder: (context) => ChordDetailsMinor(
                                       title: songTitle,
                                       images: songImages[songTitle]!,
                                       expectedChord: songTitle.split(" ")[0],
@@ -260,7 +167,7 @@ class _PracticeScreenState extends State<PracticeScreen> {
   }
 }
 
-class PracticeScreenController extends GetxController {
+class PracticeScreenMinorController extends GetxController {
   final completedChords = <String>{}.obs;
 
   @override
@@ -293,12 +200,12 @@ class PracticeScreenController extends GetxController {
   }
 }
 
-class SongDetailsScreen extends StatelessWidget {
+class ChordDetailsMinor extends StatelessWidget {
   final String title;
   final List<String> images;
   final String expectedChord;
 
-  const SongDetailsScreen(
+  const ChordDetailsMinor(
       {Key? key,
       required this.title,
       required this.images,
@@ -342,7 +249,7 @@ class SongDetailsScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            CameraScreen(expectedChord: expectedChord),
+                            CameraScreenMinor(expectedChord: expectedChord),
                       ),
                     );
                   },
@@ -357,16 +264,16 @@ class SongDetailsScreen extends StatelessWidget {
   }
 }
 
-class CameraScreen extends StatefulWidget {
+class CameraScreenMinor extends StatefulWidget {
   final String expectedChord;
 
-  const CameraScreen({Key? key, required this.expectedChord}) : super(key: key);
+  const CameraScreenMinor({Key? key, required this.expectedChord}) : super(key: key);
 
   @override
-  _CameraScreenState createState() => _CameraScreenState();
+  _CameraScreenMinorState createState() => _CameraScreenMinorState();
 }
 
-class _CameraScreenState extends State<CameraScreen> {
+class _CameraScreenMinorState extends State<CameraScreenMinor> {
   CameraController? cameraController;
   String output = 'Detecting...';
   bool showProceedButton = false;
@@ -428,7 +335,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<PracticeScreenController>();
+    final controller = Get.find<PracticeScreenMinorController>();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Chord Detection'),automaticallyImplyLeading: false,),
@@ -456,14 +363,14 @@ class _CameraScreenState extends State<CameraScreen> {
       floatingActionButton: showProceedButton
           ? FloatingActionButton(
               onPressed: () {
-                if (Get.isRegistered<NoteChordController>()) {
-                  Get.delete<NoteChordController>();
+                if (Get.isRegistered<NoteChordControllerMinor>()) {
+                  Get.delete<NoteChordControllerMinor>();
                 }
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        AudioDetectionScreen(expectedChord: widget.expectedChord),
+                        AudioDetectionScreenMinor(expectedChord: widget.expectedChord),
                   ),
                 );
               },
@@ -482,8 +389,7 @@ class _CameraScreenState extends State<CameraScreen> {
 }
 
 
-
-class NoteChordController extends GetxController {
+class NoteChordControllerMinor extends GetxController {
   final _audioRecorder = FlutterAudioCapture();
   final pitchDetectorDart = PitchDetector(44100, 2000);
 
@@ -501,7 +407,7 @@ class NoteChordController extends GetxController {
   Timer? chordDetectionTimer;
   String expectedChord = '';
 
-  NoteChordController(this.expectedChord);
+  NoteChordControllerMinor(this.expectedChord);
 
   @override
   void onInit() {
@@ -610,7 +516,7 @@ class NoteChordController extends GetxController {
   }
 
   void markChordAsCompleted() {
-    Get.find<PracticeScreenController>().markChordAsCompleted(expectedChord);
+    Get.find<PracticeScreenMinorController>().markChordAsCompleted(expectedChord);
   }
 
   @override
@@ -621,17 +527,18 @@ class NoteChordController extends GetxController {
   }
 }
 
-class AudioDetectionScreen extends StatelessWidget {
+
+class AudioDetectionScreenMinor extends StatelessWidget {
   final String expectedChord;
 
-  const AudioDetectionScreen({Key? key, required this.expectedChord}) : super(key: key);
+  const AudioDetectionScreenMinor({Key? key, required this.expectedChord}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (Get.isRegistered<NoteChordController>()) {
-      Get.delete<NoteChordController>();
+    if (Get.isRegistered<NoteChordControllerMinor>()) {
+      Get.delete<NoteChordControllerMinor>();
     }
-    final controller = Get.put(NoteChordController(expectedChord));
+    final controller = Get.put(NoteChordControllerMinor(expectedChord));
 
     return Scaffold(
       appBar: AppBar(title: const Text('Chord Recognizer'),automaticallyImplyLeading: false,),
@@ -679,7 +586,7 @@ class AudioDetectionScreen extends StatelessWidget {
                   controller.markChordAsCompleted();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const MyProgress()),
+                    MaterialPageRoute(builder: (context) => const MyProgress(isMajor: true)),
                   );
                 },
                 child: const Text('Done'),
@@ -690,50 +597,78 @@ class AudioDetectionScreen extends StatelessWidget {
   }
 }
 
-class MyProgress extends StatelessWidget {
-  const MyProgress({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final PracticeScreenController controller = Get.find();
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Progress'),
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.clear_all),
-            onPressed: () {
-              controller.clearNotifications();
-            },
-          ),
-        ],
-      ),
-      body: Obx(() {
-        return controller.completedChords.isEmpty
-            ? const Center(child: Text("No completed chords yet."))
-            : ListView.builder(
-                itemCount: controller.completedChords.length,
-                itemBuilder: (context, index) {
-                  final chord = controller.completedChords.elementAt(index);
-                  return ListTile(
-                    leading: const Icon(Icons.check_circle, color: Colors.green),
-                    title: Text("Congratulations! You've completed $chord Major."),
-                  );
-                },
-              );
-      }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => const PracticeScreen()),
-            (Route<dynamic> route) => false,
-          );
-        },
-        child: const Icon(Icons.arrow_back),
-      ),
-    );
-  }
-}
+var noteFrequencies = {
+  32.7: 'C1',
+  34.65: '#C1',
+  36.71: 'D1',
+  38.89: '#D1',
+  41.2: 'E1',
+  43.65: 'F1',
+  46.25: '#F1',
+  49.0: 'G1',
+  51.91: '#G1',
+  55.0: 'A1',
+  58.27: '#A1',
+  61.74: 'B1',
+  65.41: 'C2',
+  69.3: '#C2',
+  73.42: 'D2',
+  77.78: '#D2',
+  82.41: 'E2',
+  87.31: 'F2',
+  92.5: '#F2',
+  98.0: 'G2',
+  103.83: '#G2',
+  110.0: 'A2',
+  116.54: '#A2',
+  123.47: 'B2',
+  130.81: 'C3',
+  138.59: '#C3',
+  146.83: 'D3',
+  155.56: '#D3',
+  164.81: 'E3',
+  174.61: 'F3',
+  185.0: '#F3',
+  196.0: 'G3',
+  207.65: '#G3',
+  220.0: 'A3',
+  233.08: '#A3',
+  246.94: 'B3',
+  261.63: 'C4',
+  277.18: '#C4',
+  293.66: 'D4',
+  311.13: '#D4',
+  329.63: 'E4',
+  349.23: 'F4',
+  369.99: '#F4',
+  392.0: 'G4',
+  415.3: '#G4',
+  440.0: 'A4',
+  466.16: '#A4',
+  493.88: 'B4',
+  523.25: 'C5',
+  554.37: '#C5',
+  587.33: 'D5',
+  622.25: '#D5',
+  659.25: 'E5',
+  698.46: 'F5',
+  739.99: '#F5',
+  783.99: 'G5',
+  830.61: '#G5',
+  880.0: 'A5',
+  932.33: '#A5',
+  987.77: 'B5',
+  1046.5: 'C6',
+  1108.73: '#C6',
+  1174.66: 'D6',
+  1244.51: '#D6',
+  1318.51: 'E6',
+  1396.91: 'F6',
+  1479.98: '#F6',
+  1567.98: 'G6',
+  1661.22: '#G6',
+  1760.0: 'A6',
+  1864.66: '#A6',
+  1975.53: 'B6',
+  2093.0: 'C7',
+};

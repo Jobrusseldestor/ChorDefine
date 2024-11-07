@@ -691,7 +691,7 @@ class LyricsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center, 
           children: [
             Text(title),
             Text(
@@ -702,7 +702,7 @@ class LyricsScreen extends StatelessWidget {
               ),
             ),
           ],
-        ),
+        ),automaticallyImplyLeading: false,
         toolbarHeight: 70, // Increased height to accommodate both lines
       ),
       body: Padding(

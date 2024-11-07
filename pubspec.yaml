@@ -39,8 +39,8 @@ dependencies:
   audioplayers: ^6.1.0
   flutter_guitar_chord: ^0.0.2
   shared_preferences: ^2.0.15
+  smooth_page_indicator: ^1.1.0
   
-
   permission_handler: 10.2.0
   pitch_detector_dart: 0.0.2
   flutter_audio_capture: 1.1.6
@@ -101,6 +101,7 @@ flutter:
     - assets/images/mute.png
     - assets/model_unquant.tflite
     - assets/labels.txt
+    - assets/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

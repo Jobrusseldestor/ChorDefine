@@ -1,6 +1,7 @@
 import 'package:chordefine/screens/learnscreen.dart';
 import 'package:chordefine/screens/audiodetect.dart';
 import 'package:chordefine/screens/lyricspage.dart';
+import 'package:chordefine/screens/newprac.dart';
 import 'package:chordefine/screens/tunerscreen.dart';
 import 'package:chordefine/screens/practicescreen.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ List<Category> categoryList = [
   Category(
     name: 'Practice',
     thumbnail: 'assets/pics/practicelogo.png',
-    destinationScreen: const PracticeScreen(),
+    destinationScreen: const pracnew(),
   ),
   Category(
     name: 'Explore',

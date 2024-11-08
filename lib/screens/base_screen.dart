@@ -1,3 +1,4 @@
+import 'package:chordefine/screens/progress.dart';
 import 'package:flutter/material.dart';
 import 'settingspage.dart';
 import 'package:chordefine/screens/featuerd_screen.dart';
@@ -19,8 +20,10 @@ class _BaseScreenState extends State<BaseScreen> {
   Widget _getSelectedPage() {
     switch (_selectedIndex) {
       case 0:
-        return FeaturedScreen();  // Featured page // My Learning page placeholder
+        return const FeaturedScreen();
       case 1:
+        return const MyProgress(isMajor: true,);  // Featured page // My Learning page placeholder
+      case 2:
         return SettingsPage(
           isDarkMode: _isDarkMode, 
           onDarkModeChanged: (bool value) {
@@ -30,7 +33,7 @@ class _BaseScreenState extends State<BaseScreen> {
           },
         );  // Settings page
       default:
-        return FeaturedScreen();  // Default to FeaturedScreen
+        return const FeaturedScreen();  // Default to FeaturedScreen
     }
   }
 
@@ -56,6 +59,17 @@ class _BaseScreenState extends State<BaseScreen> {
                 height: kBottomNavigationBarItemSize,
               ),
               label: "Featured",
+            ),
+            BottomNavigationBarItem(
+              activeIcon: Image.asset(
+                'assets/icons/heart.png',
+                height: kBottomNavigationBarItemSize,
+              ),
+              icon: Image.asset(
+                'assets/icons/heart_outlined.png',
+                height: kBottomNavigationBarItemSize,
+              ),
+              label: "Progess",
             ),
             BottomNavigationBarItem(
               activeIcon: Image.asset(

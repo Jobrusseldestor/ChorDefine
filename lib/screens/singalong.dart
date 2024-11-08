@@ -24,6 +24,20 @@ var noteFrequencies = {
   1864.66: '#A6', 1975.53: 'B6', 2093.0: 'C7',
 }; 
 
+class SongLine {
+  final String lyrics;
+  final String note;
+
+  SongLine({required this.lyrics, required this.note});
+}
+
+final List<SongLine> happyBirthdaySong = [
+  SongLine(lyrics: "Happy birthday to you", note: "A1"),
+  SongLine(lyrics: "Happy birthday to you", note: "A1"),
+  SongLine(lyrics: "Happy birthday dear friend", note: "C2"),
+  SongLine(lyrics: "Happy birthday to you!", note: "B2"),
+];
+
 class NoteChordController extends GetxController {
   final _audioRecorder = FlutterAudioCapture();
   final pitchDetectorDart = PitchDetector(44100, 2000);
@@ -31,11 +45,9 @@ class NoteChordController extends GetxController {
   var hasAudioPermission = false.obs;
   var currentPitch = 0.0.obs;
   var recognizedNote = ''.obs;
-  var recognizedChord = ''.obs;
 
-  final List<double> recentFrequencies = [];
-  static const int frequencyBufferSize = 12;  
-  Timer? chordDetectionTimer;
+  final List<SongLine> currentSong = happyBirthdaySong;  
+  var currentIndex = 0.obs;
 
   @override
   void onInit() {
@@ -52,9 +64,6 @@ class NoteChordController extends GetxController {
 
   Future<void> startCapture() async {
     await _audioRecorder.start(listener, error, sampleRate: 44100, bufferSize: 1400);
-    chordDetectionTimer = Timer.periodic(const Duration(milliseconds: 200), (_) {
-      recognizeChord();
-    });
   }
 
   void listener(dynamic obj) {
@@ -64,17 +73,15 @@ class NoteChordController extends GetxController {
 
     if (result.pitched) {
       currentPitch.value = result.pitch;
-      updateRecentFrequencies(result.pitch);
       recognizedNote.value = findClosestNote(result.pitch);
-    }
-  }
 
-  void updateRecentFrequencies(double frequency) {
-    if (recentFrequencies.isEmpty || 
-        (frequency - recentFrequencies.last).abs() > 1.0) {
-      recentFrequencies.add(frequency);
-      if (recentFrequencies.length > frequencyBufferSize) {
-        recentFrequencies.removeAt(0);
+      // Check if the detected note matches the expected note for current lyrics line
+      if (recognizedNote.value == currentSong[currentIndex.value].note) {
+        if (currentIndex.value < currentSong.length - 1) {
+          currentIndex.value++;
+        } else {
+          currentIndex.value = 0; // Reset for replay
+        }
       }
     }
   }
@@ -94,41 +101,6 @@ class NoteChordController extends GetxController {
     return minDifference < 2.0 ? closestNote : '';
   }
 
-  void recognizeChord() {
-    List<String> currentNotes = recentFrequencies
-        .map((freq) => findClosestNote(freq))
-        .where((note) => note.isNotEmpty)
-        .toSet()
-        .toList();
-
-    if (currentNotes.length >= 3) {
-      recognizedChord.value = identifyChord(currentNotes);
-    } else {
-      recognizedChord.value = 'Not enough notes for chord';
-    }
-  }
-
-  String identifyChord(List<String> notes) {
-    Set<String> noteSet = notes.toSet();
-    if (noteSet.contains('A1') && noteSet.contains('A2')) {
-      return 'A major';
-    }else if (noteSet.contains('B1')) {
-      return 'B major';
-    } else if (noteSet.contains('C2') || noteSet.contains('C3')) {
-      return 'C major';
-    } else if (noteSet.contains('D3') || noteSet.contains('D1')) {
-      return 'D major';
-    } else if (noteSet.contains('#G3') || noteSet.contains('E1') || noteSet.contains('E2')) {
-      return 'E major';
-    } else if (noteSet.contains('F1') || noteSet.contains('F2')) {
-      return 'F major';
-    } else if (noteSet.contains('G1')  || noteSet.contains('G2')) {
-      return 'G major';
-    } else {
-      return 'Unknown chord';
-    }
-  }
-
   void error(Object e) {
     print('Error in audio capture: $e');
   }
@@ -136,20 +108,20 @@ class NoteChordController extends GetxController {
   @override
   void onClose() {
     _audioRecorder.stop();
-    chordDetectionTimer?.cancel();
     super.onClose();
   }
 }
 
-class NoteChordScreen extends StatelessWidget {
-  const NoteChordScreen({super.key});
+
+class SingAlongScreen extends StatelessWidget {
+  const SingAlongScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(NoteChordController());
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Note and Chord Recognizer')),
+      appBar: AppBar(title: const Text('Sing-Along')),
       body: SafeArea(
         child: Center(
           child: Obx(() {
@@ -159,8 +131,26 @@ class NoteChordScreen extends StatelessWidget {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Recognized Note: ${controller.recognizedNote.value}"),
-                Text("Recognized Chord: ${controller.recognizedChord.value}"),
+                Text(
+                  "Lyrics:",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  controller.currentSong[controller.currentIndex.value].lyrics,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 40),
+                Text(
+                  "Expected Note: ${controller.currentSong[controller.currentIndex.value].note}",
+                  style: TextStyle(fontSize: 24),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  "Detected Note: ${controller.recognizedNote.value}",
+                  style: TextStyle(fontSize: 24, color: Colors.green),
+                ),
               ],
             );
           }),
@@ -169,3 +159,6 @@ class NoteChordScreen extends StatelessWidget {
     );
   }
 }
+
+
+

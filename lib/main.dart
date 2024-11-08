@@ -1,21 +1,26 @@
 import 'package:camera/camera.dart';
-import 'package:chordefine/screens/hands.dart';
+import 'package:chordefine/models/onboarding_view.dart';
 import 'package:chordefine/screens/base_screen.dart';
-import 'package:chordefine/screens/audiodetect.dart';
+import 'package:chordefine/models/onboarding_view.dart';
+import 'package:chordefine/screens/singalong.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-// List<CameraDescription>? cameras;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  final onboarding = prefs.getBool("onboarding")??false;
   cameras = await availableCameras();
-  runApp(const MyApp());
+  runApp(MyApp(onboarding: onboarding));
 }
 
-late List<CameraDescription> cameras; // Store available cameras
+late List<CameraDescription> cameras; 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final bool onboarding;
+  const MyApp({super.key, this.onboarding = false});
 
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,8 +50,9 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const BaseScreen(),
-      // BaseScreen   NoteChordScreen   Home
+      //home: SingAlongScreen(),
+      home: onboarding? const BaseScreen() : const OnboardingView(),
+      // BaseScreen   NoteChordScreen   Home SingAlongScreen
     );
   }
 }

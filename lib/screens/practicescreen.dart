@@ -269,13 +269,11 @@ class PracticeScreenController extends GetxController {
     loadNotifications();
   }
 
-  // Save notifications to shared preferences
   Future<void> saveNotifications() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList('completedChords', completedChords.toList());
   }
 
-  // Load notifications from shared preferences
   Future<void> loadNotifications() async {
     final prefs = await SharedPreferences.getInstance();
     final savedChords = prefs.getStringList('completedChords');
@@ -284,16 +282,14 @@ class PracticeScreenController extends GetxController {
     }
   }
 
-  // Mark a chord as completed and save notifications
   void markChordAsCompleted(String chord) {
     completedChords.add(chord);
-    saveNotifications(); // Save the updated notifications list
+    saveNotifications();
   }
 
-  // Clear notifications and update shared preferences
   void clearNotifications() {
     completedChords.clear();
-    saveNotifications(); // Save the cleared notifications list
+    saveNotifications();
   }
 }
 
@@ -419,12 +415,10 @@ class _CameraScreenState extends State<CameraScreen> {
 
       setState(() {
         if (detectedChord == widget.expectedChord) {
-          correctChordCounter++;
-          if (correctChordCounter >= 20) {
             output = 'Correct Chord';
             detectionComplete = true;
             showProceedButton = true;
-          }
+          
         } else {
           output = 'Wrong Chord';
         }
@@ -462,12 +456,9 @@ class _CameraScreenState extends State<CameraScreen> {
       floatingActionButton: showProceedButton
           ? FloatingActionButton(
               onPressed: () {
-                // Ensure a fresh state in AudioDetectionScreen
                 if (Get.isRegistered<NoteChordController>()) {
                   Get.delete<NoteChordController>();
                 }
-
-                // Navigate to AudioDetectionScreen for chord detection
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -637,7 +628,6 @@ class AudioDetectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize NoteChordController for the expected chord
     if (Get.isRegistered<NoteChordController>()) {
       Get.delete<NoteChordController>();
     }
@@ -654,9 +644,8 @@ class AudioDetectionScreen extends StatelessWidget {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // This section hides the Recognized Note text but keeps it in the widget tree
                 Visibility(
-                  visible: false, // Set visibility to false to hide the widget
+                  visible: false,
                   child: Text(
                     "Recognized Note: ${controller.recognizedNote.value}",
                     style: const TextStyle(fontSize: 20),
@@ -701,13 +690,6 @@ class AudioDetectionScreen extends StatelessWidget {
   }
 }
 
-
-
-
-
-
-// New MyProgress Screen
-// In MyProgress screen
 class MyProgress extends StatelessWidget {
   const MyProgress({Key? key}) : super(key: key);
 
@@ -723,7 +705,6 @@ class MyProgress extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.clear_all),
             onPressed: () {
-              // Clear all completed chords from both UI and storage
               controller.clearNotifications();
             },
           ),
@@ -745,7 +726,6 @@ class MyProgress extends StatelessWidget {
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Ensure back button goes to PracticeScreen by clearing the navigation stack
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const PracticeScreen()),

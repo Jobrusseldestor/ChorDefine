@@ -6,54 +6,71 @@ class GuitarChordsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    appBar: AppBar(
-      title: const Center(
-        child: Text('Basic Guitar Chords'),
+      appBar: AppBar(
+        title: const Center(
+          child: Text(
+            'Basic Guitar Chords',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+          ),
+        ),
+        automaticallyImplyLeading: false,
       ),
-      automaticallyImplyLeading: false,
-    ),
-      body: const SingleChildScrollView( // Wrap the body in SingleChildScrollView to prevent overflow
+      body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-             
-              SizedBox(height: 20),
-              // Displaying A-G Major chords in alphabetical order
-              ChordInfo(
+              const SizedBox(height: 20),
+              
+              // Displaying each chord inside a decorated container
+              ChordBox(
                 chordName: 'A Major',
-                description: 'A Major is a bright, open-sounding chord used in many genres, especially in pop and rock.',
-                imagePath: 'assets/pics/amj.png', // Replace with actual asset path
+                description:
+                    'A Major is a bright, open-sounding chord used in many genres, especially in pop and rock.',
+                imagePath: 'assets/pics/amj.png',
+                
               ),
-              ChordInfo(
+              const SizedBox(height: 16),
+              ChordBox(
                 chordName: 'B Major',
-                description: 'B Major is a bit harder to play due to its barre position, but essential for songs in major keys.',
+                description:
+                    'B Major is a bit harder to play due to its barre position, but essential for songs in major keys.',
                 imagePath: 'assets/pics/b.png',
               ),
-              ChordInfo(
+              const SizedBox(height: 16),
+              ChordBox(
                 chordName: 'C Major',
-                description: 'C Major is one of the most fundamental chords in guitar, used in various styles of music.',
+                description:
+                    'C Major is one of the most fundamental chords in guitar, used in various styles of music.',
                 imagePath: 'assets/pics/c.png',
               ),
-              ChordInfo(
+              const SizedBox(height: 16),
+              ChordBox(
                 chordName: 'D Major',
-                description: 'D Major is a high-pitched chord that fits well in folk, pop, and rock songs, easy to transition into.',
+                description:
+                    'D Major is a high-pitched chord that fits well in folk, pop, and rock songs, easy to transition into.',
                 imagePath: 'assets/pics/d.png',
               ),
-              ChordInfo(
+              const SizedBox(height: 16),
+              ChordBox(
                 chordName: 'E Major',
-                description: 'E Major is powerful and resonant, forming the basis for many classic rock and blues tunes.',
+                description:
+                    'E Major is powerful and resonant, forming the basis for many classic rock and blues tunes.',
                 imagePath: 'assets/pics/e.png',
               ),
-              ChordInfo(
+              const SizedBox(height: 16),
+              ChordBox(
                 chordName: 'F Major',
-                description: 'F Major requires a barre, making it a challenge for beginners, but it’s crucial for many genres.',
+                description:
+                    'F Major requires a barre, making it a challenge for beginners, but it’s crucial for many genres.',
                 imagePath: 'assets/pics/f.png',
               ),
-              ChordInfo(
+              const SizedBox(height: 16),
+              ChordBox(
                 chordName: 'G Major',
-                description: 'G Major is one of the first chords beginners learn, offering a full, rich sound perfect for many styles.',
+                description:
+                    'G Major is one of the first chords beginners learn, offering a full, rich sound perfect for many styles.',
                 imagePath: 'assets/pics/g.png',
               ),
             ],
@@ -64,12 +81,13 @@ class GuitarChordsScreen extends StatelessWidget {
   }
 }
 
-class ChordInfo extends StatelessWidget {
+// Define ChordBox widget to display each chord info in a box with rounded border
+class ChordBox extends StatelessWidget {
   final String chordName;
   final String description;
   final String imagePath;
 
-  const ChordInfo({
+  const ChordBox({
     Key? key,
     required this.chordName,
     required this.description,
@@ -78,8 +96,21 @@ class ChordInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2),
+        borderRadius: BorderRadius.circular(12.0),
+        border: Border.all(color: Colors.grey.shade300, width: 1.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -104,7 +135,7 @@ class ChordInfo extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 8),
                 Text(
                   description,
                   style: const TextStyle(fontSize: 14),

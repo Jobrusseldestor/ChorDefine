@@ -104,7 +104,7 @@ class CourseContainer extends StatelessWidget {
         height: 170,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: Colors.white,
+          color: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),

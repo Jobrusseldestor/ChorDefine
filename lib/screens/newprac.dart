@@ -1,7 +1,4 @@
 import 'package:chordefine/models/chords.dart';
-import 'package:chordefine/screens/chord_library_screen.dart';
-import 'package:chordefine/screens/ear_trainer_screen.dart';
-import 'package:chordefine/screens/guitar_chords_screen.dart';
 import 'package:chordefine/screens/major.dart';
 import 'package:chordefine/screens/minor.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +93,7 @@ class praccontainer extends StatelessWidget {
         height: 170,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: Colors.white,
+          color: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),

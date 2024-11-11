@@ -110,20 +110,14 @@ class NoteChordController extends GetxController {
 
   String identifyChord(List<String> notes) {
     Set<String> noteSet = notes.toSet();
-    if (noteSet.contains('A1') && noteSet.contains('A2')) {
-      return 'A major';
-    }else if (noteSet.contains('B1')) {
-      return 'B major';
-    } else if (noteSet.contains('C2') || noteSet.contains('C3')) {
-      return 'C major';
-    } else if (noteSet.contains('D3') || noteSet.contains('D1')) {
-      return 'D major';
-    } else if (noteSet.contains('#G3') || noteSet.contains('E1') || noteSet.contains('E2')) {
-      return 'E major';
-    } else if (noteSet.contains('F1') || noteSet.contains('F2')) {
-      return 'F major';
-    } else if (noteSet.contains('G1')  || noteSet.contains('G2')) {
-      return 'G major';
+    if (noteSet.contains('A1') || noteSet.contains('A2') || noteSet.contains('C4')) {
+      return 'A Minor';
+    }else if (noteSet.contains('#F2') || noteSet.contains('B3')) {
+      return 'B Minor';
+    } else if (noteSet.contains('D3') || noteSet.contains('D4')) {
+      return 'D Minor';
+    } else if (noteSet.contains('E2') || noteSet.contains('B2') || noteSet.contains('E3')) {
+      return 'E Minor';
     } else {
       return 'Unknown chord';
     }

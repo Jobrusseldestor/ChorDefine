@@ -1,7 +1,4 @@
 A
 B
 D
-F
-G
-C
 E

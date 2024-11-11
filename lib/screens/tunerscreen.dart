@@ -7,9 +7,10 @@ import 'package:pitch_detector_dart/pitch_detector.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:flutter/services.dart';
 
-// Colors
-const midGreyColor = Color.fromARGB(255, 255, 255, 255);
-const blackGreyColor = Color.fromARGB(255, 255, 255, 255);
+
+const midGreyColor = Color.fromARGB(247, 255, 255, 255);
+
+const blackGreyColor = Color.fromARGB(247, 255, 255, 255);
 
 // Text Styles
 const styleGreenSmall = TextStyle(color: Colors.green, fontSize: 13);

@@ -9,10 +9,6 @@ class ChordLibraryScreen extends StatefulWidget {
 }
 
 class _ChordLibraryScreenState extends State<ChordLibraryScreen> {
-// Dropdown instrument selection
-  // Toggle switch state
-
-  // Categories with chords A to G and their variations
   final Map<String, List<Map<String, String>>> chordCategories = {
     'A': [
       {'frets': '0 0 2 2 2 0', 'fingers': 'x 0 1 2 3 0', 'chordName': 'A Major'},
@@ -70,7 +66,7 @@ class _ChordLibraryScreenState extends State<ChordLibraryScreen> {
     return Scaffold(
     appBar: AppBar(
       title: const Center(
-        child: Text('Chord Library'),
+        child: Text('Chord Library', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25),),
       ),
       automaticallyImplyLeading: false,
     ),

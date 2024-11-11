@@ -1,3 +1,5 @@
+import 'dart:ui';
+import 'package:chordefine/screens/major.dart';
 import 'package:chordefine/screens/progress.dart';
 import 'package:flutter/material.dart';
 import 'settingspage.dart';
@@ -14,81 +16,123 @@ class BaseScreen extends StatefulWidget {
 
 class _BaseScreenState extends State<BaseScreen> {
   int _selectedIndex = 0;
-  bool _isDarkMode = false; // This controls whether dark mode is active
+  bool _isDarkMode = false;
 
-  // Define a method to handle page selection
   Widget _getSelectedPage() {
     switch (_selectedIndex) {
       case 0:
         return const FeaturedScreen();
       case 1:
-        return const MyProgress(isMajor: true,);  // Featured page // My Learning page placeholder
+        return const MyProgress();
       case 2:
         return SettingsPage(
-          isDarkMode: _isDarkMode, 
+          isDarkMode: _isDarkMode,
           onDarkModeChanged: (bool value) {
             setState(() {
-              _isDarkMode = value; // Update the dark mode state
+              _isDarkMode = value;
             });
           },
-        );  // Settings page
+        );
       default:
-        return const FeaturedScreen();  // Default to FeaturedScreen
+        return const FeaturedScreen();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: _isDarkMode ? ThemeData.dark() : ThemeData.light(), // Apply theme based on dark mode state
+      theme: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
       home: Scaffold(
-        body: _getSelectedPage(), // Show selected page based on _selectedIndex
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: kPrimaryColor,
-          backgroundColor: Colors.white,
-          elevation: 0,
-          items: [
-            BottomNavigationBarItem(
-              activeIcon: Image.asset(
-                'assets/icons/star.png',
-                height: kBottomNavigationBarItemSize,
-              ),
-              icon: Image.asset(
-                'assets/icons/star_outlined.png',
-                height: kBottomNavigationBarItemSize,
-              ),
-              label: "Featured",
-            ),
-            BottomNavigationBarItem(
-              activeIcon: Image.asset(
-                'assets/icons/heart.png',
-                height: kBottomNavigationBarItemSize,
-              ),
-              icon: Image.asset(
-                'assets/icons/heart_outlined.png',
-                height: kBottomNavigationBarItemSize,
-              ),
-              label: "Progess",
-            ),
-            BottomNavigationBarItem(
-              activeIcon: Image.asset(
-                'assets/icons/settings.png',
-                height: kBottomNavigationBarItemSize,
-              ),
-              icon: Image.asset(
-                'assets/icons/settings_outlined.png',
-                height: kBottomNavigationBarItemSize,
-              ),
-              label: "Settings",
-            ),
+        extendBody: true, // Extends the body behind the bottom navigation bar for transparency
+        body: Stack(
+          children: [
+            _buildGlassMorphicBackground(), // Adds glassmorphic effect to background
+            _getSelectedPage(),
           ],
-          currentIndex: _selectedIndex,
-          onTap: (int index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
+        ),
+        bottomNavigationBar: _buildGlassMorphicBottomNavigationBar(),
+      ),
+    );
+  }
+
+  Widget _buildGlassMorphicBackground() {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2), // Set color with opacity
+      ),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15), // Blur for glass effect
+        child: Container(
+          color: Colors.transparent,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGlassMorphicBottomNavigationBar() {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2), // Glassmorphic color with opacity
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.transparent,
+            selectedItemColor: kPrimaryColor,
+            unselectedItemColor: Colors.white70,
+            elevation: 0,
+            items: [
+              BottomNavigationBarItem(
+                activeIcon: Image.asset(
+                  'assets/icons/star.png',
+                  height: kBottomNavigationBarItemSize,
+                ),
+                icon: Image.asset(
+                  'assets/icons/star_outlined.png',
+                  height: kBottomNavigationBarItemSize,
+                ),
+                label: "Featured",
+              ),
+              BottomNavigationBarItem(
+                activeIcon: Image.asset(
+                  'assets/icons/heart.png',
+                  height: kBottomNavigationBarItemSize,
+                ),
+                icon: Image.asset(
+                  'assets/icons/heart_outlined.png',
+                  height: kBottomNavigationBarItemSize,
+                ),
+                label: "Progress",
+              ),
+              BottomNavigationBarItem(
+                activeIcon: Image.asset(
+                  'assets/icons/settings.png',
+                  height: kBottomNavigationBarItemSize,
+                ),
+                icon: Image.asset(
+                  'assets/icons/settings_outlined.png',
+                  height: kBottomNavigationBarItemSize,
+                ),
+                label: "Settings",
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            onTap: (int index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+          ),
         ),
       ),
     );

@@ -13,7 +13,7 @@ class _CourseScreen3State extends State<CourseScreen3> {
     'Huling El Bimbo',
     'Zombies',
     'The Light Behind Your Eyes',
-    'Bakit Ba' ,
+    'Bakit Ba',
   ];
 
   final List<String> songArtist = [
@@ -271,7 +271,7 @@ La la
          G
 La la la la
 ''',
-   '''
+    '''
 
     [Intro]
 Em C G D/F#  x4
@@ -330,7 +330,7 @@ Em C G D/F# x3
 Em C Em C
 Em C Em
    ''',
-      '''
+    '''
       
    
 
@@ -465,7 +465,7 @@ NOTE: these are basic chords which can also be played as Em/G - G - C/G - D duri
  A|-2-       A|-3-
  E|-0-       E|-0-
     ''',
-        '''
+    '''
 
 
     ' 
@@ -567,7 +567,6 @@ wala pa ring kwenta bakit ba
  
 A - F#m - D - E (x2)
 A'''
-
   ];
 
   @override
@@ -579,13 +578,14 @@ A'''
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 'Basic Guitar Songs',
-                style: Theme.of(context).textTheme.displayMedium,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
               ),
               const SizedBox(height: 15),
               Expanded(
@@ -612,12 +612,13 @@ A'''
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
+                          color: const Color.fromARGB(247, 194, 89, 4)
+                              .withOpacity(0.2),
                           boxShadow: [
-                            BoxShadow(
+                            const BoxShadow(
                               color: Colors.black12,
                               blurRadius: 10,
-                              offset: const Offset(0, 5),
+                              offset: Offset(0, 5),
                             ),
                           ],
                         ),
@@ -650,7 +651,7 @@ A'''
                                     songArtist[index],
                                     style: const TextStyle(
                                       fontSize: 16,
-                                      color: Colors.grey,
+                                      color: Color.fromARGB(255, 133, 133, 133),
                                       fontStyle: FontStyle.normal,
                                     ),
                                   ),
@@ -690,19 +691,24 @@ class LyricsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.center, 
-          children: [
-            Text(title),
-            Text(
-              artist,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.normal,
+      backgroundColor: Color.fromARGB(247, 240, 136, 51),
+        title: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize
+                .min, // Reduces the column's height to fit its content
+            children: [
+              Text(title),
+              Text(
+                artist,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.normal,
+                ),
               ),
-            ),
-          ],
-        ),automaticallyImplyLeading: false,
+            ],
+          ),
+        ),
+        automaticallyImplyLeading: false,
         toolbarHeight: 70, // Increased height to accommodate both lines
       ),
       body: Padding(

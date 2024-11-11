@@ -101,9 +101,11 @@ flutter:
     - assets/images/marker.png
     - assets/images/guitar.png
     - assets/images/mute.png
-    - assets/model_unquant.tflite
-    - assets/labels.txt
     - assets/
+    - assets/majorinvert.tflite
+    - assets/labels_major.txt
+    - assets/minorinv.tflite
+    - assets/labels_minor.txt
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

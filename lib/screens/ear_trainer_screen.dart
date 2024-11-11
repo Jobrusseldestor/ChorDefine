@@ -55,12 +55,13 @@ class _EarTrainerScreenState extends State<EarTrainerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    appBar: AppBar(
-      title: const Center(
-        child: Text('Ear Trainer'),
+      appBar: AppBar(
+        title: const Center(
+          child: Text('Ear Trainer',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
+        ),
+        automaticallyImplyLeading: false,
       ),
-      automaticallyImplyLeading: false,
-    ),
       body: GridView.builder(
         padding: const EdgeInsets.all(16.0),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -77,7 +78,7 @@ class _EarTrainerScreenState extends State<EarTrainerScreen> {
             },
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2),
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   const BoxShadow(
@@ -94,7 +95,7 @@ class _EarTrainerScreenState extends State<EarTrainerScreen> {
                     const Icon(
                       Icons.music_note,
                       size: 40,
-                      color: Colors.deepPurple,
+                      color: Color.fromARGB(247, 194, 89, 4),
                     ),
                     const SizedBox(height: 10),
                     Text(

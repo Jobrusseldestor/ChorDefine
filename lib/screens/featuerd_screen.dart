@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:chordefine/constants/size.dart';
 import 'package:chordefine/models/category.dart';
 import 'package:chordefine/screens/learnscreen.dart';
-import 'package:chordefine/screens/details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

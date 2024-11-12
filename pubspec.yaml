@@ -51,6 +51,11 @@ dependencies:
   carousel_slider: ^5.0.0
 
   awesome_dialog: ^3.2.1
+  flutter_vision: ^1.1.4 
+  image: ^4.1.7
+  tflite_flutter: ^0.10.4 
+  logger: ^2.3.0
+  image_picker: ^1.0.7
 
   camera:
 
@@ -102,10 +107,10 @@ flutter:
     - assets/images/guitar.png
     - assets/images/mute.png
     - assets/
-    - assets/majorinvert.tflite
-    - assets/labels_major.txt
-    - assets/minorinv.tflite
-    - assets/labels_minor.txt
+    - assets/major.tflite
+    - assets/labels.txt
+    - assets/minor.tflite
+    - assets/labelsminor.txt
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

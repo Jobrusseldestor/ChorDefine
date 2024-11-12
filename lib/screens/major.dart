@@ -1,13 +1,9 @@
-import 'dart:ui';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:chordefine/main.dart';
-import 'package:chordefine/screens/minor.dart';
 import 'package:chordefine/screens/progress.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:camera/camera.dart';
-import 'package:tflite/tflite.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:typed_data';
 import 'package:get/get.dart';
@@ -15,7 +11,9 @@ import 'package:flutter_audio_capture/flutter_audio_capture.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pitch_detector_dart/pitch_detector.dart';
 import 'dart:async';
-import 'dart:math' as math;
+import 'package:flutter_vision/flutter_vision.dart';
+import 'package:image/image.dart' as img;
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -352,120 +350,152 @@ class ChordDetailsMajor extends StatelessWidget {
 class CameraScreenMajor extends StatefulWidget {
   final String expectedChord;
 
-  const CameraScreenMajor({Key? key, required this.expectedChord})
-      : super(key: key);
+  const CameraScreenMajor({Key? key, required this.expectedChord}) : super(key: key);
 
   @override
   _CameraScreenMajorState createState() => _CameraScreenMajorState();
 }
 
 class _CameraScreenMajorState extends State<CameraScreenMajor> {
-  CameraController? cameraController;
-  String output = 'Detecting...';
-  bool showProceedButton = false;
-  bool detectionComplete = false;
-  Timer? detectionTimer;
+  late CameraController _controller;
+  late FlutterVision _vision;
+  bool _isCameraReady = false;
+  bool _isDetecting = false;
+  bool _showProceedButton = false;
+  String _detectionStatus = 'Initializing...';
+  XFile? _capturedImage;
+  bool _showDetectionButton = true;
+
+  final double _iouThreshold = 0.5;
+  final double _confThreshold = 0.5;
+  final double _classThreshold = 0.6;
 
   @override
   void initState() {
     super.initState();
-    loadCamera();
-    loadModel();
-    startDetectionTimer();
+    _initializeCamera();
+    _initializeModel();
   }
 
-  void loadCamera() {
-    final frontCamera = cameras!.firstWhere(
-        (camera) => camera.lensDirection == CameraLensDirection.front);
-    cameraController = CameraController(frontCamera, ResolutionPreset.medium);
+  Future<void> _initializeCamera() async {
+    final camera = cameras.firstWhere((cam) => cam.lensDirection == CameraLensDirection.front);
+    _controller = CameraController(camera, ResolutionPreset.medium);
 
-    cameraController!.initialize().then((_) {
-      if (!mounted) return;
-      setState(() {
-        cameraController!.startImageStream((image) {
-          if (!detectionComplete) {
-            runModel(image);
-          }
-        });
-      });
-    });
+    await _controller.initialize();
+    if (!mounted) return;
+    setState(() => _isCameraReady = true);
   }
 
-  Future<void> loadModel() async {
-    await Tflite.loadModel(
-      model: "assets/majorinvert.tflite",
-      labels: "assets/labels_major.txt",
+  Future<void> _initializeModel() async {
+    _vision = FlutterVision();
+    await _vision.loadYoloModel(
+      modelPath: 'assets/major.tflite',
+      labels: 'assets/labels.txt',
+      modelVersion: "yolov8",
     );
   }
 
-  void startDetectionTimer() {
-    detectionTimer = Timer.periodic(const Duration(seconds: 15), (timer) {
-      if (!detectionComplete && output == 'Detecting...') {
-        AwesomeDialog(
-          context: context,
-          dialogType: DialogType.warning,
-          animType: AnimType.topSlide,
-          title: "Keep Trying!",
-          desc:
-              "Still detecting... Make sure you are performing the chord correctly.",
-          btnOkOnPress: () {},
-          btnOkIcon: Icons.refresh,
-        ).show();
-      }
+  Future<void> _captureAndDetect() async {
+    if (!_isCameraReady || _isDetecting) return;
+
+    setState(() {
+      _detectionStatus = "Capturing Chord...";
+      _showDetectionButton = false;  // Hide button on tap
     });
-  }
 
-  Future<void> runModel(CameraImage image) async {
-    var predictions = await Tflite.runModelOnFrame(
-      bytesList: image.planes.map((plane) => plane.bytes).toList(),
-      imageHeight: 224,
-      imageWidth: 224,
-      numResults: 1,
-      threshold: 0.5,
-    );
-
-    if (predictions != null && predictions.isNotEmpty) {
-      final detectedChord = predictions.first['label'];
-
-      setState(() {
-        if (detectedChord == widget.expectedChord) {
-          detectionComplete = true;
-          output = '${widget.expectedChord} Major chord is Detected';
-
-          // Delay the display of the success dialog and `Proceed` button
-          Future.delayed(const Duration(milliseconds: 1500), () {
-            setState(() {
-              showProceedButton = true;
-              AwesomeDialog(
-                context: context,
-                dialogType: DialogType.success,
-                animType: AnimType.topSlide,
-                title: "Congratulations!",
-                desc: "You have performed the chord correctly!",
-                btnOkOnPress: () {},
-                btnOkIcon: Icons.check,
-              ).show();
-            });
-          });
-        } else {
-          output = 'Detecting...';
-        }
-      });
+    _capturedImage = await _controller.takePicture();
+    
+    if (_capturedImage != null) {
+      setState(() => _detectionStatus = "Processing Chord...");
+      _processImage(await _capturedImage!.readAsBytes());
     }
   }
 
-  Future<void> closeResources() async {
-    await cameraController?.stopImageStream();
-    await cameraController?.dispose();
-    await Tflite.close();
-    detectionTimer?.cancel();
-    cameraController = null;
+  Future<void> _processImage(Uint8List imgBytes) async {
+    _isDetecting = true;
+    try {
+      final resizedBytes = await _preprocessImage(imgBytes);
+      final results = await _vision.yoloOnImage(
+        bytesList: resizedBytes,
+        imageHeight: 640,
+        imageWidth: 640,
+        iouThreshold: _iouThreshold,
+        confThreshold: _confThreshold,
+        classThreshold: _classThreshold,
+      );
+
+      if (results.isNotEmpty) {
+        final detectedChord = results[0]['tag'];
+        if (detectedChord == widget.expectedChord) {
+          _showSuccessDialog();
+        } else {
+          setState(() => _detectionStatus = 'Incorrect chord detected');
+          _showFailDialog();
+        }
+      } else {
+        setState(() => _detectionStatus = 'Incorrect chord detected');
+        _showFailDialog();
+      }
+    } catch (e) {
+      print("Detection error: $e");
+    } finally {
+      _isDetecting = false;
+    }
+  }
+
+  Future<Uint8List> _preprocessImage(Uint8List imgBytes) async {
+    img.Image? originalImage = img.decodeImage(imgBytes);
+    if (originalImage != null) {
+      img.Image resizedImage = img.copyResize(originalImage, width: 640, height: 640);
+      return Uint8List.fromList(img.encodeJpg(resizedImage));
+    } else {
+      throw Exception('Failed to decode image');
+    }
+  }
+
+  void _showSuccessDialog() {
+    setState(() {
+      _detectionStatus = '${widget.expectedChord} Major chord detected';
+      _showProceedButton = true;
+    });
+
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.success,
+      animType: AnimType.topSlide,
+      showCloseIcon: true,
+      title: "Congratulations!",
+      desc: "You have performed the chord correctly!",
+      btnOkOnPress: () {},
+    ).show();
+  }
+
+  void _showFailDialog() {
+    Future.delayed(Duration(seconds: 3), () {
+    AwesomeDialog(
+      context: context,
+      dialogType: DialogType.warning,
+      animType: AnimType.topSlide,
+      showCloseIcon: true,
+      btnOkText: "Retry",
+      title: "Keep Trying!",
+      desc: "Make sure you are performing the chord correctly.",
+      btnOkOnPress: () {
+        _captureAndDetect();
+      },
+    ).show();
+    });
+  }
+  
+
+  Future<void> _closeResources() async {
+    await _controller.stopImageStream();
+    await _controller.dispose();
+    await _vision.closeYoloModel();
   }
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<PracticeScreenMajorController>();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chord Detection'),
@@ -478,9 +508,8 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
               Padding(
                 padding: const EdgeInsets.all(20),
                 child: Text(
-                  'Detecting ${widget.expectedChord} Major',
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold),
+                  'Detecting ${widget.expectedChord} Major Chord',
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
               ),
               Padding(
@@ -488,19 +517,22 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.6,
                   width: MediaQuery.of(context).size.width,
-                  child: cameraController == null ||
-                          !cameraController!.value.isInitialized
-                      ? const Center(child: CircularProgressIndicator())
-                      : AspectRatio(
-                          aspectRatio: cameraController!.value.aspectRatio,
-                          child: CameraPreview(cameraController!),
-                        ),
+                  child: _isCameraReady
+                      ? AspectRatio(
+                          aspectRatio: _controller.value.aspectRatio,
+                          child: CameraPreview(_controller),
+                        )
+                      : const Center(child: CircularProgressIndicator()),
                 ),
               ),
               Text(
-                output,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
+                _detectionStatus,
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              if (_showDetectionButton)
+              ElevatedButton(
+                onPressed: _captureAndDetect,
+                child: const Text("Start Detection"),
               ),
             ],
           ),
@@ -509,34 +541,26 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
             left: 20,
             child: FloatingActionButton(
               onPressed: () {
-                closeResources();
+                _closeResources();
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => PracticeScreenMajor(
-                            title: 'Major Chords',
-                          )),
+                  MaterialPageRoute(builder: (context) => const PracticeScreenMajor(title: 'Major Chords')),
                 );
               },
-              backgroundColor:
-                  const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2),
+              backgroundColor: Colors.red,
               child: const Icon(Icons.cancel),
             ),
           ),
         ],
       ),
-      floatingActionButton: showProceedButton
+      floatingActionButton: _showProceedButton
           ? FloatingActionButton(
               onPressed: () {
-                closeResources();
-                if (Get.isRegistered<NoteChordControllerMajor>()) {
-                  Get.delete<NoteChordControllerMajor>();
-                }
+                _closeResources();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AudioDetectionScreenMajor(
-                        expectedChord: widget.expectedChord),
+                    builder: (context) => AudioDetectionScreenMajor(expectedChord: widget.expectedChord),
                   ),
                 );
               },
@@ -548,7 +572,7 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
 
   @override
   void dispose() {
-    closeResources();
+    _closeResources();
     super.dispose();
   }
 }

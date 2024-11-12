@@ -6,7 +6,6 @@ import 'package:chordefine/screens/singalong.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:chordefine/screens/audiodetect.dart';
 
 
 void main() async {

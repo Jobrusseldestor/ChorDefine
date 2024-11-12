@@ -1,7 +1,6 @@
 import 'package:chordefine/constants/color.dart';
 import 'package:chordefine/models/course.dart';
 import 'package:chordefine/screens/chord_library_screen.dart';
-import 'package:chordefine/screens/details_screen.dart';
 import 'package:chordefine/screens/ear_trainer_screen.dart';
 import 'package:chordefine/screens/guitar_chords_screen.dart';
 import 'package:flutter/material.dart';

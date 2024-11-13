@@ -17,6 +17,7 @@ class _pracnewState extends State<pracnew> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
+        backgroundColor: const Color.fromARGB(245, 245, 110, 15),
         body: SafeArea(
           bottom: false,
           child: Padding(
@@ -30,7 +31,16 @@ class _pracnewState extends State<pracnew> {
                       Align(
                         child: Text(
                           'Chords',
-                          style: Theme.of(context).textTheme.displayMedium,
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayMedium
+                              ?.copyWith(
+                                fontWeight:
+                                    FontWeight.bold, // Set the font weight
+                                color: Colors.white, // Set the desired color
+                                fontSize: 35, // Adjust font size if needed
+                                // Set a custom font family if desired
+                              ),
                         ),
                       ),
                     ],
@@ -61,7 +71,6 @@ class _pracnewState extends State<pracnew> {
   }
 }
 
-
 class praccontainer extends StatelessWidget {
   final chor chord;
   const praccontainer({
@@ -77,14 +86,16 @@ class praccontainer extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const PracticeScreenMajor(title: 'Major Chords'),
+              builder: (context) =>
+                  const PracticeScreenMajor(title: 'Major Chords'),
             ),
           );
         } else if (chord.name == 'Minor Chords') {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const PracticeScreenMinor(title: 'Minor Chords'),
+              builder: (context) =>
+                  const PracticeScreenMinor(title: 'Minor Chords'),
             ),
           );
         }
@@ -93,7 +104,7 @@ class praccontainer extends StatelessWidget {
         height: 170,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2),
+          color: const Color.fromARGB(255, 255, 251, 247),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -130,7 +141,7 @@ class praccontainer extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    chord.description, 
+                    chord.description,
                     style: TextStyle(
                       fontSize: 15,
                       color: Colors.grey[700],
@@ -147,4 +158,3 @@ class praccontainer extends StatelessWidget {
     );
   }
 }
-

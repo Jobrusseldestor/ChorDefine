@@ -58,7 +58,7 @@ class _EarTrainerScreenState extends State<EarTrainerScreen> {
       appBar: AppBar(
         title: const Center(
           child: Text('Ear Trainer',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
         ),
         automaticallyImplyLeading: false,
       ),
@@ -78,7 +78,7 @@ class _EarTrainerScreenState extends State<EarTrainerScreen> {
             },
             child: Container(
               decoration: BoxDecoration(
-                color: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2),
+                color: const Color.fromARGB(245, 245, 110, 15),
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   const BoxShadow(
@@ -95,13 +95,13 @@ class _EarTrainerScreenState extends State<EarTrainerScreen> {
                     const Icon(
                       Icons.music_note,
                       size: 40,
-                      color: Color.fromARGB(247, 194, 89, 4),
+                      color: Color.fromARGB(247, 255, 255, 255),
                     ),
                     const SizedBox(height: 10),
                     Text(
                       labels[index],
                       style: const TextStyle(
-                        color: Colors.black87,
+                        color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),

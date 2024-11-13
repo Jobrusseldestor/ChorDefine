@@ -18,6 +18,7 @@ class _FeaturedScreenState extends State<FeaturedScreen> {
     return const AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
+         backgroundColor: Color.fromARGB(255, 241, 240, 240),
         body: Column(
           children: [
             GlassmorphicAppBar(),
@@ -55,8 +56,8 @@ class GlassmorphicAppBar extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      const Color.fromARGB(247, 194, 89, 4).withOpacity(0.3),
-                      const Color.fromARGB(247, 194, 89, 4).withOpacity(0.3),
+                      const Color.fromARGB(245, 245, 110, 15).withOpacity(1),
+                      const Color.fromARGB(245, 245, 110, 15).withOpacity(1),
                     ],
                   ),
                   borderRadius: const BorderRadius.only(
@@ -72,20 +73,42 @@ class GlassmorphicAppBar extends StatelessWidget {
           ),
           // Centered Content
           Center(
-            child: Text(
-              "Hello,\nGood Day.\nWelcome to ChordDefine",
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: const Color.fromARGB(255, 0, 0, 0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Welcome to",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Color.fromARGB(255, 255, 255, 255),
                     fontWeight: FontWeight.bold,
+                    fontSize: 24,
                     shadows: [
                       Shadow(
-                        offset: const Offset(1, 1),
+                        offset: Offset(1, 1),
                         blurRadius: 3.0,
                         color: Colors.black.withOpacity(0.3),
                       ),
                     ],
                   ),
+                ),
+                Text(
+                  "CHORDEFINE",
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 40,
+                    shadows: [
+                      Shadow(
+                        offset: Offset(1, 1),
+                        blurRadius: 3.0,
+                        color: Colors.black.withOpacity(0.3),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -126,18 +149,21 @@ class Body extends StatelessWidget {
         Expanded(
           child: GridView.builder(
             padding: const EdgeInsets.symmetric(
-              horizontal: 20,
+              horizontal: 16,
               vertical: 8,
             ),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.8,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 24,
+              childAspectRatio: 0.6,
+              crossAxisSpacing: 25,
+              mainAxisSpacing: 25,
             ),
             itemBuilder: (context, index) {
+              final colors = [Color.fromARGB(255, 255, 251, 247)];
+              final color = colors[index % colors.length];
               return GlassmorphicCategoryCard(
                 category: categoryList[index],
+                backgroundColor: color,
               );
             },
             itemCount: categoryList.length,
@@ -150,9 +176,12 @@ class Body extends StatelessWidget {
 
 class GlassmorphicCategoryCard extends StatelessWidget {
   final Category category;
+  final Color backgroundColor;
+  
   const GlassmorphicCategoryCard({
     Key? key,
     required this.category,
+     this.backgroundColor = const Color.fromARGB(245, 245, 110, 15), // Default color if none provided
   }) : super(key: key);
 
   @override
@@ -171,25 +200,18 @@ class GlassmorphicCategoryCard extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
+               color: backgroundColor,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: Colors.white.withOpacity(0.2),
               ),
-              gradient: LinearGradient(
-                colors: [
-                  const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2),
-                  const Color.fromARGB(236, 200, 74, 6).withOpacity(0.2),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+             
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Align(
-                  alignment: Alignment.topRight,
+                  alignment: Alignment.topCenter,
                   child: Image.asset(
                     category.thumbnail,
                     height: kCategoryCardImageSize,
@@ -199,10 +221,17 @@ class GlassmorphicCategoryCard extends StatelessWidget {
                 Text(
                   category.name,
                   style: const TextStyle(
-                    fontSize: 24,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  category.definition,
+                  style:  const   TextStyle(
+                    fontSize: 11,
+                  ), textAlign: TextAlign.center,
                 ),
                 // Text(
                 //   "${category.noOfCourses.toString()} courses",

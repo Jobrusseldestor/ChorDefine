@@ -10,18 +10,18 @@ class GuitarChordsScreen extends StatelessWidget {
         title: const Center(
           child: Text(
             'Basic Guitar Chords',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
           ),
         ),
         automaticallyImplyLeading: false,
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               
               // Displaying each chord inside a decorated container
               ChordBox(
@@ -31,42 +31,42 @@ class GuitarChordsScreen extends StatelessWidget {
                 imagePath: 'assets/pics/amj.png',
                 
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               ChordBox(
                 chordName: 'B Major',
                 description:
                     'B Major is a bit harder to play due to its barre position, but essential for songs in major keys.',
                 imagePath: 'assets/pics/b.png',
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               ChordBox(
                 chordName: 'C Major',
                 description:
                     'C Major is one of the most fundamental chords in guitar, used in various styles of music.',
                 imagePath: 'assets/pics/c.png',
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               ChordBox(
                 chordName: 'D Major',
                 description:
                     'D Major is a high-pitched chord that fits well in folk, pop, and rock songs, easy to transition into.',
                 imagePath: 'assets/pics/d.png',
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               ChordBox(
                 chordName: 'E Major',
                 description:
                     'E Major is powerful and resonant, forming the basis for many classic rock and blues tunes.',
                 imagePath: 'assets/pics/e.png',
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               ChordBox(
                 chordName: 'F Major',
                 description:
                     'F Major requires a barre, making it a challenge for beginners, but it’s crucial for many genres.',
                 imagePath: 'assets/pics/f.png',
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               ChordBox(
                 chordName: 'G Major',
                 description:
@@ -99,7 +99,7 @@ class ChordBox extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2),
+        color: const Color.fromARGB(245, 245, 110, 15),
         borderRadius: BorderRadius.circular(12.0),
         border: Border.all(color: Colors.grey.shade300, width: 1.0),
         boxShadow: [
@@ -133,12 +133,13 @@ class ChordBox extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   description,
-                  style: const TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14,color: Colors.white),
                 ),
               ],
             ),

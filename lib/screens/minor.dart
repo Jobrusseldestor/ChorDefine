@@ -4,7 +4,6 @@ import 'package:chordefine/screens/progress.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:camera/camera.dart';
-import 'package:flutter_vision/flutter_vision.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:typed_data';
 import 'package:get/get.dart';
@@ -12,9 +11,8 @@ import 'package:flutter_audio_capture/flutter_audio_capture.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pitch_detector_dart/pitch_detector.dart';
 import 'dart:async';
+import 'package:flutter_vision/flutter_vision.dart';
 import 'package:image/image.dart' as img;
-
-
 
 
 class MyApp extends StatelessWidget {
@@ -42,35 +40,43 @@ class PracticeScreenMinor extends StatefulWidget {
 
 class _PracticeScreenMinorState extends State<PracticeScreenMinor> {
   final List<String> exploreItems = [
-    'Am',
-    'Bm',
-    'Dm',
-    'Em',
+    'Am Minor',
+    'Bm Minor',
+    'Cm Minor',
+    'Em Minor',
   ];
 
   final PracticeScreenMinorController controller =
       Get.put(PracticeScreenMinorController());
 
   final Map<String, List<String>> songImages = {
-    'Am': [
-      'assets/picture/8.png',
-      'assets/picture/1.png',
-      'assets/picture/a.jpg'
-    ],
-    'Bm': [
-      'assets/picture/9.png',
-      'assets/picture/2.png',
-      'assets/picture/b.png'
-    ],
-    'Dm': [
-      'assets/picture/11.png',
-      'assets/picture/4.png',
-      'assets/picture/d.jpeg'
-    ],
-    'Em': [
+    'Am Minor': [
+      'assets/picture/13.png',
       'assets/picture/12.png',
-      'assets/picture/5.png',
-      'assets/picture/e.jpg'
+      'assets/picture/18.png',
+      'assets/picture/8.png',
+      'assets/picture/am.png'
+    ],
+    'Bm Minor': [
+      'assets/picture/13.png',
+      'assets/picture/12.png',
+      'assets/picture/14.png',
+      'assets/picture/9.png',
+      'assets/picture/bm.png'
+    ],
+    'Dm Minor': [
+      'assets/picture/13.png',
+      'assets/picture/12.png',
+      'assets/picture/15.png',
+      'assets/picture/10.png',
+      'assets/picture/dm.png'
+    ],
+    'Em Minor': [
+      'assets/picture/13.png',
+      'assets/picture/12.png',
+      'assets/picture/16.png',
+      'assets/picture/11.png',
+      'assets/picture/em.png'
     ],
   };
 
@@ -78,8 +84,10 @@ class _PracticeScreenMinorState extends State<PracticeScreenMinor> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Basic Minor Chords'),
+        title: const Text('Basic Minor Chords',
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold,color: Colors.black)),
         automaticallyImplyLeading: false,
+        centerTitle: true,
       ),
       body: SafeArea(
         child: Padding(
@@ -103,7 +111,8 @@ class _PracticeScreenMinorState extends State<PracticeScreenMinor> {
                             builder: (context) => ChordDetailsMinor(
                               title: songTitle,
                               images: songImages[songTitle]!,
-                              expectedChord: songTitle,
+                              expectedChord: songTitle
+                                  .split(" ")[0], // Extracts "A" from "A Major"
                             ),
                           ),
                         );
@@ -111,8 +120,8 @@ class _PracticeScreenMinorState extends State<PracticeScreenMinor> {
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: const Color.fromARGB(247, 194, 89, 4)
-                              .withOpacity(0.2),
+                          color: const Color.fromARGB(245, 245, 110, 15),
+                              
                           boxShadow: const [
                             BoxShadow(
                               color: Colors.black12,
@@ -133,7 +142,7 @@ class _PracticeScreenMinorState extends State<PracticeScreenMinor> {
                                 color: controller.completedChords
                                         .contains(songTitle)
                                     ? Colors.green
-                                    : Colors.orange,
+                                    : const Color.fromARGB(255, 255, 255, 255),
                               );
                             }),
                             const SizedBox(width: 10),
@@ -146,16 +155,17 @@ class _PracticeScreenMinorState extends State<PracticeScreenMinor> {
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
+                                      color: Colors.white,
                                     ),
                                   ),
                                   const SizedBox(height: 5),
-                                  const Text('Tap to view details'),
+                                  const Text('Tap to view details',style: TextStyle(color: Colors.white),),
                                 ],
                               ),
                             ),
                             IconButton(
                               icon: const Icon(Icons.arrow_forward,
-                                  color: Color.fromARGB(247, 194, 89, 4)),
+                                  color: Color.fromARGB(247, 255, 255, 255)),
                               onPressed: () {
                                 Navigator.push(
                                   context,
@@ -163,7 +173,7 @@ class _PracticeScreenMinorState extends State<PracticeScreenMinor> {
                                     builder: (context) => ChordDetailsMinor(
                                       title: songTitle,
                                       images: songImages[songTitle]!,
-                                      expectedChord: songTitle,
+                                      expectedChord: songTitle.split(" ")[0],
                                     ),
                                   ),
                                 );
@@ -370,8 +380,8 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
   Future<void> _initializeModel() async {
     _vision = FlutterVision();
     await _vision.loadYoloModel(
-      modelPath: 'assets/minor.tflite',
-      labels: 'assets/labelsminor.txt',
+      modelPath: 'assets/minor/best_float32.tflite',
+      labels: 'assets/minor/labels.txt',
       modelVersion: "yolov8",
     );
   }
@@ -385,7 +395,7 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
     });
 
     _capturedImage = await _controller.takePicture();
-
+    
     if (_capturedImage != null) {
       setState(() => _detectionStatus = "Processing Chord...");
       _processImage(await _capturedImage!.readAsBytes());
@@ -436,13 +446,15 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
 
   void _showSuccessDialog() {
     setState(() {
-      _detectionStatus = '${widget.expectedChord} Chord detected';
+      _detectionStatus = '${widget.expectedChord} Minor chord detected';
       _showProceedButton = true;
     });
 
     AwesomeDialog(
       context: context,
       dialogType: DialogType.success,
+      animType: AnimType.topSlide,
+      showCloseIcon: true,
       title: "Congratulations!",
       desc: "You have performed the chord correctly!",
       btnOkOnPress: () {},
@@ -465,6 +477,7 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
     ).show();
     });
   }
+  
 
   Future<void> _closeResources() async {
     await _controller.stopImageStream();
@@ -486,7 +499,7 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
               Padding(
                 padding: const EdgeInsets.all(20),
                 child: Text(
-                  'Detecting ${widget.expectedChord} Chord',
+                  'Detecting ${widget.expectedChord} Minor Chord',
                   style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -510,7 +523,7 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
               if (_showDetectionButton)
               ElevatedButton(
                 onPressed: _captureAndDetect,
-                child: const Text("Capture and Detect"),
+                child: const Text("Start Detection"),
               ),
             ],
           ),

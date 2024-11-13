@@ -572,8 +572,10 @@ A'''
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(245, 245, 110, 15),
       appBar: AppBar(
-        title: const Text('Explore Songs'),
+        backgroundColor: const Color.fromARGB(245, 245, 110, 15),
+        title: const Text('Explore Songs',style: TextStyle(color: Colors.white),),
         automaticallyImplyLeading: false,
       ),
       body: SafeArea(
@@ -585,7 +587,7 @@ A'''
               const Text(
                 'Basic Guitar Songs',
                 style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 35,color: Colors.white),
               ),
               const SizedBox(height: 15),
               Expanded(
@@ -612,8 +614,8 @@ A'''
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: const Color.fromARGB(247, 194, 89, 4)
-                              .withOpacity(0.2),
+                          color:Colors.white,
+                              
                           boxShadow: [
                             const BoxShadow(
                               color: Colors.black12,
@@ -631,7 +633,7 @@ A'''
                               child: const Icon(
                                 Icons.music_note,
                                 size: 60,
-                                color: Color.fromARGB(247, 194, 89, 4),
+                                color: Color.fromARGB(245, 245, 110, 15),
                               ),
                             ),
                             const SizedBox(width: 10),
@@ -644,6 +646,7 @@ A'''
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
+                                      color: Colors.black
                                     ),
                                   ),
                                   const SizedBox(height: 4),
@@ -651,12 +654,12 @@ A'''
                                     songArtist[index],
                                     style: const TextStyle(
                                       fontSize: 16,
-                                      color: Color.fromARGB(255, 133, 133, 133),
+                                      color: Color.fromARGB(255, 153, 153, 153),
                                       fontStyle: FontStyle.normal,
                                     ),
                                   ),
                                   const SizedBox(height: 5),
-                                  const Text('Tap to view lyrics and chords'),
+                                  const Text('Tap to view lyrics and chords', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0) ),),
                                 ],
                               ),
                             ),

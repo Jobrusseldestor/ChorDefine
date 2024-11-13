@@ -19,6 +19,7 @@ class _CourseScreenState extends State<CourseScreen> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
+        backgroundColor:const Color.fromARGB(245, 245, 110, 15),
         body: SafeArea(
           bottom: false,
           child: Padding(
@@ -32,7 +33,13 @@ class _CourseScreenState extends State<CourseScreen> {
                       Align(
                         child: Text(
                           'Learn',
-                          style: Theme.of(context).textTheme.displayMedium,
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayMedium
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                         ),
                       ),
                     ],
@@ -63,7 +70,6 @@ class _CourseScreenState extends State<CourseScreen> {
   }
 }
 
-
 class CourseContainer extends StatelessWidget {
   final Course course;
   const CourseContainer({
@@ -80,7 +86,8 @@ class CourseContainer extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const GuitarChordsScreen(title: 'Learn Basic Chords'),
+              builder: (context) =>
+                  const GuitarChordsScreen(title: 'Learn Basic Chords'),
             ),
           );
         } else if (course.name == 'Chord Library') {
@@ -97,13 +104,13 @@ class CourseContainer extends StatelessWidget {
               builder: (context) => const EarTrainerScreen(),
             ),
           );
-        } 
+        }
       },
       child: Container(
         height: 170,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2),
+          color: const Color.fromARGB(255, 255, 251, 247),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -140,7 +147,8 @@ class CourseContainer extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    course.description, // Assuming each course has a description
+                    course
+                        .description, // Assuming each course has a description
                     style: TextStyle(
                       fontSize: 15,
                       color: Colors.grey[700],
@@ -157,4 +165,3 @@ class CourseContainer extends StatelessWidget {
     );
   }
 }
-

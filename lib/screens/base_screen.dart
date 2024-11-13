@@ -72,7 +72,7 @@ class _BaseScreenState extends State<BaseScreen> {
   Widget _buildGlassMorphicBottomNavigationBar() {
     return Container(
       decoration: BoxDecoration(
-        color: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2), // Glassmorphic color with opacity
+        color: Color.fromARGB(245, 245, 110, 15).withOpacity(1), // Glassmorphic color with opacity
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
@@ -98,7 +98,7 @@ class _BaseScreenState extends State<BaseScreen> {
                   height: kBottomNavigationBarItemSize,
                 ),
                 icon: Image.asset(
-                  'assets/icons/star_outlined.png',
+                  'assets/icons/star.png',
                   height: kBottomNavigationBarItemSize,
                 ),
                 label: "Featured",
@@ -109,7 +109,7 @@ class _BaseScreenState extends State<BaseScreen> {
                   height: kBottomNavigationBarItemSize,
                 ),
                 icon: Image.asset(
-                  'assets/icons/heart_outlined.png',
+                  'assets/icons/heart.png',
                   height: kBottomNavigationBarItemSize,
                 ),
                 label: "Progress",
@@ -120,7 +120,7 @@ class _BaseScreenState extends State<BaseScreen> {
                   height: kBottomNavigationBarItemSize,
                 ),
                 icon: Image.asset(
-                  'assets/icons/settings_outlined.png',
+                  'assets/icons/settings.png',
                   height: kBottomNavigationBarItemSize,
                 ),
                 label: "Settings",

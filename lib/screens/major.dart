@@ -54,37 +54,51 @@ class _PracticeScreenMajorState extends State<PracticeScreenMajor> {
 
   final Map<String, List<String>> songImages = {
     'A Major': [
-      'assets/picture/8.png',
+      'assets/picture/13.png',
+      'assets/picture/12.png',
+      'assets/picture/17.png',
       'assets/picture/1.png',
       'assets/picture/a.jpg'
     ],
     'B Major': [
-      'assets/picture/9.png',
+      'assets/picture/13.png',
+      'assets/picture/12.png',
+      'assets/picture/19.png',
       'assets/picture/2.png',
       'assets/picture/b.png'
     ],
     'C Major': [
-      'assets/picture/10.png',
+      'assets/picture/13.png',
+      'assets/picture/12.png',
+      'assets/picture/20.png',
       'assets/picture/3.png',
-      'assets/picture/c.jpg'
+      'assets/picture/cmajor.png'
     ],
     'D Major': [
-      'assets/picture/11.png',
+      'assets/picture/13.png',
+      'assets/picture/12.png',
+      'assets/picture/21.png',
       'assets/picture/4.png',
-      'assets/picture/d.jpeg'
+      'assets/picture/dmajor.png'
     ],
     'E Major': [
+      'assets/picture/13.png',
       'assets/picture/12.png',
+      'assets/picture/22.png',
       'assets/picture/5.png',
       'assets/picture/e.jpg'
     ],
     'F Major': [
       'assets/picture/13.png',
+      'assets/picture/12.png',
+      'assets/picture/23.png',
       'assets/picture/6.png',
-      'assets/picture/f.png'
+      'assets/picture/fmajor.png'
     ],
     'G Major': [
-      'assets/picture/14.png',
+      'assets/picture/13.png',
+      'assets/picture/12.png',
+      'assets/picture/24.png',
       'assets/picture/7.png',
       'assets/picture/g.jpg'
     ],
@@ -95,7 +109,7 @@ class _PracticeScreenMajorState extends State<PracticeScreenMajor> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Basic Major Chords',
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold,color: Colors.black)),
         automaticallyImplyLeading: false,
         centerTitle: true,
       ),
@@ -130,8 +144,8 @@ class _PracticeScreenMajorState extends State<PracticeScreenMajor> {
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: const Color.fromARGB(247, 194, 89, 4)
-                              .withOpacity(0.2),
+                          color: const Color.fromARGB(245, 245, 110, 15),
+                              
                           boxShadow: const [
                             BoxShadow(
                               color: Colors.black12,
@@ -152,7 +166,7 @@ class _PracticeScreenMajorState extends State<PracticeScreenMajor> {
                                 color: controller.completedChords
                                         .contains(songTitle)
                                     ? Colors.green
-                                    : Colors.orange,
+                                    : const Color.fromARGB(255, 255, 255, 255),
                               );
                             }),
                             const SizedBox(width: 10),
@@ -165,16 +179,17 @@ class _PracticeScreenMajorState extends State<PracticeScreenMajor> {
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
+                                      color: Colors.white,
                                     ),
                                   ),
                                   const SizedBox(height: 5),
-                                  const Text('Tap to view details'),
+                                  const Text('Tap to view details',style: TextStyle(color: Colors.white),),
                                 ],
                               ),
                             ),
                             IconButton(
                               icon: const Icon(Icons.arrow_forward,
-                                  color: Color.fromARGB(247, 194, 89, 4)),
+                                  color: Color.fromARGB(247, 255, 255, 255)),
                               onPressed: () {
                                 Navigator.push(
                                   context,

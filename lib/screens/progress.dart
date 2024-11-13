@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:chordefine/screens/major.dart';
 import 'package:chordefine/screens/minor.dart';
-import 'package:chordefine/screens/newprac.dart';
+import 'package:chordefine/screens/base_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -34,7 +34,7 @@ Widget build(BuildContext context) {
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -126,7 +126,7 @@ Widget build(BuildContext context) {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => pracnew(),
+                  builder: (context) => BaseScreen(),
                 ),
               );
             },
@@ -135,7 +135,7 @@ Widget build(BuildContext context) {
               shape: CircleBorder(),
               padding: EdgeInsets.all(16),
             ),
-            child: const Icon(Icons.arrow_back, color:Color.fromARGB(247, 194, 89, 4)),
+            child: const Icon(Icons.arrow_back, color:Color.fromARGB(245, 245, 110, 15)),
           ),
         ),
       ],
@@ -154,7 +154,7 @@ Widget build(BuildContext context) {
           child: Container(
             height: 80,
             decoration: BoxDecoration(
-              color: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2),
+              color: const Color.fromARGB(245, 245, 110, 15),
               borderRadius: const BorderRadius.horizontal(
                   left: Radius.circular(20), right: Radius.circular(20)),
               border: Border.all(
@@ -174,7 +174,7 @@ Widget build(BuildContext context) {
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: Container(
           decoration: BoxDecoration(
-            color: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2),
+            color: Color.fromARGB(245, 255, 255, 255),
           ),
         ),
       ),

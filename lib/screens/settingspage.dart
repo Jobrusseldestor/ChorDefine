@@ -12,7 +12,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const GlassMorphicAppBar(title: 'Settings'),
+      appBar: const GlassMorphicAppBar(title: 'Settings',),
       body: Stack(
         children: [
           _buildGlassMorphicContainer(),
@@ -25,7 +25,7 @@ class SettingsPage extends StatelessWidget {
                 leading: const Icon(Icons.groups_2, size: 30),
                 title: const Text(
                   'About Us',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),
                 ),
                 onTap: () {
                   Navigator.push(
@@ -82,10 +82,10 @@ class GlassMorphicAppBar extends StatelessWidget implements PreferredSizeWidget 
         child: AppBar(
           title: Text(
             title,
-            style: const TextStyle(fontSize: 28,fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 28,fontWeight: FontWeight.bold,color: Colors.white),
           ),
           centerTitle: true,
-          backgroundColor: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2),
+          backgroundColor: const Color.fromARGB(245, 245, 110, 15),
           elevation: 0,
         ),
       ),
@@ -149,7 +149,7 @@ class AboutUsPage extends StatelessWidget {
                 const Text(
                   'ChordDefine is developed by five BSIT students at West Visayas State University. '
                   'Our mission is to create an accessible, engaging, and user-friendly mobile application for guitar enthusiasts.',
-                  style: TextStyle(fontSize: 16, height: 1.5, color: Colors.black, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 16, height: 1.5, color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.bold),
                   textAlign: TextAlign.justify,
                 ),
               ],
@@ -178,7 +178,7 @@ class DeveloperCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2),
+        color: Color.fromARGB(245, 255, 248, 243),
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
@@ -267,7 +267,7 @@ class AboutAppPage extends StatelessWidget {
 Widget _buildGlassMorphicContainer() {
   return Container(
     decoration: BoxDecoration(
-      color: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2),
+      color: Color.fromARGB(255,255,255,255),
       borderRadius: BorderRadius.circular(20),
     ),
     child: BackdropFilter(

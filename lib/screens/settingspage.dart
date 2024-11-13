@@ -99,10 +99,10 @@ class AboutUsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, String>> developers = [
-      {"name": "Richie Paul Aquiño", "image": "assets/images/richie.jpg", "description": "Developer 1"},
+      {"name": "Richie Paul Aquiño", "image": "assets/images/richie.jpeg", "description": "Developer 1"},
       {"name": "Willie Deadio Jr.", "image": "assets/images/willie.jpg", "description": "Developer 2"},
       {"name": "Job Russel Destor", "image": "assets/images/job.jpg", "description": "Developer 3"},
-      {"name": "Ron Magpantay", "image": "assets/images/ron.jpg", "description": "Developer 4"},
+      {"name": "Ron Philip Magpantay", "image": "assets/images/ron.jpg", "description": "Developer 4"},
       {"name": "Jose Miguell Monsale", "image": "assets/images/miggy.jpg", "description": "Developer 5"},
       {"name": "Ralph Voltaire Dayot", "image": "assets/images/dayot.jpg", "description": "Thesis Adviser"},
     ];

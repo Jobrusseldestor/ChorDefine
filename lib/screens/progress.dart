@@ -105,7 +105,7 @@ Widget build(BuildContext context) {
                           leading: const Icon(Icons.check_circle,
                               color: Colors.green),
                           title: Text(
-                            "Congratulations! You've completed $chord Minor.",
+                            "Congratulations! You've completed $chord chord.",
                             style: const TextStyle(color: Colors.black),
                             textAlign: TextAlign.center,
                           ),

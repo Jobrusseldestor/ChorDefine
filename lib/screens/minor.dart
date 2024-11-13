@@ -14,7 +14,6 @@ import 'dart:async';
 import 'package:flutter_vision/flutter_vision.dart';
 import 'package:image/image.dart' as img;
 
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -42,7 +41,7 @@ class _PracticeScreenMinorState extends State<PracticeScreenMinor> {
   final List<String> exploreItems = [
     'Am Minor',
     'Bm Minor',
-    'Cm Minor',
+    'Dm Minor',
     'Em Minor',
   ];
 
@@ -85,7 +84,10 @@ class _PracticeScreenMinorState extends State<PracticeScreenMinor> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Basic Minor Chords',
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold,color: Colors.black)),
+            style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.black)),
         automaticallyImplyLeading: false,
         centerTitle: true,
       ),
@@ -121,7 +123,6 @@ class _PracticeScreenMinorState extends State<PracticeScreenMinor> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: const Color.fromARGB(245, 245, 110, 15),
-                              
                           boxShadow: const [
                             BoxShadow(
                               color: Colors.black12,
@@ -159,7 +160,10 @@ class _PracticeScreenMinorState extends State<PracticeScreenMinor> {
                                     ),
                                   ),
                                   const SizedBox(height: 5),
-                                  const Text('Tap to view details',style: TextStyle(color: Colors.white),),
+                                  const Text(
+                                    'Tap to view details',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ],
                               ),
                             ),
@@ -296,16 +300,16 @@ class ChordDetailsMinor extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () => Navigator.pop(context),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 15),
-                    minimumSize: const Size(150, 50),
-                  ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 15),
+                      minimumSize: const Size(150, 50),
+                      backgroundColor: const Color.fromARGB(245, 245, 110, 15)),
                   child: const Text(
                     'Cancel',
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                        color: Colors.white),
                   ),
                 ),
                 ElevatedButton(
@@ -317,16 +321,16 @@ class ChordDetailsMinor extends StatelessWidget {
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 15),
-                    minimumSize: const Size(150, 50),
-                  ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 15),
+                      minimumSize: const Size(150, 50),
+                      backgroundColor: const Color.fromARGB(245, 245, 110, 15)),
                   child: const Text(
                     'Proceed',
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                        color: Colors.white),
                   ),
                 ),
               ],
@@ -341,7 +345,8 @@ class ChordDetailsMinor extends StatelessWidget {
 class CameraScreenMinor extends StatefulWidget {
   final String expectedChord;
 
-  const CameraScreenMinor({Key? key, required this.expectedChord}) : super(key: key);
+  const CameraScreenMinor({Key? key, required this.expectedChord})
+      : super(key: key);
 
   @override
   _CameraScreenMinorState createState() => _CameraScreenMinorState();
@@ -353,7 +358,7 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
   bool _isCameraReady = false;
   bool _isDetecting = false;
   bool _showProceedButton = false;
-  String _detectionStatus = 'Initializing...';
+  String _detectionStatus = '...';
   XFile? _capturedImage;
   bool _showDetectionButton = true;
 
@@ -369,7 +374,8 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
   }
 
   Future<void> _initializeCamera() async {
-    final camera = cameras.firstWhere((cam) => cam.lensDirection == CameraLensDirection.front);
+    final camera = cameras
+        .firstWhere((cam) => cam.lensDirection == CameraLensDirection.front);
     _controller = CameraController(camera, ResolutionPreset.medium);
 
     await _controller.initialize();
@@ -380,7 +386,7 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
   Future<void> _initializeModel() async {
     _vision = FlutterVision();
     await _vision.loadYoloModel(
-      modelPath: 'assets/minor/best_float32.tflite',
+      modelPath: 'assets/minor/minor.tflite',
       labels: 'assets/minor/labels.txt',
       modelVersion: "yolov8",
     );
@@ -391,11 +397,11 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
 
     setState(() {
       _detectionStatus = "Capturing Chord...";
-      _showDetectionButton = false;  // Hide button on tap
+      _showDetectionButton = false; // Hide button on tap
     });
 
     _capturedImage = await _controller.takePicture();
-    
+
     if (_capturedImage != null) {
       setState(() => _detectionStatus = "Processing Chord...");
       _processImage(await _capturedImage!.readAsBytes());
@@ -437,7 +443,8 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
   Future<Uint8List> _preprocessImage(Uint8List imgBytes) async {
     img.Image? originalImage = img.decodeImage(imgBytes);
     if (originalImage != null) {
-      img.Image resizedImage = img.copyResize(originalImage, width: 640, height: 640);
+      img.Image resizedImage =
+          img.copyResize(originalImage, width: 640, height: 640);
       return Uint8List.fromList(img.encodeJpg(resizedImage));
     } else {
       throw Exception('Failed to decode image');
@@ -463,21 +470,20 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
 
   void _showFailDialog() {
     Future.delayed(Duration(seconds: 3), () {
-    AwesomeDialog(
-      context: context,
-      dialogType: DialogType.warning,
-      animType: AnimType.topSlide,
-      showCloseIcon: true,
-      btnOkText: "Retry",
-      title: "Keep Trying!",
-      desc: "Make sure you are performing the chord correctly.",
-      btnOkOnPress: () {
-        _captureAndDetect();
-      },
-    ).show();
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.warning,
+        animType: AnimType.topSlide,
+        showCloseIcon: true,
+        btnOkText: "Retry",
+        title: "Keep Trying!",
+        desc: "Make sure you are performing the chord correctly.",
+        btnOkOnPress: () {
+          _captureAndDetect();
+        },
+      ).show();
     });
   }
-  
 
   Future<void> _closeResources() async {
     await _controller.stopImageStream();
@@ -488,19 +494,16 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Chord Detection'),
-        automaticallyImplyLeading: false,
-      ),
       body: Stack(
         children: [
           Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(40),
                 child: Text(
                   'Detecting ${widget.expectedChord} Minor Chord',
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold),
                 ),
               ),
               Padding(
@@ -518,13 +521,31 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
               ),
               Text(
                 _detectionStatus,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               if (_showDetectionButton)
-              ElevatedButton(
-                onPressed: _captureAndDetect,
-                child: const Text("Start Detection"),
-              ),
+                ElevatedButton(
+                  onPressed: _captureAndDetect,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        const Color.fromARGB(245, 245, 110, 15), // Set your desired button color here
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12), // Optional padding
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(12), // Optional rounded corners
+                    ),
+                  ),
+                  child: const Text(
+                    "Start Detection",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
             ],
           ),
           Positioned(
@@ -535,10 +556,12 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
                 _closeResources();
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const PracticeScreenMinor(title: 'Minor Chords')),
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          const PracticeScreenMinor(title: 'Minor Chords')),
                 );
               },
-              backgroundColor: Colors.red,
+              backgroundColor: const Color.fromARGB(245, 245, 110, 15),
               child: const Icon(Icons.cancel),
             ),
           ),
@@ -551,11 +574,13 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AudioDetectionScreenMinor(expectedChord: widget.expectedChord),
+                    builder: (context) => AudioDetectionScreenMinor(
+                        expectedChord: widget.expectedChord),
                   ),
                 );
               },
-              child: const Text('Proceed'),
+               backgroundColor: const Color.fromARGB(245, 245, 110, 15),
+              child: const Text('Proceed',style:TextStyle(color: Colors.white),),
             )
           : null,
     );
@@ -674,13 +699,17 @@ class NoteChordControllerMinor extends GetxController {
   String identifyChord(List<String> notes) {
     Set<String> noteSet = notes.toSet();
 
-    if (noteSet.contains('A1') || noteSet.contains('A2') || noteSet.contains('C4')) {
+    if (noteSet.contains('A1') ||
+        noteSet.contains('A2') ||
+        noteSet.contains('C4')) {
       return 'Am';
-    }else if (noteSet.contains('#F2') || noteSet.contains('B3')) {
+    } else if (noteSet.contains('#F2') || noteSet.contains('B3')) {
       return 'Bm';
     } else if (noteSet.contains('D3') || noteSet.contains('D4')) {
       return 'Dm';
-    } else if (noteSet.contains('E2') || noteSet.contains('B2') || noteSet.contains('E3')) {
+    } else if (noteSet.contains('E2') ||
+        noteSet.contains('B2') ||
+        noteSet.contains('E3')) {
       return 'Em';
     } else {
       return 'Unknown chord';
@@ -730,10 +759,6 @@ class AudioDetectionScreenMinor extends StatelessWidget {
     });
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Chord Recognizer'),
-        automaticallyImplyLeading: false,
-      ),
       body: Stack(
         children: [
           SafeArea(
@@ -746,7 +771,7 @@ class AudioDetectionScreenMinor extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(40),
                       child: Text(
                         'Detecting ${expectedChord} Minor',
                         style: const TextStyle(
@@ -794,7 +819,7 @@ class AudioDetectionScreenMinor extends StatelessWidget {
                           )),
                 );
               },
-              backgroundColor: Colors.red,
+              backgroundColor: const Color.fromARGB(245, 245, 110, 15),
               child: const Icon(Icons.cancel),
             ),
           ),
@@ -810,7 +835,8 @@ class AudioDetectionScreenMinor extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => const MyProgress()),
                   );
                 },
-                child: const Text('Done'),
+                  backgroundColor: const Color.fromARGB(245, 245, 110, 15),
+                  child: const Text('Done',style: TextStyle(color:Colors.white),),
               )
             : const SizedBox.shrink();
       }),

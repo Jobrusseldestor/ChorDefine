@@ -14,10 +14,10 @@ const blackGreyColor = Color.fromARGB(247, 255, 255, 255);
 
 // Text Styles
 const styleGreenSmall = TextStyle(color: Colors.green, fontSize: 13);
-const styleBlackSmall = TextStyle(color: Colors.black, fontSize: 13);
-const styleBlackMedium = TextStyle(color: Colors.black, fontSize: 16);
+const styleBlackSmall = TextStyle(color: Colors.white, fontSize: 13);
+const styleBlackMedium = TextStyle(color: Colors.white, fontSize: 16);
 const styleWhiteSmall = TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 13);
-const styleWhiteMedium = TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 16);
+const styleWhiteMedium = TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 16);
 const styleWhiteBig =
     TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 32, fontWeight: FontWeight.bold);
 
@@ -109,7 +109,7 @@ class VerticalLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
-      ..color = Color.fromARGB(55, 0, 0, 0)
+      ..color = Color.fromARGB(245, 245, 110, 15)
       ..strokeWidth = 2;
 
     final double centerX = size.width / 2;
@@ -196,8 +196,8 @@ class GuitarButton extends StatelessWidget {
               BorderSide(color: chordColor, width: 2),
             ),
             backgroundColor: tunerController.selectedTune.value == chordText
-                ? MaterialStateProperty.all<Color>(Colors.white)
-                : MaterialStateProperty.all<Color>(Colors.black),
+                ? MaterialStateProperty.all<Color>(const Color.fromARGB(255, 0, 0, 0))
+                : MaterialStateProperty.all<Color>(const Color.fromARGB(245, 245, 110, 15)),
           ),
           onPressed: () => tunerController.selectChord(chordIndex, chordText),
           child: Text(

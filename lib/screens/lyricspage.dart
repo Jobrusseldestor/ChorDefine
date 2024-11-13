@@ -573,11 +573,6 @@ A'''
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(245, 245, 110, 15),
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(245, 245, 110, 15),
-        title: const Text('Explore Songs',style: TextStyle(color: Colors.white),),
-        automaticallyImplyLeading: false,
-      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),

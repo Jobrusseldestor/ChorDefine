@@ -4,6 +4,7 @@ import 'package:chordefine/screens/progress.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:camera/camera.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:typed_data';
 import 'package:get/get.dart';
@@ -323,13 +324,14 @@ class ChordDetailsMajor extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40, vertical: 15),
                     minimumSize: const Size(150, 50),
+                    backgroundColor: const Color.fromARGB(245, 245, 110, 15)
                   ),
                   child: const Text(
                     'Cancel',
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                        color: Colors.white),
                   ),
                 ),
                 ElevatedButton(
@@ -344,13 +346,14 @@ class ChordDetailsMajor extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40, vertical: 15),
                     minimumSize: const Size(150, 50),
+                    backgroundColor: const Color.fromARGB(245, 245, 110, 15)
                   ),
                   child: const Text(
                     'Proceed',
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                        color: Colors.white),
                   ),
                 ),
               ],
@@ -377,7 +380,7 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
   bool _isCameraReady = false;
   bool _isDetecting = false;
   bool _showProceedButton = false;
-  String _detectionStatus = 'Initializing...';
+  String _detectionStatus = '...';
   XFile? _capturedImage;
   bool _showDetectionButton = true;
 
@@ -512,16 +515,13 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Chord Detection'),
-        automaticallyImplyLeading: false,
-      ),
+     
       body: Stack(
         children: [
           Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(40),
                 child: Text(
                   'Detecting ${widget.expectedChord} Major Chord',
                   style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -545,10 +545,27 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
                 style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               if (_showDetectionButton)
-              ElevatedButton(
-                onPressed: _captureAndDetect,
-                child: const Text("Start Detection"),
-              ),
+             ElevatedButton(
+                  onPressed: _captureAndDetect,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        const Color.fromARGB(245, 245, 110, 15), // Set your desired button color here
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12), // Optional padding
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(12), // Optional rounded corners
+                    ),
+                  ),
+                  child: const Text(
+                    "Start Detection",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
             ],
           ),
           Positioned(
@@ -562,7 +579,7 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
                   MaterialPageRoute(builder: (context) => const PracticeScreenMajor(title: 'Major Chords')),
                 );
               },
-              backgroundColor: Colors.red,
+              backgroundColor: const Color.fromARGB(245, 245, 110, 15),
               child: const Icon(Icons.cancel),
             ),
           ),
@@ -579,7 +596,8 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
                   ),
                 );
               },
-              child: const Text('Proceed'),
+              backgroundColor: const Color.fromARGB(245, 245, 110, 15),
+              child: const Text('Proceed',style:TextStyle(color: Colors.white),),
             )
           : null,
     );
@@ -762,10 +780,6 @@ class AudioDetectionScreenMajor extends StatelessWidget {
     });
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Chord Recognizer'),
-        automaticallyImplyLeading: false,
-      ),
       body: Stack(
         children: [
           SafeArea(
@@ -778,7 +792,7 @@ class AudioDetectionScreenMajor extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(40),
                       child: Text(
                         'Detecting ${expectedChord} Major',
                         style: const TextStyle(
@@ -826,7 +840,7 @@ class AudioDetectionScreenMajor extends StatelessWidget {
                           )),
                 );
               },
-              backgroundColor: Colors.red,
+              backgroundColor: const Color.fromARGB(245, 245, 110, 15),
               child: const Icon(Icons.cancel),
             ),
           ),
@@ -842,7 +856,8 @@ class AudioDetectionScreenMajor extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => const MyProgress()),
                   );
                 },
-                child: const Text('Done'),
+                backgroundColor: const Color.fromARGB(245, 245, 110, 15),
+                child: const Text('Done',style: TextStyle(color:Colors.white),),
               )
             : const SizedBox.shrink();
       }),

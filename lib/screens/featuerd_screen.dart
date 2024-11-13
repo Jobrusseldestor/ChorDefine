@@ -230,7 +230,7 @@ class GlassmorphicCategoryCard extends StatelessWidget {
                 Text(
                   category.definition,
                   style:  const   TextStyle(
-                    fontSize: 11,
+                    fontSize: 10,
                   ), textAlign: TextAlign.center,
                 ),
                 // Text(

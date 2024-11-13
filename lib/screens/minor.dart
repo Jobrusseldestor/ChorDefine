@@ -386,7 +386,7 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
   Future<void> _initializeModel() async {
     _vision = FlutterVision();
     await _vision.loadYoloModel(
-      modelPath: 'assets/minor/minor.tflite',
+      modelPath: 'assets/minor/best_float32.tflite',
       labels: 'assets/minor/labels.txt',
       modelVersion: "yolov8",
     );

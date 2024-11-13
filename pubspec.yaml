@@ -110,7 +110,7 @@ flutter:
     - assets/major.tflite
     - assets/labels.txt
     - assets/minor/
-    - assets/minor/minor.tflite
+    - assets/minor/best_float32.tflite
     - assets/minor/labels.txt
 
 

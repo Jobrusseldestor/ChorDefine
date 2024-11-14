@@ -823,7 +823,8 @@ class AudioDetectionScreenMinor extends StatelessWidget {
         ).show();
       } else {
         wrongchordcount++;
-        if(wrongchordcount == 3){
+      }
+      if(wrongchordcount == 2){
         Future.delayed(Duration(seconds: 2), () {
           AwesomeDialog(
             context: context,
@@ -844,7 +845,6 @@ class AudioDetectionScreenMinor extends StatelessWidget {
         });
         wrongchordcount = 0;
         }
-      }
     });
 
     return Scaffold(

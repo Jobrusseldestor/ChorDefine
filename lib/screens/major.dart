@@ -771,9 +771,7 @@ class AudioDetectionScreenMajor extends StatelessWidget {
   const AudioDetectionScreenMajor({Key? key, required this.expectedChord})
       : super(key: key);
 
-  
   @override
-  
   Widget build(BuildContext context) {
     if (Get.isRegistered<NoteChordControllerMajor>()) {
       Get.delete<NoteChordControllerMajor>();
@@ -794,7 +792,8 @@ class AudioDetectionScreenMajor extends StatelessWidget {
         ).show();
       } else {
         wrongchordcount++;
-        if(wrongchordcount == 3){
+      }
+      if (wrongchordcount == 2) {
         Future.delayed(Duration(seconds: 2), () {
           AwesomeDialog(
             context: context,
@@ -814,7 +813,6 @@ class AudioDetectionScreenMajor extends StatelessWidget {
           ).show();
         });
         wrongchordcount = 0;
-        }
       }
     });
 

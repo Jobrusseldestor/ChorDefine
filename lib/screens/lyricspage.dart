@@ -44,7 +44,7 @@ class _CourseScreen3State extends State<CourseScreen3> {
       SongLine(lyrics: "the dark,", note: "G1", chord: "G"), // G major
       SongLine(lyrics: "with you", note: "D1", chord: "D"), // D major
       SongLine(
-          lyrics: "between my arms", note: "E1", chord: "Em"), // Em is correct
+          lyrics: "between my arms", note: "E1", chord: "E"), // Em is correct
       SongLine(lyrics: "barefoot on the grass,", note: "C2", chord: "C"),
       SongLine(lyrics: "listening", note: "G1", chord: "G"),
       SongLine(lyrics: "to our favorite song", note: "D1", chord: "D"),
@@ -89,14 +89,14 @@ class _CourseScreen3State extends State<CourseScreen3> {
       SongLine(lyrics: "country roads,", note: "G1", chord: "G"),
     ],
     'Let it Be': [
-      SongLine(lyrics: "Let it be,", note: "A1", chord: "Am"),
+      SongLine(lyrics: "Let it be,", note: "A1", chord: "A"),
       SongLine(lyrics: "let it be,", note: "G1", chord: "G"),
       SongLine(lyrics: "let it be,", note: "F1", chord: "F"),
       SongLine(lyrics: "let it be,", note: "C1", chord: "C"),
       SongLine(lyrics: "There will be,", note: "C1", chord: "C"),
       SongLine(lyrics: "an answer,", note: "G1", chord: "G"),
       SongLine(lyrics: "Let it be,", note: "F1", chord: "F"),
-      SongLine(lyrics: "Let it be,", note: "A1", chord: "Am"),
+      SongLine(lyrics: "Let it be,", note: "A1", chord: "A"),
       SongLine(lyrics: "let it be,", note: "G1", chord: "G"),
       SongLine(lyrics: "let it be,", note: "F1", chord: "F"),
       SongLine(lyrics: "let it be,", note: "C1", chord: "C"),
@@ -415,59 +415,53 @@ class SongLine {
 String identifyChord(List<String> notes) {
   Set<String> noteSet = notes.toSet();
 
-  // Improved chord detection by adding more specific minor chord checks
+  // Improved chord detection by adding more specific minor chord checks 
   // Check for A major and A minor
-  if ((noteSet.contains('A1') || noteSet.contains('A2')) &&
-      noteSet.contains('C2')) {
-    return 'Am'; // A minor
+  if (noteSet.contains('A1') || noteSet.contains('A2')) {
+    return 'A'; // A minor
   } else if (noteSet.contains('A1') || noteSet.contains('A2')) {
-    return 'A';
+    return 'Am';
 
     // Check for B major and B minor
-  } else if ((noteSet.contains('B1') || noteSet.contains('B2')) &&
-      noteSet.contains('D2')) {
-    return 'Bm'; // B minor
   } else if (noteSet.contains('B1') || noteSet.contains('B2')) {
-    return 'B';
+    return 'B'; // B minor
+  } else if (noteSet.contains('B1') || noteSet.contains('B2')) {
+    return 'Bm';
 
     // Check for C major and C minor
-  } else if ((noteSet.contains('C2') || noteSet.contains('C3')) &&
-      noteSet.contains('D#2')) {
-    return 'Cm'; // C minor
   } else if (noteSet.contains('C2') || noteSet.contains('C3')) {
-    return 'C';
+    return 'C'; // C minor
+  } else if (noteSet.contains('C2') || noteSet.contains('C3')) {
+    return 'Cm';
 
     // Check for D major and D minor
-  } else if ((noteSet.contains('D1') || noteSet.contains('D3')) &&
-      noteSet.contains('F2')) {
-    return 'Dm'; // D minor
   } else if (noteSet.contains('D1') || noteSet.contains('D3')) {
-    return 'D';
+    return 'D'; // D minor
+  } else if (noteSet.contains('D1') || noteSet.contains('D3')) {
+    return 'Dm';
 
     // Check for E major and E minor
-  } else if ((noteSet.contains('E1') || noteSet.contains('E2')) &&
-      noteSet.contains('G1')) {
-    return 'Em'; // E minor
   } else if (noteSet.contains('E1') || noteSet.contains('E2')) {
-    return 'E';
+    return 'E'; // E minor
+  } else if (noteSet.contains('E1') || noteSet.contains('E2')) {
+    return 'Em';
 
     // Check for F major and F minor
-  } else if ((noteSet.contains('F1') || noteSet.contains('F2')) &&
-      noteSet.contains('G#2')) {
-    return 'Fm'; // F minor
   } else if (noteSet.contains('F1') || noteSet.contains('F2')) {
-    return 'F';
+    return 'F'; // F minor
+  } else if (noteSet.contains('F1') || noteSet.contains('F2')) {
+    return 'Fm';
 
     // Check for G major and G minor
-  } else if ((noteSet.contains('G1') || noteSet.contains('G2')) &&
-      noteSet.contains('A#2')) {
-    return 'Gm'; // G minor
   } else if (noteSet.contains('G1') || noteSet.contains('G2')) {
-    return 'G';
+    return 'G'; // G minor
+  } else if (noteSet.contains('G1') || noteSet.contains('G2')) {
+    return 'Gm';
   } else {
     return 'N/C';
   }
 }
+
 
 var noteFrequencies = {
   32.7: 'C1',

@@ -54,7 +54,7 @@ class _CourseScreen3State extends State<CourseScreen3> {
       SongLine(
           lyrics: "underneath my breath",
           note: "E1",
-          chord: "Em"), // Em is correct
+          chord: "E"), // Em is correct
       SongLine(lyrics: "But you heard it,", note: "C2", chord: "C"),
       SongLine(lyrics: "darling you", note: "G1", chord: "G"),
       SongLine(lyrics: "look perfect", note: "D1", chord: "D"),
@@ -63,7 +63,7 @@ class _CourseScreen3State extends State<CourseScreen3> {
     'Im Yours': [
       SongLine(lyrics: "So I won't,", note: "G1", chord: "G"),
       SongLine(lyrics: "hesitate", note: "D1", chord: "D"),
-      SongLine(lyrics: "No, more, no more", note: "Em1", chord: "E"),
+      SongLine(lyrics: "No, more, no more", note: "E1", chord: "E"),
       SongLine(lyrics: "It cannot wait, I'm sure", note: "C2", chord: "C"),
       SongLine(lyrics: "There's no need,", note: "G1", chord: "G"),
       SongLine(lyrics: "To complicate", note: "D1", chord: "D"),
@@ -73,7 +73,7 @@ class _CourseScreen3State extends State<CourseScreen3> {
     'Country Roads': [
       SongLine(lyrics: "Country Roads,", note: "G1", chord: "G"),
       SongLine(lyrics: "take me home,", note: "D1", chord: "D"),
-      SongLine(lyrics: "to the place,", note: "Em1", chord: "E"),
+      SongLine(lyrics: "to the place,", note: "E1", chord: "E"),
       SongLine(lyrics: "I belong", note: "C2", chord: "C"),
       SongLine(lyrics: "West Virginia,", note: "G1", chord: "G"),
       SongLine(lyrics: "mountain mama,", note: "D1", chord: "D"),
@@ -81,7 +81,7 @@ class _CourseScreen3State extends State<CourseScreen3> {
       SongLine(lyrics: "country roads,", note: "G1", chord: "G"),
       SongLine(lyrics: "Country Roads,", note: "G1", chord: "G"),
       SongLine(lyrics: "take me home,", note: "D1", chord: "D"),
-      SongLine(lyrics: "to the place,", note: "Em1", chord: "E"),
+      SongLine(lyrics: "to the place,", note: "E1", chord: "E"),
       SongLine(lyrics: "I belong", note: "C2", chord: "C"),
       SongLine(lyrics: "West Virginia,", note: "G1", chord: "G"),
       SongLine(lyrics: "mountain mama,", note: "D1", chord: "D"),
@@ -253,70 +253,79 @@ class LyricsScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: songLines.map((line) {
-                    return Text(
-                      "${line.lyrics} - Chord: ${line.chord}",
-                      style: const TextStyle(
-                          fontSize: 16, fontFamily: 'Courier', height: 1.3),
-                    );
-                  }).toList(),
+      body: Center(
+        // Wrap main content in Center widget to center it vertically and horizontally
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min, // Center content vertically
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: songLines.map((line) {
+                      return Text(
+                        "${line.lyrics} - Chord: ${line.chord}",
+                        style: const TextStyle(
+                            fontSize: 16, fontFamily: 'Courier', height: 1.3),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-            Obx(() {
-              if (!controller.hasAudioPermission.value) {
-                return const Text("No audio permission provided");
-              }
+              const SizedBox(height: 20),
+              Obx(() {
+                if (!controller.hasAudioPermission.value) {
+                  return const Text("No audio permission provided");
+                }
 
-              return Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 10.0,
-                      offset: const Offset(0, 5),
-                    ),
-                  ],
-                ),
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    const Text("Lyrics:",
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold)),
-                    const SizedBox(height: 20),
-                    Text(
-                      controller
-                          .currentSong[controller.currentIndex.value].lyrics,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontSize: 32, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 40),
-                    Text(
-                      "Expected Chord: ${controller.currentSong[controller.currentIndex.value].chord}",
-                      style: const TextStyle(fontSize: 24),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      "Detected Chord: ${controller.detectedChord.value}",
-                      style: const TextStyle(fontSize: 24, color: Colors.green),
-                    ),
-                  ],
-                ),
-              );
-            }),
-          ],
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 10.0,
+                        offset: const Offset(0, 5),
+                      ),
+                    ],
+                  ),
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Lyrics:",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 20),
+                      Text(
+                        controller
+                            .currentSong[controller.currentIndex.value].lyrics,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 32, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 40),
+                      Text(
+                        "Expected Chord: ${controller.currentSong[controller.currentIndex.value].chord}",
+                        style: const TextStyle(fontSize: 24),
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        "Detected Chord: ${controller.detectedChord.value}",
+                        style:
+                            const TextStyle(fontSize: 24, color: Colors.green),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+            ],
+          ),
         ),
       ),
     );
@@ -415,7 +424,7 @@ class SongLine {
 String identifyChord(List<String> notes) {
   Set<String> noteSet = notes.toSet();
 
-  // Improved chord detection by adding more specific minor chord checks 
+  // Improved chord detection by adding more specific minor chord checks
   // Check for A major and A minor
   if (noteSet.contains('A1') || noteSet.contains('A2')) {
     return 'A'; // A minor
@@ -461,7 +470,6 @@ String identifyChord(List<String> notes) {
     return 'N/C';
   }
 }
-
 
 var noteFrequencies = {
   32.7: 'C1',

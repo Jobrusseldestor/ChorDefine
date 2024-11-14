@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
+// Main function to run the app
+
+// SettingsPage with styled buttons for navigation
 class SettingsPage extends StatelessWidget {
   final bool isDarkMode;
   final ValueChanged<bool> onDarkModeChanged;
@@ -10,58 +12,98 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double appBarHeight = AppBar().preferredSize.height;
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: const GlassMorphicAppBar(title: 'Settings',),
+      appBar: const GlassMorphicAppBar(title: 'Settings'),
       body: Stack(
         children: [
           _buildGlassMorphicContainer(),
-          ListView(
-            padding: const EdgeInsets.fromLTRB(16.0, 80.0, 16.0, 16.0),
-            children: [
-              const Divider(),
-              ListTile(
-                contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                leading: const Icon(Icons.groups_2, size: 30),
-                title: const Text(
-                  'About Us',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AboutUsPage(),
+          Padding(
+            padding: EdgeInsets.only(top: appBarHeight + statusBarHeight), // Add padding to account for AppBar height
+            child: Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 350),
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0), // Reduced vertical padding
+                  children: [
+                    _buildButton(
+                      context: context,
+                      label: 'About Us',
+                      icon: Icons.groups_2,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const AboutUsPage()),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
-              const Divider(),
-              ListTile(
-                contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                leading: const Icon(Icons.contact_support, size: 30),
-                title: const Text(
-                  'About the App',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AboutAppPage(),
+                    const SizedBox(height: 20),
+                    _buildButton(
+                      context: context,
+                      label: 'About the App',
+                      icon: Icons.contact_support,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const AboutAppPage()),
+                        );
+                      },
                     ),
-                  );
-                },
+                  ],
+                ),
               ),
-              const Divider(),
-            ],
+            ),
           ),
         ],
       ),
     );
   }
+
+  Widget _buildButton({
+    required BuildContext context,
+    required String label,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Icon(icon, size: 30, color: Colors.orange),
+            const SizedBox(width: 20),
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
+
+// Custom GlassMorphicAppBar for a frosted glass effect
 class GlassMorphicAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
 
@@ -82,7 +124,7 @@ class GlassMorphicAppBar extends StatelessWidget implements PreferredSizeWidget 
         child: AppBar(
           title: Text(
             title,
-            style: const TextStyle(fontSize: 28,fontWeight: FontWeight.bold,color: Colors.white),
+            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
           ),
           centerTitle: true,
           backgroundColor: const Color.fromARGB(245, 245, 110, 15),
@@ -93,6 +135,7 @@ class GlassMorphicAppBar extends StatelessWidget implements PreferredSizeWidget 
   }
 }
 
+// AboutUsPage with sample developer info
 class AboutUsPage extends StatelessWidget {
   const AboutUsPage({Key? key}) : super(key: key);
 
@@ -117,40 +160,53 @@ class AboutUsPage extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16.0, 80.0, 16.0, 16.0),
             child: Column(
               children: [
-                
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 Expanded(
                   child: GridView.builder(
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                      childAspectRatio: 0.8,
+                      mainAxisSpacing: 12,
+                      crossAxisSpacing: 12,
+                      childAspectRatio: 0.75,
                     ),
                     itemCount: developers.length,
                     itemBuilder: (context, index) {
                       final name = developers[index]['name']!;
                       final imagePath = developers[index]['image']!;
                       final description = developers[index]['description']!;
-                      return Align(
-                        alignment: index == developers.length - 1
-                            ? Alignment.centerRight
-                            : Alignment.topCenter,
-                        child: DeveloperCard(
-                          name: name,
-                          imagePath: imagePath,
-                          description: description,
-                        ),
+                      return DeveloperCard(
+                        name: name,
+                        imagePath: imagePath,
+                        description: description,
                       );
                     },
                   ),
                 ),
-                const SizedBox(height: 25),
-                const Text(
-                  'ChordDefine is developed by five BSIT students at West Visayas State University. '
-                  'Our mission is to create an accessible, engaging, and user-friendly mobile application for guitar enthusiasts.',
-                  style: TextStyle(fontSize: 16, height: 1.5, color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.justify,
+                const SizedBox(height: 15),
+                Container(
+                  padding: const EdgeInsets.all(12.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: const Text(
+                    'ChordDefine is developed by five BSIT students at West Visayas State University. '
+                    'Our mission is to create an accessible, engaging, and user-friendly mobile application for guitar enthusiasts.',
+                    style: TextStyle(
+                      fontSize: 16,
+                      height: 1.5,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.justify,
+                  ),
                 ),
               ],
             ),
@@ -161,6 +217,7 @@ class AboutUsPage extends StatelessWidget {
   }
 }
 
+// DeveloperCard widget for displaying developer information
 class DeveloperCard extends StatelessWidget {
   final String name;
   final String imagePath;
@@ -224,6 +281,7 @@ class DeveloperCard extends StatelessWidget {
   }
 }
 
+// AboutAppPage with placeholder content
 class AboutAppPage extends StatelessWidget {
   const AboutAppPage({Key? key}) : super(key: key);
 
@@ -247,12 +305,31 @@ class AboutAppPage extends StatelessWidget {
                     width: 250,
                     fit: BoxFit.cover,
                   ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'ChordDefine is an innovative mobile application specifically designed to assist beginner guitarists in mastering their instrument through real-time chord recognition. '
-                    'This app offers a comprehensive solution by integrating advanced computer vision and audio recognition technologies to enhance the learning experience.',
-                    style: TextStyle(fontSize: 20, height: 1.5, color: Colors.black, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
+                  const SizedBox(height: 10),
+                  Container(
+                    padding: const EdgeInsets.all(16.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 10,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    child: const Text(
+                      'ChordDefine is an innovative mobile application specifically designed to assist beginner guitarists in mastering their instrument through real-time chord recognition. '
+                      'This app offers a comprehensive solution by integrating advanced computer vision and audio recognition technologies to enhance the learning experience.',
+                      style: TextStyle(
+                        fontSize: 20,
+                        height: 1.5,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ],
               ),
@@ -264,10 +341,12 @@ class AboutAppPage extends StatelessWidget {
   }
 }
 
+
+// Helper function for the glass-morphic effect background
 Widget _buildGlassMorphicContainer() {
   return Container(
     decoration: BoxDecoration(
-      color: Color.fromARGB(255,255,255,255),
+      color: Colors.white.withOpacity(0.2),
       borderRadius: BorderRadius.circular(20),
     ),
     child: BackdropFilter(

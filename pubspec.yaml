@@ -109,9 +109,9 @@ flutter:
     - assets/
     - assets/major.tflite
     - assets/labels.txt
-    - assets/minor/
-    - assets/minor/best_float32.tflite
-    - assets/minor/labels.txt
+    - assets/model/
+    - assets/model/minor.tflite
+    - assets/model/labels.txt
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

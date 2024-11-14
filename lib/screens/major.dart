@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:chordefine/main.dart';
 import 'package:chordefine/screens/progress.dart';
+import 'package:chordefine/screens/tunerscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:camera/camera.dart';
@@ -14,7 +15,6 @@ import 'package:pitch_detector_dart/pitch_detector.dart';
 import 'dart:async';
 import 'package:flutter_vision/flutter_vision.dart';
 import 'package:image/image.dart' as img;
-
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -110,7 +110,10 @@ class _PracticeScreenMajorState extends State<PracticeScreenMajor> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Basic Major Chords',
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold,color: Colors.black)),
+            style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.black)),
         automaticallyImplyLeading: false,
         centerTitle: true,
       ),
@@ -146,7 +149,6 @@ class _PracticeScreenMajorState extends State<PracticeScreenMajor> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: const Color.fromARGB(245, 245, 110, 15),
-                              
                           boxShadow: const [
                             BoxShadow(
                               color: Colors.black12,
@@ -184,7 +186,10 @@ class _PracticeScreenMajorState extends State<PracticeScreenMajor> {
                                     ),
                                   ),
                                   const SizedBox(height: 5),
-                                  const Text('Tap to view details',style: TextStyle(color: Colors.white),),
+                                  const Text(
+                                    'Tap to view details',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ],
                               ),
                             ),
@@ -321,11 +326,10 @@ class ChordDetailsMajor extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () => Navigator.pop(context),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 15),
-                    minimumSize: const Size(150, 50),
-                    backgroundColor: const Color.fromARGB(245, 245, 110, 15)
-                  ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 15),
+                      minimumSize: const Size(150, 50),
+                      backgroundColor: const Color.fromARGB(245, 245, 110, 15)),
                   child: const Text(
                     'Cancel',
                     style: TextStyle(
@@ -343,11 +347,10 @@ class ChordDetailsMajor extends StatelessWidget {
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 15),
-                    minimumSize: const Size(150, 50),
-                    backgroundColor: const Color.fromARGB(245, 245, 110, 15)
-                  ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 15),
+                      minimumSize: const Size(150, 50),
+                      backgroundColor: const Color.fromARGB(245, 245, 110, 15)),
                   child: const Text(
                     'Proceed',
                     style: TextStyle(
@@ -368,7 +371,8 @@ class ChordDetailsMajor extends StatelessWidget {
 class CameraScreenMajor extends StatefulWidget {
   final String expectedChord;
 
-  const CameraScreenMajor({Key? key, required this.expectedChord}) : super(key: key);
+  const CameraScreenMajor({Key? key, required this.expectedChord})
+      : super(key: key);
 
   @override
   _CameraScreenMajorState createState() => _CameraScreenMajorState();
@@ -396,7 +400,8 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
   }
 
   Future<void> _initializeCamera() async {
-    final camera = cameras.firstWhere((cam) => cam.lensDirection == CameraLensDirection.front);
+    final camera = cameras
+        .firstWhere((cam) => cam.lensDirection == CameraLensDirection.front);
     _controller = CameraController(camera, ResolutionPreset.medium);
 
     await _controller.initialize();
@@ -418,11 +423,11 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
 
     setState(() {
       _detectionStatus = "Capturing Chord...";
-      _showDetectionButton = false;  // Hide button on tap
+      _showDetectionButton = false; // Hide button on tap
     });
 
     _capturedImage = await _controller.takePicture();
-    
+
     if (_capturedImage != null) {
       setState(() => _detectionStatus = "Processing Chord...");
       _processImage(await _capturedImage!.readAsBytes());
@@ -464,7 +469,8 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
   Future<Uint8List> _preprocessImage(Uint8List imgBytes) async {
     img.Image? originalImage = img.decodeImage(imgBytes);
     if (originalImage != null) {
-      img.Image resizedImage = img.copyResize(originalImage, width: 640, height: 640);
+      img.Image resizedImage =
+          img.copyResize(originalImage, width: 640, height: 640);
       return Uint8List.fromList(img.encodeJpg(resizedImage));
     } else {
       throw Exception('Failed to decode image');
@@ -490,21 +496,20 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
 
   void _showFailDialog() {
     Future.delayed(Duration(seconds: 3), () {
-    AwesomeDialog(
-      context: context,
-      dialogType: DialogType.warning,
-      animType: AnimType.topSlide,
-      showCloseIcon: true,
-      btnOkText: "Retry",
-      title: "Keep Trying!",
-      desc: "Make sure you are performing the chord correctly.",
-      btnOkOnPress: () {
-        _captureAndDetect();
-      },
-    ).show();
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.warning,
+        animType: AnimType.topSlide,
+        showCloseIcon: true,
+        btnOkText: "Retry",
+        title: "Keep Trying!",
+        desc: "Make sure you are performing the chord correctly.",
+        btnOkOnPress: () {
+          _captureAndDetect();
+        },
+      ).show();
     });
   }
-  
 
   Future<void> _closeResources() async {
     await _controller.stopImageStream();
@@ -515,7 +520,6 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
       body: Stack(
         children: [
           Column(
@@ -524,7 +528,8 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
                 padding: const EdgeInsets.all(40),
                 child: Text(
                   'Detecting ${widget.expectedChord} Major Chord',
-                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold),
                 ),
               ),
               Padding(
@@ -542,14 +547,15 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
               ),
               Text(
                 _detectionStatus,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               if (_showDetectionButton)
-             ElevatedButton(
+                ElevatedButton(
                   onPressed: _captureAndDetect,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        const Color.fromARGB(245, 245, 110, 15), // Set your desired button color here
+                    backgroundColor: const Color.fromARGB(245, 245, 110,
+                        15), // Set your desired button color here
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 12), // Optional padding
                     shape: RoundedRectangleBorder(
@@ -576,7 +582,9 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
                 _closeResources();
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const PracticeScreenMajor(title: 'Major Chords')),
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          const PracticeScreenMajor(title: 'Major Chords')),
                 );
               },
               backgroundColor: const Color.fromARGB(245, 245, 110, 15),
@@ -592,12 +600,16 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AudioDetectionScreenMajor(expectedChord: widget.expectedChord),
+                    builder: (context) => AudioDetectionScreenMajor(
+                        expectedChord: widget.expectedChord),
                   ),
                 );
               },
               backgroundColor: const Color.fromARGB(245, 245, 110, 15),
-              child: const Text('Proceed',style:TextStyle(color: Colors.white),),
+              child: const Text(
+                'Proceed',
+                style: TextStyle(color: Colors.white),
+              ),
             )
           : null,
     );
@@ -776,6 +788,25 @@ class AudioDetectionScreenMajor extends StatelessWidget {
           btnOkOnPress: () {},
           btnOkIcon: Icons.check,
         ).show();
+      } else {
+        Future.delayed(Duration(seconds: 3), () {
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.warning,
+            animType: AnimType.topSlide,
+            showCloseIcon: true,
+            btnOkText: "Tune",
+            title: "Wrong Chord!",
+            btnCancelOnPress: () {},
+            desc: "Have you tuned your guitar?",
+            btnOkOnPress: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TunerScreen()),
+              );
+            },
+          ).show();
+        });
       }
     });
 
@@ -809,7 +840,8 @@ class AudioDetectionScreenMajor extends StatelessWidget {
                     const SizedBox(height: 10),
                     Text(
                       "Recognized Chord: ${controller.recognizedChord.value}",
-                      style: const TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: 15),
+                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 20),
                     Text(
@@ -857,7 +889,10 @@ class AudioDetectionScreenMajor extends StatelessWidget {
                   );
                 },
                 backgroundColor: const Color.fromARGB(245, 245, 110, 15),
-                child: const Text('Done',style: TextStyle(color:Colors.white),),
+                child: const Text(
+                  'Done',
+                  style: TextStyle(color: Colors.white),
+                ),
               )
             : const SizedBox.shrink();
       }),

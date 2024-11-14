@@ -120,7 +120,7 @@ class _BaseScreenState extends State<BaseScreen> {
                   height: kBottomNavigationBarItemSize,
                 ),
                 icon: Image.asset(
-                  'assets/icons/settings_outlined.png',
+                  'assets/icons/settings.png',
                   height: kBottomNavigationBarItemSize,
                 ),
                 label: "Settings",

@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:chordefine/main.dart';
 import 'package:chordefine/screens/progress.dart';
+import 'package:chordefine/screens/tunerscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:camera/camera.dart';
@@ -386,8 +387,8 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
   Future<void> _initializeModel() async {
     _vision = FlutterVision();
     await _vision.loadYoloModel(
-      modelPath: 'assets/minor/best_float32.tflite',
-      labels: 'assets/minor/labels.txt',
+      modelPath: 'assets/model/minor.tflite',
+      labels: 'assets/model/labels.txt',
       modelVersion: "yolov8",
     );
   }
@@ -755,6 +756,25 @@ class AudioDetectionScreenMinor extends StatelessWidget {
           btnOkOnPress: () {},
           btnOkIcon: Icons.check,
         ).show();
+      }else {
+        Future.delayed(Duration(seconds: 3), () {
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.warning,
+            animType: AnimType.topSlide,
+            showCloseIcon: true,
+            btnOkText: "Retry",
+            title: "Wrong Chord!",
+            btnCancelOnPress: () {},
+            desc: "Have you tuned your guitar?",
+            btnOkOnPress: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TunerScreen()),
+              );
+            },
+          ).show();
+        });
       }
     });
 
@@ -788,7 +808,7 @@ class AudioDetectionScreenMinor extends StatelessWidget {
                     const SizedBox(height: 10),
                     Text(
                       "Recognized Chord: ${controller.recognizedChord.value}",
-                      style: const TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: 15),textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 20),
                     Text(

@@ -465,7 +465,7 @@ String identifyChord(List<String> notes) {
   } else if (noteSet.contains('G1') || noteSet.contains('G2')) {
     return 'G';
   } else {
-    return 'Unknown chord';
+    return 'N/C';
   }
 }
 

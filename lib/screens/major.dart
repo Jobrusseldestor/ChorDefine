@@ -714,7 +714,7 @@ class NoteChordControllerMajor extends GetxController {
       recognizedChord.value = identifyChord(currentNotes);
 
       if (recognizedChord.value == expectedChord) {
-        output.value = "Correct Chord";
+        output.value = "Correct! You played $expectedChord";
         detectionComplete = true;
         showDoneButton.value = true;
       } else if (!detectionComplete) {
@@ -771,17 +771,21 @@ class AudioDetectionScreenMajor extends StatelessWidget {
   const AudioDetectionScreenMajor({Key? key, required this.expectedChord})
       : super(key: key);
 
+  
   @override
+  
   Widget build(BuildContext context) {
     if (Get.isRegistered<NoteChordControllerMajor>()) {
       Get.delete<NoteChordControllerMajor>();
     }
+    int wrongchordcount = 0;
     final controller = Get.put(NoteChordControllerMajor(expectedChord));
     ever(controller.output, (String output) {
-      if (output == "Correct Chord") {
+      if (output == "Correct! You played $expectedChord") {
         AwesomeDialog(
           context: context,
           dialogType: DialogType.success,
+          showCloseIcon: true,
           animType: AnimType.topSlide,
           title: "Congratulations!",
           desc: "You have played the chord correctly!",
@@ -789,7 +793,9 @@ class AudioDetectionScreenMajor extends StatelessWidget {
           btnOkIcon: Icons.check,
         ).show();
       } else {
-        Future.delayed(Duration(seconds: 3), () {
+        wrongchordcount++;
+        if(wrongchordcount == 3){
+        Future.delayed(Duration(seconds: 2), () {
           AwesomeDialog(
             context: context,
             dialogType: DialogType.warning,
@@ -807,6 +813,8 @@ class AudioDetectionScreenMajor extends StatelessWidget {
             },
           ).show();
         });
+        wrongchordcount = 0;
+        }
       }
     });
 

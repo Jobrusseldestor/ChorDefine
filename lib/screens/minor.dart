@@ -70,8 +70,8 @@ class _PracticeScreenMinorState extends State<PracticeScreenMinor> {
     'C Minor': [
       'assets/picture/13.png',
       'assets/picture/12.png',
-      'assets/picture/14.png',
-      'assets/picture/9.png',
+      'assets/picture/cminor1.jpg',
+      'assets/picture/cminor.jpg',
       'assets/picture/bm.png'
     ],
     'D Minor': [
@@ -91,15 +91,15 @@ class _PracticeScreenMinorState extends State<PracticeScreenMinor> {
     'F Minor': [
       'assets/picture/13.png',
       'assets/picture/12.png',
-      'assets/picture/14.png',
-      'assets/picture/9.png',
+      'assets/picture/fminor1.jpg',
+      'assets/picture/fminor.jpg',
       'assets/picture/bm.png'
     ],
     'G Minor': [
       'assets/picture/13.png',
       'assets/picture/12.png',
-      'assets/picture/14.png',
-      'assets/picture/9.png',
+      'assets/picture/gminor1.jpg',
+      'assets/picture/gminor.jpg',
       'assets/picture/bm.png'
     ],
   };
@@ -661,9 +661,10 @@ class NoteChordControllerMinor extends GetxController {
   static const int frequencyBufferSize = 12;
 
   Timer? chordDetectionTimer;
-  String expectedChord = '';
+  final String expectedChord;
+  final String chordName;  // Added for display purposes
 
-  NoteChordControllerMinor(this.expectedChord);
+  NoteChordControllerMinor({required this.expectedChord, required this.chordName});
 
   @override
   void onInit() {
@@ -727,33 +728,35 @@ class NoteChordControllerMinor extends GetxController {
   }
 
   void recognizeChord() {
-    List<String> currentNotes = recentFrequencies
-        .map((freq) => findClosestNote(freq))
-        .where((note) => note.isNotEmpty)
-        .toSet()
-        .toList();
+  List<String> currentNotes = recentFrequencies
+      .map((freq) => findClosestNote(freq))
+      .where((note) => note.isNotEmpty)
+      .toSet()
+      .toList();
 
-    if (currentNotes.length >= 3) {
-      recognizedChord.value = identifyChord(currentNotes);
+  if (currentNotes.length >= 3) {
+    recognizedChord.value = identifyChord(currentNotes);
 
-      if (recognizedChord.value == expectedChord) {
-        output.value = "Correct Chord";
-        detectionComplete = true;
-        showDoneButton.value = true;
-      } else if (!detectionComplete) {
-        output.value = "Wrong Chord";
-      }
-    } else {
-      recognizedChord.value = 'Not enough notes for chord';
+    // Extract the base note (e.g., "A" from "A minor")
+    String baseChordName = chordName.split(' ')[0];
+
+    if (recognizedChord.value == baseChordName) {
+      output.value = "Correct! You played $chordName";  // Display full chordName for user feedback
+      detectionComplete = true;
+      showDoneButton.value = true;
+    } else if (!detectionComplete) {
+      output.value = "Incorrect. Try playing $chordName";  // Use full chordName in feedback
     }
+  } else {
+    recognizedChord.value = 'Not enough notes for chord';
   }
-
+}
   String identifyChord(List<String> notes) {
     Set<String> noteSet = notes.toSet();
 
      if (noteSet.contains('A1') || noteSet.contains('A2')) {
       return 'A';
-    }else if (noteSet.contains('B1')) {
+    } else if (noteSet.contains('B1')) {
       return 'B';
     } else if (noteSet.contains('C2') || noteSet.contains('C3')) {
       return 'C';
@@ -775,7 +778,7 @@ class NoteChordControllerMinor extends GetxController {
   }
 
   void markChordAsCompleted() {
-    Get.find<PracticeScreenMinorController>().addCompletedChord(expectedChord);
+    Get.find<PracticeScreenMinorController>().addCompletedChord(chordName);
   }
 
   @override
@@ -801,13 +804,17 @@ class AudioDetectionScreenMinor extends StatelessWidget {
     if (Get.isRegistered<NoteChordControllerMinor>()) {
       Get.delete<NoteChordControllerMinor>();
     }
-    final controller = Get.put(NoteChordControllerMinor(expectedChord));
-
+    final controller = Get.put(NoteChordControllerMinor(
+      expectedChord: expectedChord,
+      chordName: chordName,  // Pass chordName to controller
+    ));
+  int wrongchordcount = 0;
     ever(controller.output, (String output) {
-      if (output == "Correct Chord") {
+      if (output == "Correct! You played $expectedChord") {
         AwesomeDialog(
           context: context,
           dialogType: DialogType.success,
+          showCloseIcon: true,
           animType: AnimType.topSlide,
           title: "Congratulations!",
           desc: "You have played the chord correctly!",
@@ -815,13 +822,15 @@ class AudioDetectionScreenMinor extends StatelessWidget {
           btnOkIcon: Icons.check,
         ).show();
       } else {
-        Future.delayed(Duration(seconds: 3), () {
+        wrongchordcount++;
+        if(wrongchordcount == 3){
+        Future.delayed(Duration(seconds: 2), () {
           AwesomeDialog(
             context: context,
             dialogType: DialogType.warning,
             animType: AnimType.topSlide,
             showCloseIcon: true,
-            btnOkText: "Retry",
+            btnOkText: "Tune",
             title: "Wrong Chord!",
             btnCancelOnPress: () {},
             desc: "Have you tuned your guitar?",
@@ -833,6 +842,8 @@ class AudioDetectionScreenMinor extends StatelessWidget {
             },
           ).show();
         });
+        wrongchordcount = 0;
+        }
       }
     });
 
@@ -851,7 +862,7 @@ class AudioDetectionScreenMinor extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(40),
                       child: Text(
-                        'Detecting ${chordName}',
+                        'Detecting ${chordName}', // Display chordName here
                         style: const TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold),
                       ),
@@ -859,7 +870,7 @@ class AudioDetectionScreenMinor extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 40),
                       child: Image.asset(
-                        'assets/images/mike.png', // Placeholder for the microphone image
+                        'assets/images/mike.png',
                         height: 120,
                       ),
                     ),
@@ -875,7 +886,7 @@ class AudioDetectionScreenMinor extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: controller.output.value == "Correct Chord"
+                        color: controller.output.value.contains("Correct")
                             ? Colors.green
                             : Colors.red,
                       ),

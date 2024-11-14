@@ -86,7 +86,7 @@ Widget build(BuildContext context) {
                               color: Colors.green),
                           title: Text(
                             "Congratulations! You've completed $chord Major.",
-                            style: const TextStyle(color: Colors.black),
+                            style: const TextStyle(color: Colors.black,fontSize: 14,),
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -105,8 +105,8 @@ Widget build(BuildContext context) {
                           leading: const Icon(Icons.check_circle,
                               color: Colors.green),
                           title: Text(
-                            "Congratulations! You've completed $chord chord.",
-                            style: const TextStyle(color: Colors.black),
+                            "Congratulations! You've completed $chord.",
+                            style: const TextStyle(color: Colors.black, fontSize: 14,),
                             textAlign: TextAlign.center,
                           ),
                         ),

@@ -27,7 +27,6 @@ var noteFrequencies = {
 class SongLine {
   final String lyrics;
   final String note;
-
   SongLine({required this.lyrics, required this.note});
 }
 
@@ -41,11 +40,9 @@ final List<SongLine> happyBirthdaySong = [
 class NoteChordController extends GetxController {
   final _audioRecorder = FlutterAudioCapture();
   final pitchDetectorDart = PitchDetector(44100, 2000);
-  
   var hasAudioPermission = false.obs;
   var currentPitch = 0.0.obs;
   var recognizedNote = ''.obs;
-
   final List<SongLine> currentSong = happyBirthdaySong;  
   var currentIndex = 0.obs;
 
@@ -74,8 +71,6 @@ class NoteChordController extends GetxController {
     if (result.pitched) {
       currentPitch.value = result.pitch;
       recognizedNote.value = findClosestNote(result.pitch);
-
-      // Check if the detected note matches the expected note for current lyrics line
       if (recognizedNote.value == currentSong[currentIndex.value].note) {
         if (currentIndex.value < currentSong.length - 1) {
           currentIndex.value++;
